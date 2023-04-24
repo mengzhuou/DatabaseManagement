@@ -14,20 +14,12 @@ import org.springframework.security.web.SecurityFilterChain;
 @ConfigurationProperties(prefix = "spring.user.datasource")
 public class SecurityConfig {
 
-//    @Bean
-//    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
-//        http.cors().and().csrf().disable().authorizeRequests()
-//                .antMatchers("/api/v1/**")
-//                .permitAll() // allow access without authentication
-//                .anyRequest().authenticated(); // require authentication for all other requests
-//        return http.build();
-//    }
-@Bean
-public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
-    http.cors().and().csrf().disable().authorizeRequests().antMatchers("/api/v1/getAirlineAll").permitAll()
-            .antMatchers("/api/v1/**").authenticated().and()
-            .rememberMe(); // todo: enable csrf protection after testing
-    return http.build();
-}
-
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
+        http.cors().and().csrf().disable().authorizeRequests()
+                .antMatchers("/api/v1/**")
+                .permitAll() // allow access without authentication
+                .anyRequest().authenticated(); // require authentication for all other requests
+        return http.build();
+    }
 }
