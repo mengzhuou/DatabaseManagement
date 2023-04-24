@@ -10,6 +10,8 @@ import java.util.List;
 
 @Repository
 public interface AirlineDAO extends JpaRepository<Airline, String> {
-    @Query("SELECT a FROM Airline a WHERE a.airlineID = :airlineId")
-    List<Airline> getAirlineAll(@Param("airlineId") String airlineId);
+//    @Query("SELECT a FROM Airline a WHERE a.airlineID = :airlineId")
+//    List<Airline> getAirlineAll(@Param("airlineId") String airlineId);
+    @Query("SELECT a FROM Airline a")
+    List<Airline> getAirlineAll();
 }

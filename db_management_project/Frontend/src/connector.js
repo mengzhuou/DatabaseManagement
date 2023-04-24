@@ -10,15 +10,9 @@ const apiPath = '/api/v1';
 
 // Define functions for making API requests
 
-export async function getAirlineAll(airlineId) {
-  try {
-    const response = await client.get(`${host}${apiPath}/getAirlineAll`, {
-      params: { airlineId },
-      withCredentials: true,
-    });
-    return response.data;
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
+export async function getAirlineAll() {
+  const response = await client.get(`${host}${apiPath}/getAirlineAll`, {
+    withCredentials: true,
+  });
+  return response.data;
 }

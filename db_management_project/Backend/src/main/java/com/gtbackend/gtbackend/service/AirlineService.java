@@ -32,7 +32,7 @@ public class AirlineService {
         airlineDAO.deleteById(airlineID);
     }
 
-    public List<Airline> getAirlineAll(String airlineId) {
-        return airlineDAO.getAirlineAll(airlineId);
+    public List<Airline> getAirlineAll() {
+        return airlineDAO.getAirlineAll();
     }
 }

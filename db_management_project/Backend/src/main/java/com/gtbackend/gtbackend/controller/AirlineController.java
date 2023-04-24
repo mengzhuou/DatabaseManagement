@@ -20,9 +20,9 @@ public class AirlineController {
         this.airlineService = airlineService;
     }
 
-    @PostMapping("/getAirlineAll")
-    public List<Airline> getAirlineAll(@RequestParam String airlineId) throws IllegalArgumentException{
-        List<Airline> getInfo = airlineService.getAirlineAll(airlineId);
+    @GetMapping("/getAirlineAll")
+    public List<Airline> getAirlineAll() throws IllegalArgumentException{
+        List<Airline> getInfo = airlineService.getAirlineAll();
         return getInfo;
     }
 }
