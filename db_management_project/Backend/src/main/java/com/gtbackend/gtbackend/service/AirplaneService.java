@@ -1,9 +1,7 @@
 package com.gtbackend.gtbackend.service;
 
 import com.gtbackend.gtbackend.dao.AirplaneDao;
-import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.apache.logging.log4j.LogManager;
@@ -40,8 +38,4 @@ public class AirplaneService {
             return false;
         }
     }
-
-
-
-
 }
