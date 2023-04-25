@@ -16,3 +16,26 @@ export async function getAirlineAll() {
   });
   return response.data;
 }
+
+export async function addAirplane(airlineID, tail_num, seat_capacity, speed, locationID, plane_type, skids, propellers, jet_engines) {
+  try {
+    const response = await client.post(`${host}${apiPath}/addAirplane`, {
+      airlineID,
+      tail_num,
+      seat_capacity,
+      speed,
+      locationID,
+      plane_type,
+      skids,
+      propellers,
+      jet_engines,
+    }, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Failed to add airplane');
+  }
+}
+
