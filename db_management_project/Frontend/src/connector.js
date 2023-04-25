@@ -39,3 +39,22 @@ export async function addAirplane(airlineID, tail_num, seat_capacity, speed, loc
   }
 }
 
+export async function addAirport(airportID, airportName, city, state, locationID) {
+  try {
+    const response = await client.post(`${host}${apiPath}/addAirport`, {
+      airportID,
+      airportName,
+      city,
+      state,
+      locationID,
+    }, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Failed to add airport');
+  }
+}
+
+
