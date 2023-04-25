@@ -1,6 +1,6 @@
 package com.gtbackend.gtbackend.service;
 
-import com.gtbackend.gtbackend.dao.AirplaneDao;
+import com.gtbackend.gtbackend.dao.AirplaneDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -14,7 +14,7 @@ import java.sql.Connection;
 public class AirplaneService {
     private static final Logger logger = LogManager.getLogger(AirlineService.class);
     @Autowired
-    private AirplaneDao airplaneDao;
+    private AirplaneDAO airplaneDao;
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
