@@ -7,7 +7,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface AirportDAO extends JpaRepository<Airport, String> {
+public interface AirportDao extends JpaRepository<Airport, String> {
 
     @Query(value = "{ CALL add_airport(:airportID, :airportName, :city, :state, :locationID) }", nativeQuery = true)
     void addAirport(@Param("airportID") String airportID,

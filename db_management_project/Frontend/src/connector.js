@@ -57,4 +57,25 @@ export async function addAirport(airportID, airportName, city, state, locationID
   }
 }
 
+export async function offerFlight(flightID, routeID, support_airline, support_tail, progress, airplane_status, next_time) {
+  try {
+    const response = await client.post(`${host}${apiPath}/offerFlight`, {
+      flightID,
+      routeID,
+      support_airline,
+      support_tail,
+      progress,
+      airplane_status,
+      next_time
+    }, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Failed to offer flight');
+  }
+}
+
+
 

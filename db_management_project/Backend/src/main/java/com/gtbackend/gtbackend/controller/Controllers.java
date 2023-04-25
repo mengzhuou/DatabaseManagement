@@ -3,9 +3,11 @@ package com.gtbackend.gtbackend.controller;
 import com.gtbackend.gtbackend.model.Airline;
 import com.gtbackend.gtbackend.model.Airplane;
 import com.gtbackend.gtbackend.model.Airport;
+import com.gtbackend.gtbackend.model.Flight;
 import com.gtbackend.gtbackend.service.AirlineService;
 import com.gtbackend.gtbackend.service.AirplaneService;
 import com.gtbackend.gtbackend.service.AirportService;
+import com.gtbackend.gtbackend.service.FlightService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.repository.query.Param;
@@ -25,12 +27,15 @@ public class Controllers {
     private AirplaneService airplaneService;
     @Autowired
     private AirportService airportService;
+    @Autowired
+    private FlightService flightService;
 
     @Autowired
-    public Controllers(AirlineService airlineService, AirplaneService airplaneService, AirportService airportService) {
+    public Controllers(AirlineService airlineService, AirplaneService airplaneService, AirportService airportService, FlightService flightService) {
         this.airlineService = airlineService;
         this.airplaneService = airplaneService;
         this.airportService = airportService;
+        this.flightService = flightService;
     }
 
     @GetMapping("/getAirlineAll")
@@ -79,6 +84,28 @@ public class Controllers {
             }
         } catch (DataAccessException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Controller failed to add airport: " + e.getMessage());
+        }
+    }
+
+    @PostMapping("/offerFlight")
+    public ResponseEntity<String> offerFlight(@RequestBody Flight flight) {
+        try {
+            boolean isOffered = flightService.offerFlight(
+                    flight.getFlightID(),
+                    flight.getRouteID(),
+                    flight.getSupportAirline(),
+                    flight.getSupportTail(),
+                    flight.getProgress(),
+                    flight.getAirplaneStatus(),
+                    flight.getNextTime()
+            );
+            if (isOffered) {
+                return ResponseEntity.ok("Flight offered successfully");
+            } else {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Flight failed to be offered");
+            }
+        } catch (DataAccessException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Controller failed to offer flight: " + e.getMessage());
         }
     }
 

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface AirlineDAO extends JpaRepository<Airline, String> {
+public interface AirlineDao extends JpaRepository<Airline, String> {
     @Query("SELECT a FROM Airline a")
     List<Airline> getAirlineAll();
 }
