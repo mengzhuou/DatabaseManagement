@@ -5,6 +5,9 @@ import com.gtbackend.gtbackend.model.Airplane;
 import com.gtbackend.gtbackend.service.AirlineService;
 import com.gtbackend.gtbackend.service.AirplaneService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,18 +33,29 @@ public class Controllers {
         return getInfo;
     }
     @PostMapping("/addAirplane")
-    public void addAirplane(@RequestBody Airplane airplane) {
-        airplaneService.addAirplane(
-                airplane.getAirlineID(),
-                airplane.getTail_num(),
-                airplane.getSeat_capacity(),
-                airplane.getSpeed(),
-                airplane.getLocationID(),
-                airplane.getPlane_type(),
-                airplane.getSkids(),
-                airplane.getPropellers(),
-                airplane.getJet_engines()
-        );
+    public ResponseEntity<String> addAirplane(@RequestBody Airplane airplane) {
+        try {
+            boolean isAdded = airplaneService.addAirplane(
+                    airplane.getAirlineID(),
+                    airplane.getTail_num(),
+                    airplane.getSeat_capacity(),
+                    airplane.getSpeed(),
+                    airplane.getLocationID(),
+                    airplane.getPlane_type(),
+                    airplane.getSkids(),
+                    airplane.getPropellers(),
+                    airplane.getJet_engines()
+            );
+            if (isAdded) {
+                return ResponseEntity.ok("Airplane added successfully");
+            } else {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Airplane failed to be added");
+            }
+        } catch (DataAccessException e) {
+            System.out.println("did i get controllerEEE first place");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Controller failed to add airplane: " + e.getMessage());
+        }
     }
+
 
 }
