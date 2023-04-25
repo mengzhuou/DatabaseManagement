@@ -27,13 +27,13 @@ public class Airplane extends AirplaneId {
     private String plane_type;
 
     @Column(name = "skids")
-    private Boolean skids;
+    private int skids;
 
     @Column(name = "propellers")
-    private Integer propellers;
+    private int propellers;
 
     @Column(name = "jet_engines")
-    private Integer jet_engines;
+    private int jet_engines;
 
     public String getAirlineID() {
         return airlineID;
@@ -83,27 +83,27 @@ public class Airplane extends AirplaneId {
         this.plane_type = plane_type;
     }
 
-    public Boolean getSkids() {
+    public int getSkids() {
         return skids;
     }
 
-    public void setSkids(Boolean skids) {
+    public void setSkids(int skids) {
         this.skids = skids;
     }
 
-    public Integer getPropellers() {
+    public int getPropellers() {
         return propellers;
     }
 
-    public void setPropellers(Integer propellers) {
+    public void setPropellers(int propellers) {
         this.propellers = propellers;
     }
 
-    public Integer getJet_engines() {
+    public int getJet_engines() {
         return jet_engines;
     }
 
-    public void setJet_engines(Integer jet_engines) {
+    public void setJet_engines(int jet_engines) {
         this.jet_engines = jet_engines;
     }
 }
