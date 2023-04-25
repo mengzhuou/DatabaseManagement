@@ -52,7 +52,6 @@ public class Controllers {
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Airplane failed to be added");
             }
         } catch (DataAccessException e) {
-            System.out.println("did i get controllerEEE first place");
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Controller failed to add airplane: " + e.getMessage());
         }
     }

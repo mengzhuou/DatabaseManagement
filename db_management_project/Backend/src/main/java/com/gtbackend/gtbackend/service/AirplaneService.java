@@ -34,10 +34,8 @@ public class AirplaneService {
             cs.setInt(8, propellers);
             cs.setInt(9, jet_engines);
             cs.execute();
-            System.out.println("dude you should get true");
             return true;
         } catch (Exception e) {
-            System.out.println("did i get here first place");
             logger.error("Service error adding airplane: " + e.getMessage());
             return false;
         }
