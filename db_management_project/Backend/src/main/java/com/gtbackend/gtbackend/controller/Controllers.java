@@ -1,13 +1,7 @@
 package com.gtbackend.gtbackend.controller;
 
-import com.gtbackend.gtbackend.model.Airline;
-import com.gtbackend.gtbackend.model.Airplane;
-import com.gtbackend.gtbackend.model.Airport;
-import com.gtbackend.gtbackend.model.Flight;
-import com.gtbackend.gtbackend.service.AirlineService;
-import com.gtbackend.gtbackend.service.AirplaneService;
-import com.gtbackend.gtbackend.service.AirportService;
-import com.gtbackend.gtbackend.service.FlightService;
+import com.gtbackend.gtbackend.model.*;
+import com.gtbackend.gtbackend.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
@@ -15,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping( path = "api/v1")
@@ -28,6 +23,8 @@ public class Controllers {
     private AirportService airportService;
     @Autowired
     private FlightService flightService;
+    @Autowired
+    private PersonService personService;
 
     @Autowired
     public Controllers(AirlineService airlineService, AirplaneService airplaneService, AirportService airportService, FlightService flightService) {
@@ -107,6 +104,58 @@ public class Controllers {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Controller failed to offer flight: " + e.getMessage());
         }
     }
+
+    @PostMapping("/addPerson")
+    public ResponseEntity<String> addPerson(@RequestBody Map<String, Person> personMap) {
+        try {
+            Person person = personMap.get("person");
+            String personID = person.getPersonID();
+            String firstName = person.getFirst_name();
+            String lastName = person.getLast_name();
+            String locationID = person.getLocationID();
+
+            String taxID = null;
+            int experience = 0;
+            String flyingAirline = null;
+            String flyingTail = null;
+
+            if (person instanceof Pilot) {
+                Pilot pilot = (Pilot) person;
+                taxID = pilot.getTaxID();
+                experience = pilot.getExperience();
+                flyingAirline = pilot.getFlying_airline();
+                flyingTail = pilot.getFlying_tail();
+            }
+
+            int miles = 0;
+
+            if (person instanceof Passenger) {
+                Passenger passenger = (Passenger) person;
+                miles = passenger.getMiles();
+            }
+
+            boolean isAdded = personService.addPerson(
+                    personID,
+                    firstName,
+                    lastName,
+                    taxID,
+                    experience,
+                    flyingAirline,
+                    flyingTail,
+                    locationID,
+                    miles
+            );
+
+            if (isAdded) {
+                return ResponseEntity.ok("Person gets added successfully");
+            } else {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Person failed to be added.");
+            }
+        } catch (DataAccessException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Controller failed to add person: " + e.getMessage());
+        }
+    }
+
 
 
 }

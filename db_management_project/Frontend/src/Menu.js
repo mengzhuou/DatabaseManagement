@@ -46,7 +46,15 @@ class Menu extends Component {
       jet_engines: this.state.jet_engines,
     };
     // alert(JSON.stringify(airplaneData));
-    // addAirplane(airplaneData);
+    
+    addAirplane(airplaneData)
+    .then(response => {
+      alert("You successfully added airplane data");
+    })
+    .catch(error => {
+      console.error(error);
+    });
+
   }
 
   render() {

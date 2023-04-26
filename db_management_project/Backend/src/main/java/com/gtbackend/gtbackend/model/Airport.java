@@ -7,11 +7,9 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="airline")
-
 public class Airport {
 
     @Id
-    @Column(name = "airportID")
     private String airportID;
 
     @Column(name = "airport_name")

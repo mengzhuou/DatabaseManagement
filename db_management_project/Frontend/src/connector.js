@@ -41,3 +41,27 @@ export async function addAirport(airport) {
     throw new Error('Failed to add airport');
   }
 }
+
+export async function offerFlight(flight) {
+  try {
+    const response = await client.post(`${host}${apiPath}/offerFlight`, flight, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Failed to add flight');
+  }
+}
+
+export async function addPerson(person) {
+  try {
+    const response = await client.post(`${host}${apiPath}/addPerson`, person, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Failed to add person');
+  }
+}
