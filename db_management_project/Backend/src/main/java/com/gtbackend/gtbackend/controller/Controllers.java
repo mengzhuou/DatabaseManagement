@@ -4,10 +4,14 @@ import com.gtbackend.gtbackend.model.Airline;
 import com.gtbackend.gtbackend.model.Airplane;
 import com.gtbackend.gtbackend.model.Airport;
 import com.gtbackend.gtbackend.model.Flight;
+import com.gtbackend.gtbackend.model.Leg;
+import com.gtbackend.gtbackend.model.Location;
 import com.gtbackend.gtbackend.service.AirlineService;
 import com.gtbackend.gtbackend.service.AirplaneService;
 import com.gtbackend.gtbackend.service.AirportService;
 import com.gtbackend.gtbackend.service.FlightService;
+import com.gtbackend.gtbackend.service.LegService;
+import com.gtbackend.gtbackend.service.LocationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.repository.query.Param;
@@ -29,13 +33,20 @@ public class Controllers {
     private AirportService airportService;
     @Autowired
     private FlightService flightService;
+    @Autowired
+    private LegService legService;
+    @Autowired
+    private LocationService locationService;
 
     @Autowired
-    public Controllers(AirlineService airlineService, AirplaneService airplaneService, AirportService airportService, FlightService flightService) {
+    public Controllers(AirlineService airlineService, AirplaneService airplaneService, AirportService airportService, FlightService flightService,
+        LegService legService, LocationService locationService) {
         this.airlineService = airlineService;
         this.airplaneService = airplaneService;
         this.airportService = airportService;
         this.flightService = flightService;
+        this.legService = legService;
+        this.locationService = locationService;
     }
 
     @GetMapping("/getAirlineAll")
@@ -106,6 +117,41 @@ public class Controllers {
             }
         } catch (DataAccessException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Controller failed to offer flight: " + e.getMessage());
+        }
+    }
+
+    @PostMapping("/addLeg")
+    public ResponseEntity<String> addLeg(@RequestBody Leg leg) {
+        try {
+            boolean isAdded = legService.addLeg(
+                    leg.getLegID(),
+                    leg.getDistance(),
+                    leg.getDeparture(),
+                    leg.getArrival()
+            );
+            if (isAdded) {
+                return ResponseEntity.ok("Leg added successfully");
+            } else {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Leg failed to be added");
+            }
+        } catch (DataAccessException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Controller failed to add leg: " + e.getMessage());
+        }
+    }
+
+    @PostMapping("/addLocation")
+    public ResponseEntity<String> addLocation(@RequestBody Location location) {
+        try {
+            boolean isAdded = locationService.addLocation(
+                    location.getLocationID()
+            );
+            if (isAdded) {
+                return ResponseEntity.ok("Location added successfully");
+            } else {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Location failed to be added");
+            }
+        } catch (DataAccessException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Controller failed to add location: " + e.getMessage());
         }
     }
 
