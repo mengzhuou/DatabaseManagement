@@ -10,7 +10,6 @@ import com.gtbackend.gtbackend.service.AirportService;
 import com.gtbackend.gtbackend.service.FlightService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

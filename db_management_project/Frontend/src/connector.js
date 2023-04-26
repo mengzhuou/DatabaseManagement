@@ -17,19 +17,9 @@ export async function getAirlineAll() {
   return response.data;
 }
 
-export async function addAirplane(airlineID, tail_num, seat_capacity, speed, locationID, plane_type, skids, propellers, jet_engines) {
+export async function addAirplane(airplane) {
   try {
-    const response = await client.post(`${host}${apiPath}/addAirplane`, {
-      airlineID,
-      tail_num,
-      seat_capacity,
-      speed,
-      locationID,
-      plane_type,
-      skids,
-      propellers,
-      jet_engines,
-    }, {
+    const response = await client.post(`${host}${apiPath}/addAirplane`, airplane, {
       withCredentials: true,
     });
     return response.data;
@@ -39,15 +29,10 @@ export async function addAirplane(airlineID, tail_num, seat_capacity, speed, loc
   }
 }
 
-export async function addAirport(airportID, airportName, city, state, locationID) {
+
+export async function addAirport(airport) {
   try {
-    const response = await client.post(`${host}${apiPath}/addAirport`, {
-      airportID,
-      airportName,
-      city,
-      state,
-      locationID,
-    }, {
+    const response = await client.post(`${host}${apiPath}/addAirport`, airport, {
       withCredentials: true,
     });
     return response.data;
@@ -56,26 +41,3 @@ export async function addAirport(airportID, airportName, city, state, locationID
     throw new Error('Failed to add airport');
   }
 }
-
-export async function offerFlight(flightID, routeID, support_airline, support_tail, progress, airplane_status, next_time) {
-  try {
-    const response = await client.post(`${host}${apiPath}/offerFlight`, {
-      flightID,
-      routeID,
-      support_airline,
-      support_tail,
-      progress,
-      airplane_status,
-      next_time
-    }, {
-      withCredentials: true,
-    });
-    return response.data;
-  } catch (error) {
-    console.error(error);
-    throw new Error('Failed to offer flight');
-  }
-}
-
-
-

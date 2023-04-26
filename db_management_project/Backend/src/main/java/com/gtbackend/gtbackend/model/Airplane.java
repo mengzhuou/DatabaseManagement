@@ -15,10 +15,10 @@ public class Airplane extends AirplaneId {
     private String tail_num;
 
     @Column(name = "seat_capacity")
-    private Integer seat_capacity;
+    private int seat_capacity;
 
     @Column(name = "speed")
-    private Integer speed;
+    private int speed;
 
     @Column(name = "locationID")
     private String locationID;
@@ -51,19 +51,19 @@ public class Airplane extends AirplaneId {
         this.tail_num = tail_num;
     }
 
-    public Integer getSeat_capacity() {
+    public int getSeat_capacity() {
         return seat_capacity;
     }
 
-    public void setSeat_capacity(Integer seat_capacity) {
+    public void setSeat_capacity(int seat_capacity) {
         this.seat_capacity = seat_capacity;
     }
 
-    public Integer getSpeed() {
+    public int getSpeed() {
         return speed;
     }
 
-    public void setSpeed(Integer speed) {
+    public void setSpeed(int speed) {
         this.speed = speed;
     }
 

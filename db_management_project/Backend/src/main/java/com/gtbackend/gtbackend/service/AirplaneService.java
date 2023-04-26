@@ -18,7 +18,7 @@ public class AirplaneService {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    public boolean addAirplane(String airlineID, String tail_num, Integer seat_capacity, Integer speed, String locationID, String plane_type, int skids, int propellers, int jet_engines) {
+    public boolean addAirplane(String airlineID, String tail_num, int seat_capacity, int speed, String locationID, String plane_type, int skids, int propellers, int jet_engines) {
         try {
             Connection conn = jdbcTemplate.getDataSource().getConnection();
             CallableStatement cs = conn.prepareCall("{call add_airplane(?, ?, ?, ?, ?, ?, ?, ?, ?)}");
