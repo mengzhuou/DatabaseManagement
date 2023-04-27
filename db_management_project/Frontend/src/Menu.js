@@ -12,7 +12,7 @@ class Menu extends Component {
       speed: "",
       locationID: "",
       plane_type: "",
-      skids: false,
+      skids: "",
       propellers: "",
       jet_engines: "",
     };
