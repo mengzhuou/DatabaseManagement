@@ -23,13 +23,17 @@ class Menu extends Component {
 
   handleInputChange(event) {
     const target = event.target;
-    const value =
-      target.type === "checkbox" ? target.checked : target.value;
+    let value = target.type === "checkbox" ? target.checked : target.value;
     const name = target.name;
 
     if (name === "skids" && !["0", "1"].includes(value)) {
-      value = "null";
+      value = null;
     }
+    if (name === "locationID" || name === "skids" || name === "propellers" || name === "jet_engines") {
+      if (value === "") {
+          value = null;
+      }
+    }  
 
     this.setState({
       [name]: value,
@@ -121,15 +125,29 @@ class Menu extends Component {
           </label>
         </div>
         <div>
-          <label>
-            Plane Type:
-            <input
-              name="plane_type"
-              type="text"
-              value={this.state.plane_type}
-              onChange={this.handleInputChange}
-            />
-          </label>
+          <span>Plane Type:</span>
+          <div>
+            <label>
+              <input
+                type="radio"
+                name="plane_type"
+                value="jet"
+                checked={this.state.plane_type === "jet"}
+                onChange={this.handleInputChange}
+              />
+              jet
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="plane_type"
+                value="prop"
+                checked={this.state.plane_type === "prop"}
+                onChange={this.handleInputChange}
+              />
+              prop
+            </label>
+          </div>
         </div>
         <div>
           <span>Skids:</span>
