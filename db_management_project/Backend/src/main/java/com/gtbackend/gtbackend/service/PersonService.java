@@ -19,16 +19,16 @@ public class PersonService {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    public boolean addPerson(String personID, String first_name, String last_name, String taxID,
-                             int experience, String flying_airline, String flying_tail, String locationID, int miles) {
+    public boolean addPerson(String personID, String first_name, String last_name, String locationID, String taxID,
+                             int experience, String flying_airline, String flying_tail, int miles) {
         try {
             Connection conn = jdbcTemplate.getDataSource().getConnection();
             CallableStatement cs = conn.prepareCall("{ call add_person(?, ?, ?, ?, ?, ?, ?, ?, ?) }");
             cs.setString(1, personID);
             cs.setString(2, first_name);
             cs.setString(3, last_name);
-            cs.setString(4, taxID);
-            cs.setString(5, locationID);
+            cs.setString(4, locationID);
+            cs.setString(5, taxID);
             cs.setInt(6, experience);
             cs.setString(7, flying_airline);
             cs.setString(8, flying_tail);

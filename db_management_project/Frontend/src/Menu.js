@@ -12,7 +12,7 @@ class Menu extends Component {
       speed: "",
       locationID: "",
       plane_type: "",
-      skids: false,
+      skids: "",
       propellers: "",
       jet_engines: "",
     };
@@ -26,6 +26,10 @@ class Menu extends Component {
     const value =
       target.type === "checkbox" ? target.checked : target.value;
     const name = target.name;
+
+    if (name === "skids" && !["0", "1"].includes(value)) {
+      value = "null";
+    }
 
     this.setState({
       [name]: value,
@@ -45,15 +49,16 @@ class Menu extends Component {
       propellers: this.state.propellers,
       jet_engines: this.state.jet_engines,
     };
-    // alert(JSON.stringify(airplaneData));
+    alert(JSON.stringify(airplaneData));
     
     addAirplane(airplaneData)
-    .then(response => {
-      alert("You successfully added airplane data");
-    })
-    .catch(error => {
-      console.error(error);
-    });
+      .then(data => {
+        console.log('Airplane added successfully:', data);
+      })
+      .catch(error => {
+        console.error('Failed to add airplane:', error);
+      });
+
 
   }
 
@@ -127,16 +132,31 @@ class Menu extends Component {
           </label>
         </div>
         <div>
-          <label>
-            Skids:
-            <input
-              name="skids"
-              type="checkbox"
-              checked={this.state.skids}
-              onChange={this.handleInputChange}
-            />
-          </label>
+          <span>Skids:</span>
+          <div>
+            <label>
+              <input
+                type="radio"
+                name="skids"
+                value="0"
+                checked={this.state.skids === "0"}
+                onChange={this.handleInputChange}
+              />
+              false
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="skids"
+                value="1"
+                checked={this.state.skids === "1"}
+                onChange={this.handleInputChange}
+              />
+              true
+            </label>
+          </div>
         </div>
+
         <div>
           <label>
             Propellers:
