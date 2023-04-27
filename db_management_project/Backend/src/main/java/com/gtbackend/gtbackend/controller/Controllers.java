@@ -2,6 +2,7 @@ package com.gtbackend.gtbackend.controller;
 
 import com.gtbackend.gtbackend.model.*;
 import com.gtbackend.gtbackend.service.*;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
@@ -58,9 +59,20 @@ public class Controllers {
         List<Location> getInfo = locationService.getLocationAll();
         return getInfo;
     }
+
     @PostMapping("/addAirplane")
     public ResponseEntity<String> addAirplane(@RequestBody Airplane airplane) {
         try {
+            System.out.println("airlineID: " + airplane.getAirlineID());
+            System.out.println("tail_num: " + airplane.getTail_num());
+            System.out.println("seat_capacity: " + airplane.getSeat_capacity());
+            System.out.println("speed: " + airplane.getSpeed());
+            System.out.println("locationID: " + airplane.getLocationID());
+            System.out.println("plane_type: " + airplane.getPlane_type());
+            System.out.println("skids: " + airplane.getSkids());
+            System.out.println("propellers: " + airplane.getPropellers());
+            System.out.println("jet_engines: " + airplane.getJet_engines());
+
             boolean isAdded = airplaneService.addAirplane(
                     airplane.getAirlineID(),
                     airplane.getTail_num(),
@@ -72,6 +84,7 @@ public class Controllers {
                     airplane.getPropellers(),
                     airplane.getJet_engines()
             );
+
             if (isAdded) {
                 return ResponseEntity.ok("Airplane added successfully");
             } else {
@@ -79,8 +92,11 @@ public class Controllers {
             }
         } catch (DataAccessException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Controller failed to add airplane: " + e.getMessage());
+        } catch (ConstraintViolationException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Controller failed to add airplane: " + e.getMessage());
         }
     }
+
 
     @PostMapping("/addAirport")
     public ResponseEntity<String> addAirport(@RequestBody Airport airport) {
@@ -98,6 +114,8 @@ public class Controllers {
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Airport failed to be added");
             }
         } catch (DataAccessException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Controller failed to add airport: " + e.getMessage());
+        } catch (ConstraintViolationException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Controller failed to add airport: " + e.getMessage());
         }
     }
