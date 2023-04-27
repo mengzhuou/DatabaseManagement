@@ -25,18 +25,37 @@ public class Controllers {
     private FlightService flightService;
     @Autowired
     private PersonService personService;
+    @Autowired
+    private LegService legService;
+    @Autowired
+    private LocationService locationService;
 
     @Autowired
-    public Controllers(AirlineService airlineService, AirplaneService airplaneService, AirportService airportService, FlightService flightService) {
+    public Controllers(AirlineService airlineService,
+                       AirplaneService airplaneService,
+                       AirportService airportService,
+                       FlightService flightService,
+                       PersonService personService,
+                       LocationService locationService,
+                       LegService legService
+                       ) {
         this.airlineService = airlineService;
         this.airplaneService = airplaneService;
         this.airportService = airportService;
         this.flightService = flightService;
+        this.personService = personService;
+        this.locationService = locationService;
+        this.legService = legService;
     }
 
     @GetMapping("/getAirlineAll")
     public List<Airline> getAirlineAll(){
         List<Airline> getInfo = airlineService.getAirlineAll();
+        return getInfo;
+    }
+    @GetMapping("/getLocationAll")
+    public List<Location> getLocationAll(){
+        List<Location> getInfo = locationService.getLocationAll();
         return getInfo;
     }
     @PostMapping("/addAirplane")
@@ -114,6 +133,10 @@ public class Controllers {
             String lastName = person.getLast_name();
             String locationID = person.getLocationID();
 
+            if (locationID == null || locationID.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Location ID is missing.");
+            }
+
             String taxID = null;
             int experience = 0;
             String flyingAirline = null;
@@ -138,13 +161,14 @@ public class Controllers {
                     personID,
                     firstName,
                     lastName,
+                    locationID,
                     taxID,
                     experience,
                     flyingAirline,
                     flyingTail,
-                    locationID,
                     miles
             );
+
 
             if (isAdded) {
                 return ResponseEntity.ok("Person gets added successfully");
@@ -156,6 +180,43 @@ public class Controllers {
         }
     }
 
+
+
+//
+//    @PostMapping("/addLeg")
+//    public ResponseEntity<String> addLeg(@RequestBody Leg leg) {
+//        try {
+//            boolean isAdded = legService.addLeg(
+//                    leg.getLegID(),
+//                    leg.getDistance(),
+//                    leg.getDeparture(),
+//                    leg.getArrival()
+//            );
+//            if (isAdded) {
+//                return ResponseEntity.ok("Leg added successfully");
+//            } else {
+//                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Leg failed to be added");
+//            }
+//        } catch (DataAccessException e) {
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Controller failed to add leg: " + e.getMessage());
+//        }
+//    }
+//
+//    @PostMapping("/addLocation")
+//    public ResponseEntity<String> addLocation(@RequestBody Location location) {
+//        try {
+//            boolean isAdded = locationService.addLocation(
+//                    location.getLocationID()
+//            );
+//            if (isAdded) {
+//                return ResponseEntity.ok("Location added successfully");
+//            } else {
+//                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Location failed to be added");
+//            }
+//        } catch (DataAccessException e) {
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Controller failed to add location: " + e.getMessage());
+//        }
+//    }
 
 
 }
