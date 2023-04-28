@@ -2,9 +2,8 @@ import React, { Component, useState } from 'react';
 import {addAirplane} from './connector';
 import './App.css';
 
-
 export function Menu() {
-  const [activeTab, setActiveTab] = useState('addAirplane1');
+  const [activeTab, setActiveTab] = useState('AddAirplane1');
   const openTab = (url) => {
       window.open(url, "_blank");
     };
@@ -18,13 +17,12 @@ export function Menu() {
     Simple Airline Management System (SAMS)
       <div className="sidebar">
         <div
-          className={activeTab === 'addAirplane1' ? 'active' : ''}
+          className={activeTab === 'AddAirplane1' ? 'active' : ''}
           //onClick={() => handleTabClick('Airplanes')}
-          onClick={() => openTab("/addAirplane1")}
-
+          onClick={() => openTab("/AddAirplane1")}
         >
         <br />
-         <button>Airplanes</button>
+         <button><a href="/addAirplane">Airplanes</a></button>
         </div>
         <br />
         <div
@@ -83,8 +81,15 @@ export function Menu() {
   );
 }
 
+export class MyRand extends Component {
+    render() {
+        return (
+            <h1>Myrand</h1>
+        );
+    }
+}
 
-class addAirplane1 extends Component {
+export default class AddAirplane1 extends Component {
   constructor(props) {
     super(props);
 
@@ -286,6 +291,8 @@ class addAirplane1 extends Component {
       }
     }
 
-export default addAirplane1;
+
+
+
 
 
