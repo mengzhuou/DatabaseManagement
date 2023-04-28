@@ -1,6 +1,9 @@
 package com.gtbackend.gtbackend.service;
 
+import com.gtbackend.gtbackend.dao.AirlineDao;
 import com.gtbackend.gtbackend.dao.AirportDao;
+import com.gtbackend.gtbackend.model.Airline;
+import com.gtbackend.gtbackend.model.Airport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -9,6 +12,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.util.List;
 
 @Service
 public class AirportService {
@@ -35,5 +39,9 @@ public class AirportService {
             logger.error("Service error adding airport: " + e.getMessage());
             return false;
         }
+    }
+
+    public List<Airport> getAirportAll() {
+        return airportDao.getAirportAll();
     }
 }
