@@ -1,7 +1,87 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import { addAirplane } from './connector';
+import './App.css';
 
-class Menu extends Component {
+function Menu() {
+  const [activeTab, setActiveTab] = useState('Airplanes');
+
+  const handleTabClick = (tabName) => {
+    setActiveTab(tabName);
+  };
+
+  return (
+    <div className="Menu">
+    <br />
+    Simple Airline Management System (SAMS)
+      <div className="sidebar">
+        <div
+          className={activeTab === 'Airplanes' ? 'active' : ''}
+          onClick={() => handleTabClick('Airplanes')}
+        >
+        <br />
+         <button>Airplanes</button>
+        </div>
+        <br />
+        <div
+          className={activeTab === 'Pilots' ? 'active' : ''}
+          onClick={() => handleTabClick('Pilots')}
+        >
+          <button>Pilots</button>
+        </div>
+        <br />
+        <div
+          className={activeTab === 'People' ? 'active' : ''}
+          onClick={() => handleTabClick('People')}
+        >
+          <button>People</button>
+        </div>
+        <br />
+        <div
+          className={activeTab === 'Flights' ? 'active' : ''}
+          onClick={() => handleTabClick('Flights')}
+        >
+          <button>Flights</button>
+        </div>
+        <br />
+      </div>
+      <div className="main">
+        <div
+          className={activeTab === 'Routes' ? 'active' : ''}
+          onClick={() => handleTabClick('Routes')}
+        >
+          <button>Routes</button>
+        </div>
+        <br />
+        <div
+          className={activeTab === 'Tickets' ? 'active' : ''}
+          onClick={() => handleTabClick('Tickets')}
+        >
+          <button>Tickets</button>
+        </div>
+        <br />
+        <div
+          className={activeTab === 'Airports' ? 'active' : ''}
+          onClick={() => handleTabClick('Airports')}
+        >
+          <button>Airports</button>
+        </div>
+        <br />
+        <div
+          className={activeTab === 'ViewsandSimulationCycle' ? 'active' : ''}
+          onClick={() => handleTabClick('ViewsandSimulationCycle')}
+        >
+          <button>Views and Simulation Cycle</button>
+        </div>
+        <br />
+      </div>
+    </div>
+  );
+}
+
+export default Menu;
+
+/*
+class addAirplane extends Component {
   constructor(props) {
     super(props);
 
@@ -186,4 +266,5 @@ class Menu extends Component {
     }
 
 
-export default Menu;
+export default addAirplane;
+*/
