@@ -4,29 +4,34 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "route_path")
-public class RoutePath extends Route{
+public class RoutePath {
     @Id
-    @Column(name = "routeID")
-    private String routeID;
+    @ManyToOne
+    @JoinColumn(name = "routeID")
+    private Route route;
 
     @Id
-    @Column(name = "legID")
-    private String legID;
+    @ManyToOne
+    @JoinColumn(name = "legID")
+    private Leg leg;
 
-    @Id
     @Column(name = "sequence")
     private int sequence;
 
-    public void setRouteID(String routeID) {
-        this.routeID = routeID;
+    public Route getRoute() {
+        return route;
     }
 
-    public String getLegID() {
-        return legID;
+    public void setRoute(Route route) {
+        this.route = route;
     }
 
-    public void setLegID(String legID) {
-        this.legID = legID;
+    public Leg getLeg() {
+        return leg;
+    }
+
+    public void setLeg(Leg leg) {
+        this.leg = leg;
     }
 
     public int getSequence() {
