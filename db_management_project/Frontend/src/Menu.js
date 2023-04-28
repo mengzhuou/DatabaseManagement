@@ -1,4 +1,3 @@
-
 import React, { Component, useState } from 'react';
 import {addAirplane} from './connector';
 import './App.css';
@@ -22,6 +21,7 @@ export function Menu() {
           className={activeTab === 'addAirplane1' ? 'active' : ''}
           //onClick={() => handleTabClick('Airplanes')}
           onClick={() => openTab("/addAirplane1")}
+
         >
         <br />
          <button>Airplanes</button>
@@ -82,16 +82,6 @@ export function Menu() {
     </div>
   );
 }
-
-
-
-// export default Menu;
-
-
-
-
-
-
 
 
 class addAirplane1 extends Component {
