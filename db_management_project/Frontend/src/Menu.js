@@ -1,10 +1,14 @@
+
 import React, { Component, useState } from 'react';
-import { addAirplane } from './connector';
+import {addAirplane} from './connector';
 import './App.css';
 
-function Menu() {
-  const [activeTab, setActiveTab] = useState('Airplanes');
 
+export function Menu() {
+  const [activeTab, setActiveTab] = useState('addAirplane1');
+  const openTab = (url) => {
+      window.open(url, "_blank");
+    };
   const handleTabClick = (tabName) => {
     setActiveTab(tabName);
   };
@@ -15,8 +19,9 @@ function Menu() {
     Simple Airline Management System (SAMS)
       <div className="sidebar">
         <div
-          className={activeTab === 'Airplanes' ? 'active' : ''}
-          onClick={() => handleTabClick('Airplanes')}
+          className={activeTab === 'addAirplane1' ? 'active' : ''}
+          //onClick={() => handleTabClick('Airplanes')}
+          onClick={() => openTab("/addAirplane1")}
         >
         <br />
          <button>Airplanes</button>
@@ -78,10 +83,18 @@ function Menu() {
   );
 }
 
-export default Menu;
 
-/*
-class addAirplane extends Component {
+
+// export default Menu;
+
+
+
+
+
+
+
+
+class addAirplane1 extends Component {
   constructor(props) {
     super(props);
 
@@ -103,12 +116,16 @@ class addAirplane extends Component {
 
   handleInputChange(event) {
     const target = event.target;
-    const value =
-      target.type === "checkbox" ? target.checked : target.value;
+    let value = target.type === "checkbox" ? target.checked : target.value;
     const name = target.name;
 
     if (name === "skids" && !["0", "1"].includes(value)) {
-      value = "null";
+      value = null;
+    }
+    if (name === "locationID" || name === "skids" || name === "propellers" || name === "jet_engines") {
+      if (value === "") {
+          value = null;
+      }
     }
 
     this.setState({
@@ -130,7 +147,7 @@ class addAirplane extends Component {
       jet_engines: this.state.jet_engines,
     };
     alert(JSON.stringify(airplaneData));
-    
+
     addAirplane(airplaneData)
       .then(data => {
         console.log('Airplane added successfully:', data);
@@ -201,15 +218,29 @@ class addAirplane extends Component {
           </label>
         </div>
         <div>
-          <label>
-            Plane Type:
-            <input
-              name="plane_type"
-              type="text"
-              value={this.state.plane_type}
-              onChange={this.handleInputChange}
-            />
-          </label>
+          <span>Plane Type:</span>
+          <div>
+            <label>
+              <input
+                type="radio"
+                name="plane_type"
+                value="jet"
+                checked={this.state.plane_type === "jet"}
+                onChange={this.handleInputChange}
+              />
+              jet
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="plane_type"
+                value="prop"
+                checked={this.state.plane_type === "prop"}
+                onChange={this.handleInputChange}
+              />
+              prop
+            </label>
+          </div>
         </div>
         <div>
           <span>Skids:</span>
@@ -265,6 +296,6 @@ class addAirplane extends Component {
       }
     }
 
+export default addAirplane1;
 
-export default addAirplane;
-*/
+
