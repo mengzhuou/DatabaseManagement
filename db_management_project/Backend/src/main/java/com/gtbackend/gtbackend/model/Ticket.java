@@ -1,6 +1,7 @@
 package com.gtbackend.gtbackend.model;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "ticket")
@@ -9,22 +10,27 @@ public class Ticket {
     @Column(name = "ticketID")
     private String ticketID;
 
-    @Id
     @Column(name = "cost")
-    private int cost;
+    private Integer cost;
 
-    @Id
-    @Column(name = "carrier")
-    private String carrier;
+    @ManyToOne
+    @JoinColumn(name = "carrier", referencedColumnName = "flightID")
+    private Flight flight;
 
-    @Id
-    @Column(name = "customer")
-    private String customer;
+    @ManyToOne
+    @JoinColumn(name = "customer", referencedColumnName = "personID")
+    private Person person;
 
-    @Id
-    @Column(name = "deplane_at")
-    private String deplane_at;
+    @ManyToOne
+    @JoinColumn(name = "deplane_at", referencedColumnName = "airportID")
+    private Airport airport;
 
+    @ElementCollection
+    @CollectionTable(name = "ticket_seats", joinColumns = @JoinColumn(name = "ticketID"))
+    @Column(name = "seat_number")
+    private List<String> seats;
+
+    // Getters and setters for all fields
     public String getTicketID() {
         return ticketID;
     }
@@ -33,37 +39,43 @@ public class Ticket {
         this.ticketID = ticketID;
     }
 
-    public int getCost() {
+    public Integer getCost() {
         return cost;
     }
 
-    public void setCost(int cost) {
+    public void setCost(Integer cost) {
         this.cost = cost;
     }
 
-    public String getCarrier() {
-        return carrier;
+    public Flight getFlight() {
+        return flight;
     }
 
-    public void setCarrier(String carrier) {
-        this.carrier = carrier;
+    public void setFlight(Flight flight) {
+        this.flight = flight;
     }
 
-    public String getCustomer() {
-        return customer;
+    public Person getPerson() {
+        return person;
     }
 
-    public void setCustomer(String customer) {
-        this.customer = customer;
+    public void setPerson(Person person) {
+        this.person = person;
     }
 
-    public String getDeplane_at() {
-        return deplane_at;
+    public Airport getAirport() {
+        return airport;
     }
 
-    public void setDeplane_at(String deplane_at) {
-        this.deplane_at = deplane_at;
+    public void setAirport(Airport airport) {
+        this.airport = airport;
     }
 
+    public List<String> getSeats() {
+        return seats;
+    }
 
+    public void setSeats(List<String> seats) {
+        this.seats = seats;
+    }
 }
