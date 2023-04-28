@@ -1,17 +1,12 @@
 package com.gtbackend.gtbackend.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "pilot")
+@DiscriminatorValue("PILOT")
 public class Pilot extends Person{
-
-    @Id
-    @Column(name = "personID")
-    private String personID;
 
     @Column(name = "taxID")
     private String taxID;
@@ -25,16 +20,11 @@ public class Pilot extends Person{
     @Column(name = "flying_tail")
     private String flying_tail;
 
-    //personID
-    public String getPersonID(){
-        return personID;
-    }
+    @ElementCollection
+    @CollectionTable(name = "pilot_licenses", joinColumns = @JoinColumn(name = "personID"))
+    @Column(name = "license")
+    private List<String> licenses;
 
-    public void setPersonID(String personID){
-        this.personID = personID;
-    }
-
-    //taxID
     public String getTaxID(){
         return taxID;
     }
@@ -43,7 +33,6 @@ public class Pilot extends Person{
         this.taxID = taxID;
     }
 
-    //experience
     public int getExperience(){
         return experience;
     }
@@ -52,7 +41,6 @@ public class Pilot extends Person{
         this.experience = experience;
     }
 
-    //flying_airline
     public String getFlying_airline(){
         return flying_airline;
     }
@@ -61,12 +49,20 @@ public class Pilot extends Person{
         this.flying_airline = flying_airline;
     }
 
-    //flying_tail
     public String getFlying_tail(){
         return flying_tail;
     }
 
     public void setFlying_tail(String flying_tail){
         this.flying_tail = flying_tail;
+    }
+
+    // Getter and setter for licenses
+    public List<String> getLicenses() {
+        return licenses;
+    }
+
+    public void setLicenses(List<String> licenses) {
+        this.licenses = licenses;
     }
 }

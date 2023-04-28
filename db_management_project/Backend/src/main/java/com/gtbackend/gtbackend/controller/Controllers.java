@@ -59,6 +59,13 @@ public class Controllers {
         List<Location> getInfo = locationService.getLocationAll();
         return getInfo;
     }
+    @GetMapping("/getAirportAll")
+    public List<Airport> getAirportAll(){
+        List<Airport> getInfo = airportService.getAirportAll();
+        return getInfo;
+    }
+
+
 
     @PostMapping("/addAirplane")
     public ResponseEntity<String> addAirplane(@RequestBody Airplane airplane) {
