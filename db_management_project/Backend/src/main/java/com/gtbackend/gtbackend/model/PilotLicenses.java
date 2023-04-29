@@ -1,54 +1,53 @@
 package com.gtbackend.gtbackend.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
 
+@IdClass(PilotLicensesId.class)
 @Entity
 @Table(name = "pilot_licenses")
 public class PilotLicenses {
 
-    @EmbeddedId
-    private PilotLicensesId id;
-
+    @JsonIgnore
+    @Id
     @ManyToOne
-    @MapsId("personID")
     @JoinColumn(name = "personID")
-    @JsonIgnore
-    private Pilot pilot;
+    private Pilot personID;
 
-    public PilotLicenses(){
+    @Id
+    @Column(name = "license")
+    private String license;
 
+    public PilotLicenses() {
     }
 
-    public PilotLicenses(PilotLicensesId id, Pilot pilot) {
-        this.id = id;
-        this.pilot = pilot;
-    }
-
-//    @JsonIgnore
-    public PilotLicensesId getId() {
-        return id;
-    }
-
-    public void setId(PilotLicensesId id) {
-        this.id = id;
-    }
-
-    public Pilot getPilot() {
-        return pilot;
-    }
-
-    public void setPilot(Pilot pilot) {
-        this.pilot = pilot;
+    public PilotLicenses(Pilot personID, String license) {
+        this.personID = personID;
+        this.license = license;
     }
 
     @JsonIgnore
+    public Pilot getPersonID() {
+        return personID;
+    }
+
+    public void setPersonID(Pilot personID) {
+        this.personID = personID;
+    }
+
+    @JsonProperty("license")
     public String getLicense() {
-        return id.getLicense();
+        return license;
     }
 
     public void setLicense(String license) {
-        id.setLicense(license);
+        this.license = license;
+    }
+
+    @JsonProperty("personID")
+    public String getPersonIDString() {
+        return personID.getPersonID();
     }
 }

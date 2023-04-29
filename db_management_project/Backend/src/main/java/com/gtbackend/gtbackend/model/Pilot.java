@@ -19,11 +19,6 @@ public class Pilot extends Person{
     @Column(name = "flying_tail")
     private String flying_tail;
 
-
-    @OneToMany(mappedBy = "pilot", cascade = CascadeType.ALL)
-    private List<PilotLicenses> licenses;
-
-
     public Pilot() {
     }
 
@@ -65,15 +60,6 @@ public class Pilot extends Person{
 
     public void setFlying_tail(String flying_tail){
         this.flying_tail = flying_tail;
-    }
-
-
-    public List<PilotLicenses> getLicenses() {
-        return licenses;
-    }
-
-    public void setLicenses(List<PilotLicenses> licenses) {
-        this.licenses = licenses;
     }
 
 }
