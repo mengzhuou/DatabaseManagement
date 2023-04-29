@@ -1,6 +1,8 @@
 package com.gtbackend.gtbackend.service;
 
 import com.gtbackend.gtbackend.dao.PersonDao;
+import com.gtbackend.gtbackend.model.Airplane;
+import com.gtbackend.gtbackend.model.Person;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,7 @@ import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 
 import java.sql.Types;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 @Service
 public class PersonService {
@@ -27,7 +30,7 @@ public class PersonService {
     private JdbcTemplate jdbcTemplate;
 
     public boolean addPerson(String personID, String first_name, String last_name, String locationID, String taxID,
-                             int experience, String flying_airline, String flying_tail, int miles) {
+                             Integer experience, String flying_airline, String flying_tail, Integer miles) {
         try {
             SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
                     .withProcedureName("add_person")
@@ -66,5 +69,10 @@ public class PersonService {
             throw new DataIntegrityViolationException("Error adding person: " + e.getMessage(), e);
         }
     }
+
+    public List<Person> getPersonAll() {
+        return personDao.getPersonAll();
+    }
+
 
 }

@@ -5,14 +5,13 @@ import java.util.List;
 
 @Entity
 @Table(name = "pilot")
-@DiscriminatorValue("PILOT")
 public class Pilot extends Person{
 
     @Column(name = "taxID")
     private String taxID;
 
     @Column(name = "experience")
-    private int experience;
+    private Integer experience;
 
     @Column(name = "flying_airline")
     private String flying_airline;
@@ -33,11 +32,11 @@ public class Pilot extends Person{
         this.taxID = taxID;
     }
 
-    public int getExperience(){
+    public Integer getExperience(){
         return experience;
     }
 
-    public void setExperience(int experience){
+    public void setExperience(Integer experience){
         this.experience = experience;
     }
 

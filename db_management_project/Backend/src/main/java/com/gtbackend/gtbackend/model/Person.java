@@ -4,8 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "person")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "dtype", discriminatorType = DiscriminatorType.STRING)
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Person {
     @Id
     @Column(name = "personID")

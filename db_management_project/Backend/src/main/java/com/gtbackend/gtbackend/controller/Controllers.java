@@ -27,6 +27,10 @@ public class Controllers {
     @Autowired
     private PersonService personService;
     @Autowired
+    private PassengerService passengerService;
+    @Autowired
+    private PilotService pilotService;
+    @Autowired
     private LegService legService;
     @Autowired
     private LocationService locationService;
@@ -39,6 +43,8 @@ public class Controllers {
                        AirportService airportService,
                        FlightService flightService,
                        PersonService personService,
+                       PassengerService passengerService,
+                       PilotService pilotService,
                        LocationService locationService,
                        LegService legService,
                        RouteService routeService
@@ -48,6 +54,8 @@ public class Controllers {
         this.airportService = airportService;
         this.flightService = flightService;
         this.personService = personService;
+        this.passengerService = passengerService;
+        this.pilotService = pilotService;
         this.locationService = locationService;
         this.legService = legService;
         this.routeService = routeService;
@@ -77,6 +85,21 @@ public class Controllers {
     @GetMapping("/getAirplaneAll")
     public List<Airplane> getAirplaneAll(){
         List<Airplane> getInfo = airplaneService.getAirplaneAll();
+        return getInfo;
+    }
+    @GetMapping("/getPersonAll")
+    public List<Person> getPersonAll(){
+        List<Person> getInfo = personService.getPersonAll();
+        return getInfo;
+    }
+    @GetMapping("/getPassengerAll")
+    public List<Passenger> getPassengerAll(){
+        List<Passenger> getInfo = passengerService.getPassengerAll();
+        return getInfo;
+    }
+    @GetMapping("/getPilotAll")
+    public List<Pilot> getPilotAll(){
+        List<Pilot> getInfo = pilotService.getPilotAll();
         return getInfo;
     }
     @PostMapping("/addAirplane")
@@ -184,12 +207,12 @@ public class Controllers {
             String lastName = person.getLast_name();
             String locationID = person.getLocationID();
 
-            if (locationID == null || locationID.isEmpty()) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Location ID is missing.");
-            }
+//            if (locationID == null || locationID.isEmpty()) {
+//                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Location ID is missing.");
+//            }
 
             String taxID = null;
-            int experience = 0;
+            Integer experience = 0;
             String flyingAirline = null;
             String flyingTail = null;
 
@@ -201,7 +224,7 @@ public class Controllers {
                 flyingTail = pilot.getFlying_tail();
             }
 
-            int miles = 0;
+            Integer miles = 0;
 
             if (person instanceof Passenger) {
                 Passenger passenger = (Passenger) person;
