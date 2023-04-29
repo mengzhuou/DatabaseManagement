@@ -108,6 +108,12 @@ public class Controllers {
     @PostMapping("/addAirport")
     public ResponseEntity<String> addAirport(@RequestBody Airport airport) {
         try {
+            System.out.println("airportID: " + airport.getAirportID());
+            System.out.println("airport_name: " + airport.getAirportName());
+            System.out.println("city: " + airport.getCity());
+            System.out.println("state: " + airport.getState());
+            System.out.println("locationID: " + airport.getLocationID());
+
             boolean isAdded = airportService.addAirport(
                     airport.getAirportID(),
                     airport.getAirportName(),
