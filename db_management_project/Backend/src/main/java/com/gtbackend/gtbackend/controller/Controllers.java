@@ -30,6 +30,8 @@ public class Controllers {
     private LegService legService;
     @Autowired
     private LocationService locationService;
+    @Autowired
+    private RouteService routeService;
 
     @Autowired
     public Controllers(AirlineService airlineService,
@@ -38,7 +40,8 @@ public class Controllers {
                        FlightService flightService,
                        PersonService personService,
                        LocationService locationService,
-                       LegService legService
+                       LegService legService,
+                       RouteService routeService
                        ) {
         this.airlineService = airlineService;
         this.airplaneService = airplaneService;
@@ -47,6 +50,7 @@ public class Controllers {
         this.personService = personService;
         this.locationService = locationService;
         this.legService = legService;
+        this.routeService = routeService;
     }
 
     @GetMapping("/getAirlineAll")
@@ -65,8 +69,16 @@ public class Controllers {
         return getInfo;
     }
 
-
-
+    @GetMapping("/getFlightAll")
+    public List<Flight> getFlightAll(){
+        List<Flight> getInfo = flightService.getFlightAll();
+        return getInfo;
+    }
+    @GetMapping("/getAirplaneAll")
+    public List<Airplane> getAirplaneAll(){
+        List<Airplane> getInfo = airplaneService.getAirplaneAll();
+        return getInfo;
+    }
     @PostMapping("/addAirplane")
     public ResponseEntity<String> addAirplane(@RequestBody Airplane airplane) {
         try {
@@ -136,14 +148,22 @@ public class Controllers {
     @PostMapping("/offerFlight")
     public ResponseEntity<String> offerFlight(@RequestBody Flight flight) {
         try {
+            System.out.println("flightID: " + flight.getFlightID());
+            System.out.println("routeID: " + flight.getRouteID());
+            System.out.println("supportAirline: " + flight.getSupport_airline());
+            System.out.println("supportTail: " + flight.getSupport_tail());
+            System.out.println("progress: " + flight.getProgress());
+            System.out.println("airplaneStatus: " + flight.getAirplane_status());
+            System.out.println("nextTime: " + flight.getNext_time());
+
             boolean isOffered = flightService.offerFlight(
                     flight.getFlightID(),
                     flight.getRouteID(),
-                    flight.getSupportAirline(),
-                    flight.getSupportTail(),
+                    flight.getSupport_airline(),
+                    flight.getSupport_tail(),
                     flight.getProgress(),
-                    flight.getAirplaneStatus(),
-                    flight.getNextTime()
+                    flight.getAirplane_status(),
+                    flight.getNext_time()
             );
             if (isOffered) {
                 return ResponseEntity.ok("Flight offered successfully");

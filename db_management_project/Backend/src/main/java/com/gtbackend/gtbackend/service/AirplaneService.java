@@ -1,5 +1,8 @@
 package com.gtbackend.gtbackend.service;
 
+import com.gtbackend.gtbackend.dao.AirplaneDao;
+import com.gtbackend.gtbackend.model.Airline;
+import com.gtbackend.gtbackend.model.Airplane;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -12,6 +15,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.sql.Types;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.jdbc.core.SqlParameter;
@@ -23,19 +27,21 @@ public class AirplaneService {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
+    @Autowired
+    private AirplaneDao airplaneDao;
 
-    public boolean addAirplane(String airlineID, String tail_num, int seat_capacity, int speed, String locationID, String plane_type, Integer skids, Integer propellers, Integer jet_engines) {
+    public boolean addAirplane(String airlineID, String tail_num, Integer seat_capacity, Integer speed, String locationID, String plane_type, Integer skids, Integer propellers, Integer jet_engines) {
         try {
 
-            if (skids == null || skids == 0) {
-                skids = null;
-            }
-            if (propellers == null || propellers == 0) {
-                propellers = null;
-            }
-            if (jet_engines == null || jet_engines == 0) {
-                jet_engines = null;
-            }
+//            if (skids == null || skids == 0) {
+//                skids = null;
+//            }
+//            if (propellers == null || propellers == 0) {
+//                propellers = null;
+//            }
+//            if (jet_engines == null || jet_engines == 0) {
+//                jet_engines = null;
+//            }
             SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
                     .withProcedureName("add_airplane")
                     .declareParameters(
@@ -73,5 +79,8 @@ public class AirplaneService {
             logger.error("Service error adding airplane: " + e.getMessage());
             throw new DataIntegrityViolationException("Error adding airplane: " + e.getMessage(), e);
         }
+    }
+    public List<Airplane> getAirplaneAll() {
+        return airplaneDao.getAirplaneAll();
     }
 }
