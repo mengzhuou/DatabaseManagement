@@ -19,10 +19,22 @@ public class Pilot extends Person{
     @Column(name = "flying_tail")
     private String flying_tail;
 
-    @ElementCollection
-    @CollectionTable(name = "pilot_licenses", joinColumns = @JoinColumn(name = "personID"))
-    @Column(name = "license")
-    private List<String> licenses;
+//    @ElementCollection
+//    @CollectionTable(name = "pilot_licenses", joinColumns = @JoinColumn(name = "personID"))
+//    @Column(name = "license")
+//    private List<String> licenses;
+
+
+    public Pilot() {
+    }
+
+    public Pilot(String personID, String first_name, String last_name, String locationID, String taxID, Integer experience, String flying_airline, String flying_tail) {
+        super(personID, first_name, last_name, locationID);
+        this.taxID = taxID;
+        this.experience = experience;
+        this.flying_airline = flying_airline;
+        this.flying_tail = flying_tail;
+    }
 
     public String getTaxID(){
         return taxID;
@@ -57,11 +69,11 @@ public class Pilot extends Person{
     }
 
     // Getter and setter for licenses
-    public List<String> getLicenses() {
-        return licenses;
-    }
-
-    public void setLicenses(List<String> licenses) {
-        this.licenses = licenses;
-    }
+//    public List<String> getLicenses() {
+//        return licenses;
+//    }
+//
+//    public void setLicenses(List<String> licenses) {
+//        this.licenses = licenses;
+//    }
 }

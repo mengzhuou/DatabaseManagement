@@ -194,67 +194,52 @@ public class Controllers {
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Flight failed to be offered");
             }
         } catch (DataAccessException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Controller failed to offer flight: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Controller failed to add flight: " + e.getMessage());
+        } catch (ConstraintViolationException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Controller failed to add flight: " + e.getMessage());
         }
     }
-
     @PostMapping("/addPerson")
-    public ResponseEntity<String> addPerson(@RequestBody Map<String, Person> personMap) {
+    public ResponseEntity<String> addPerson(@RequestBody PersonDetails personDetails) {
         try {
-            Person person = personMap.get("person");
-            String personID = person.getPersonID();
-            String firstName = person.getFirst_name();
-            String lastName = person.getLast_name();
-            String locationID = person.getLocationID();
+            Person person = personDetails.getPerson();
+            Pilot pilot = personDetails.getPilot();
+            Passenger passenger = personDetails.getPassenger();
 
-//            if (locationID == null || locationID.isEmpty()) {
-//                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Location ID is missing.");
-//            }
+            String personID = person.getPersonID();
+            String first_name = person.getFirst_name();
+            String last_name = person.getLast_name();
+            String locationID = person.getLocationID();
 
             String taxID = null;
             Integer experience = 0;
-            String flyingAirline = null;
-            String flyingTail = null;
+            String flying_airline = null;
+            String flying_tail = null;
 
-            if (person instanceof Pilot) {
-                Pilot pilot = (Pilot) person;
+            if (pilot != null) {
                 taxID = pilot.getTaxID();
                 experience = pilot.getExperience();
-                flyingAirline = pilot.getFlying_airline();
-                flyingTail = pilot.getFlying_tail();
+                flying_airline = pilot.getFlying_airline();
+                flying_tail = pilot.getFlying_tail();
             }
 
             Integer miles = 0;
 
-            if (person instanceof Passenger) {
-                Passenger passenger = (Passenger) person;
+            if (passenger != null) {
                 miles = passenger.getMiles();
             }
 
-            // Debugging print statements
-            System.out.println("personID: " + personID);
-            System.out.println("firstName: " + firstName);
-            System.out.println("lastName: " + lastName);
-            System.out.println("locationID: " + locationID);
-            System.out.println("taxID: " + taxID);
-            System.out.println("experience: " + experience);
-            System.out.println("flyingAirline: " + flyingAirline);
-            System.out.println("flyingTail: " + flyingTail);
-            System.out.println("miles: " + miles);
-
-
             boolean isAdded = personService.addPerson(
                     personID,
-                    firstName,
-                    lastName,
+                    first_name,
+                    last_name,
                     locationID,
                     taxID,
                     experience,
-                    flyingAirline,
-                    flyingTail,
+                    flying_airline,
+                    flying_tail,
                     miles
             );
-
 
             if (isAdded) {
                 return ResponseEntity.ok("Person gets added successfully");
@@ -263,10 +248,10 @@ public class Controllers {
             }
         } catch (DataAccessException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Controller failed to add person: " + e.getMessage());
+        } catch (ConstraintViolationException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Controller failed to add person: " + e.getMessage());
         }
     }
-
-
 
 //
 //    @PostMapping("/addLeg")

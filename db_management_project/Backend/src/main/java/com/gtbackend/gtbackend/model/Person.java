@@ -19,6 +19,16 @@ public class Person {
     @Column(name = "locationID")
     private String locationID;
 
+    public Person() {
+    }
+
+    public Person(String personID, String first_name, String last_name, String locationID) {
+        this.personID = personID;
+        this.first_name = first_name;
+        this.last_name = last_name;
+        this.locationID = locationID;
+    }
+
     //personID
     public String getPersonID(){
         return personID;
