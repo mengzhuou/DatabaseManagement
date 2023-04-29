@@ -1,6 +1,5 @@
 package com.gtbackend.gtbackend.dao;
 
-import com.gtbackend.gtbackend.model.Airline;
 import com.gtbackend.gtbackend.model.Airplane;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

@@ -31,6 +31,8 @@ public class Controllers {
     @Autowired
     private PilotService pilotService;
     @Autowired
+    private PilotLicensesService pilotLicensesService;
+    @Autowired
     private LegService legService;
     @Autowired
     private LocationService locationService;
@@ -45,6 +47,7 @@ public class Controllers {
                        PersonService personService,
                        PassengerService passengerService,
                        PilotService pilotService,
+                       PilotLicensesService pilotLicensesService,
                        LocationService locationService,
                        LegService legService,
                        RouteService routeService
@@ -56,6 +59,7 @@ public class Controllers {
         this.personService = personService;
         this.passengerService = passengerService;
         this.pilotService = pilotService;
+        this.pilotLicensesService = pilotLicensesService;
         this.locationService = locationService;
         this.legService = legService;
         this.routeService = routeService;
@@ -100,6 +104,11 @@ public class Controllers {
     @GetMapping("/getPilotAll")
     public List<Pilot> getPilotAll(){
         List<Pilot> getInfo = pilotService.getPilotAll();
+        return getInfo;
+    }
+    @GetMapping("/getPilotLicensesAll")
+    public List<PilotLicenses> getPilotLicensesAll(){
+        List<PilotLicenses> getInfo = pilotLicensesService.getPilotLicensesAll();
         return getInfo;
     }
     @PostMapping("/addAirplane")

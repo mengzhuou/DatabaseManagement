@@ -19,10 +19,9 @@ public class Pilot extends Person{
     @Column(name = "flying_tail")
     private String flying_tail;
 
-//    @ElementCollection
-//    @CollectionTable(name = "pilot_licenses", joinColumns = @JoinColumn(name = "personID"))
-//    @Column(name = "license")
-//    private List<String> licenses;
+
+    @OneToMany(mappedBy = "pilot", cascade = CascadeType.ALL)
+    private List<PilotLicenses> licenses;
 
 
     public Pilot() {
@@ -68,12 +67,13 @@ public class Pilot extends Person{
         this.flying_tail = flying_tail;
     }
 
-    // Getter and setter for licenses
-//    public List<String> getLicenses() {
-//        return licenses;
-//    }
-//
-//    public void setLicenses(List<String> licenses) {
-//        this.licenses = licenses;
-//    }
+
+    public List<PilotLicenses> getLicenses() {
+        return licenses;
+    }
+
+    public void setLicenses(List<PilotLicenses> licenses) {
+        this.licenses = licenses;
+    }
+
 }
