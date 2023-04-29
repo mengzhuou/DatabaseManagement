@@ -18,7 +18,6 @@ export function Menu() {
       <div className="sidebar">
         <div
           className={activeTab === 'AddAirplane1' ? 'active' : ''}
-          //onClick={() => handleTabClick('Airplanes')}
           onClick={() => openTab("/AddAirplane1")}
         >
         <br />
@@ -27,66 +26,58 @@ export function Menu() {
         <br />
         <div
           className={activeTab === 'Pilots' ? 'active' : ''}
-          onClick={() => handleTabClick('Pilots')}
+          onClick={() => openTab("/Pilots")}
         >
-          <button>Pilots</button>
+          <button><a href="/Grant_Pilot_License">Pilots</a></button>
         </div>
         <br />
         <div
           className={activeTab === 'People' ? 'active' : ''}
-          onClick={() => handleTabClick('People')}
+          onClick={() => openTab("/People")}
         >
-          <button>People</button>
+          <button><a href="/Add_Person">People</a></button>
         </div>
         <br />
         <div
           className={activeTab === 'Flights' ? 'active' : ''}
-          onClick={() => handleTabClick('Flights')}
+          onClick={() => openTab("/Flights")}
         >
-          <button>Flights</button>
+          <button><a href="/Offer_Flight">Flights</a></button>
         </div>
         <br />
       </div>
       <div className="main">
         <div
           className={activeTab === 'Routes' ? 'active' : ''}
-          onClick={() => handleTabClick('Routes')}
+          onClick={() => openTab("/Routes")}
         >
-          <button>Routes</button>
+          <button><a href="/Routes1">Routes</a></button>
         </div>
         <br />
         <div
           className={activeTab === 'Tickets' ? 'active' : ''}
-          onClick={() => handleTabClick('Tickets')}
+          onClick={() => openTab("/Tickets")}
         >
-          <button>Tickets</button>
+          <button><a href="/Purchase_ticket_and_seat">Tickets</a></button>
         </div>
         <br />
         <div
           className={activeTab === 'Airports' ? 'active' : ''}
-          onClick={() => handleTabClick('Airports')}
+          onClick={() => openTab("/Airports")}
         >
-          <button>Airports</button>
+          <button><a href="/Add_Airport">Airports</a></button>
         </div>
         <br />
         <div
           className={activeTab === 'ViewsandSimulationCycle' ? 'active' : ''}
-          onClick={() => handleTabClick('ViewsandSimulationCycle')}
+          onClick={() => openTab("/ViewsandSimulationCycle")}
         >
-          <button>Views and Simulation Cycle</button>
+          <button><a href="/ViewsandSimulationCycle1">Views and Simulation Cycle</a></button>
         </div>
         <br />
       </div>
     </div>
   );
-}
-
-export class MyRand extends Component {
-    render() {
-        return (
-            <h1>Myrand</h1>
-        );
-    }
 }
 
 export default class AddAirplane1 extends Component {
