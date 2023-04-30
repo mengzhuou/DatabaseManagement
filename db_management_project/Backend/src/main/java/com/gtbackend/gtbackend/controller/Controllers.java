@@ -39,6 +39,8 @@ public class Controllers {
     private LocationService locationService;
     @Autowired
     private RouteService routeService;
+    @Autowired
+    private TicketService ticketService;
 
     @Autowired
     public Controllers(AirlineService airlineService,
@@ -51,7 +53,8 @@ public class Controllers {
                        PilotLicensesService pilotLicensesService,
                        LocationService locationService,
                        LegService legService,
-                       RouteService routeService
+                       RouteService routeService,
+                       TicketService ticketService
                        ) {
         this.airlineService = airlineService;
         this.airplaneService = airplaneService;
@@ -64,6 +67,7 @@ public class Controllers {
         this.locationService = locationService;
         this.legService = legService;
         this.routeService = routeService;
+        this.ticketService = ticketService;
     }
 
     @GetMapping("/getAirlineAll")
@@ -112,6 +116,13 @@ public class Controllers {
         List<PilotLicenses> getInfo = pilotLicensesService.getPilotLicensesAll();
         return getInfo;
     }
+    @GetMapping("/getTicketAll")
+    public List<Ticket> getTicketAll(){
+        List<Ticket> getInfo = ticketService.getTicketAll();
+        return getInfo;
+    }
+
+
     @PostMapping("/addAirplane")
     public ResponseEntity<String> addAirplane(@RequestBody Airplane airplane) {
         try {

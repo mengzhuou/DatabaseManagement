@@ -25,11 +25,6 @@ public class Ticket {
     @JoinColumn(name = "deplane_at", referencedColumnName = "airportID")
     private Airport airport;
 
-    @ElementCollection
-    @CollectionTable(name = "ticket_seats", joinColumns = @JoinColumn(name = "ticketID"))
-    @Column(name = "seat_number")
-    private List<String> seats;
-
     // Getters and setters for all fields
     public String getTicketID() {
         return ticketID;
@@ -69,13 +64,5 @@ public class Ticket {
 
     public void setAirport(Airport airport) {
         this.airport = airport;
-    }
-
-    public List<String> getSeats() {
-        return seats;
-    }
-
-    public void setSeats(List<String> seats) {
-        this.seats = seats;
     }
 }
