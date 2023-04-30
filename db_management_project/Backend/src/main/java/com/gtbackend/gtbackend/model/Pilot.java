@@ -5,14 +5,13 @@ import java.util.List;
 
 @Entity
 @Table(name = "pilot")
-@DiscriminatorValue("PILOT")
 public class Pilot extends Person{
 
     @Column(name = "taxID")
     private String taxID;
 
     @Column(name = "experience")
-    private int experience;
+    private Integer experience;
 
     @Column(name = "flying_airline")
     private String flying_airline;
@@ -20,10 +19,16 @@ public class Pilot extends Person{
     @Column(name = "flying_tail")
     private String flying_tail;
 
-    @ElementCollection
-    @CollectionTable(name = "pilot_licenses", joinColumns = @JoinColumn(name = "personID"))
-    @Column(name = "license")
-    private List<String> licenses;
+    public Pilot() {
+    }
+
+    public Pilot(String personID, String first_name, String last_name, String locationID, String taxID, Integer experience, String flying_airline, String flying_tail) {
+        super(personID, first_name, last_name, locationID);
+        this.taxID = taxID;
+        this.experience = experience;
+        this.flying_airline = flying_airline;
+        this.flying_tail = flying_tail;
+    }
 
     public String getTaxID(){
         return taxID;
@@ -33,11 +38,11 @@ public class Pilot extends Person{
         this.taxID = taxID;
     }
 
-    public int getExperience(){
+    public Integer getExperience(){
         return experience;
     }
 
-    public void setExperience(int experience){
+    public void setExperience(Integer experience){
         this.experience = experience;
     }
 
@@ -57,12 +62,4 @@ public class Pilot extends Person{
         this.flying_tail = flying_tail;
     }
 
-    // Getter and setter for licenses
-    public List<String> getLicenses() {
-        return licenses;
-    }
-
-    public void setLicenses(List<String> licenses) {
-        this.licenses = licenses;
-    }
 }

@@ -15,10 +15,10 @@ public class Airplane extends AirplaneId {
     private String tail_num;
 
     @Column(name = "seat_capacity")
-    private int seat_capacity;
+    private Integer seat_capacity;
 
     @Column(name = "speed")
-    private int speed;
+    private Integer speed;
 
     @Column(name = "locationID")
     private String locationID;
@@ -27,13 +27,13 @@ public class Airplane extends AirplaneId {
     private String plane_type;
 
     @Column(name = "skids")
-    private int skids;
+    private Integer skids;
 
     @Column(name = "propellers")
-    private int propellers;
+    private Integer propellers;
 
     @Column(name = "jet_engines")
-    private int jet_engines;
+    private Integer jet_engines;
 
     public String getAirlineID() {
         return airlineID;
@@ -51,19 +51,19 @@ public class Airplane extends AirplaneId {
         this.tail_num = tail_num;
     }
 
-    public int getSeat_capacity() {
+    public Integer getSeat_capacity() {
         return seat_capacity;
     }
 
-    public void setSeat_capacity(int seat_capacity) {
+    public void setSeat_capacity(Integer seat_capacity) {
         this.seat_capacity = seat_capacity;
     }
 
-    public int getSpeed() {
+    public Integer getSpeed() {
         return speed;
     }
 
-    public void setSpeed(int speed) {
+    public void setSpeed(Integer speed) {
         this.speed = speed;
     }
 
@@ -83,27 +83,27 @@ public class Airplane extends AirplaneId {
         this.plane_type = plane_type;
     }
 
-    public int getSkids() {
+    public Integer getSkids() {
         return skids;
     }
 
-    public void setSkids(int skids) {
+    public void setSkids(Integer skids) {
         this.skids = skids;
     }
 
-    public int getPropellers() {
+    public Integer getPropellers() {
         return propellers;
     }
 
-    public void setPropellers(int propellers) {
+    public void setPropellers(Integer propellers) {
         this.propellers = propellers;
     }
 
-    public int getJet_engines() {
+    public Integer getJet_engines() {
         return jet_engines;
     }
 
-    public void setJet_engines(int jet_engines) {
+    public void setJet_engines(Integer jet_engines) {
         this.jet_engines = jet_engines;
     }
 }

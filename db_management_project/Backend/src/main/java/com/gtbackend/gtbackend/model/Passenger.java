@@ -4,16 +4,24 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "passenger")
-@DiscriminatorValue("PASSENGER")
 public class Passenger extends Person{
     @Column(name = "miles")
-    private int miles;
+    private Integer miles;
 
-    public int getMiles(){
+
+    public Passenger() {
+    }
+
+    public Passenger(String personID, String first_name, String last_name, String locationID, Integer miles) {
+        super(personID, first_name, last_name, locationID);
+        this.miles = miles;
+    }
+
+    public Integer getMiles(){
         return miles;
     }
 
-    public void setMiles(int miles){
+    public void setMiles(Integer miles){
         this.miles = miles;
     }
 }

@@ -1,9 +1,6 @@
 package com.gtbackend.gtbackend.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalTime;
 
 @Entity
@@ -18,19 +15,19 @@ public class Flight {
     private String routeID;
 
     @Column(name = "support_airline")
-    private String supportAirline;
+    private String support_airline;
 
     @Column(name = "support_tail")
-    private String supportTail;
+    private String support_tail;
 
     @Column(name = "progress")
-    private int progress;
+    private Integer progress;
 
     @Column(name = "airplane_status")
-    private String airplaneStatus;
+    private String airplane_status;
 
     @Column(name = "next_time")
-    private LocalTime nextTime;
+    private LocalTime next_time;
 
     public String getFlightID() {
         return flightID;
@@ -48,43 +45,43 @@ public class Flight {
         this.routeID = routeID;
     }
 
-    public String getSupportAirline() {
-        return supportAirline;
+    public String getSupport_airline() {
+        return support_airline;
     }
 
-    public void setSupportAirline(String supportAirline) {
-        this.supportAirline = supportAirline;
+    public void setSupport_airline(String support_airline) {
+        this.support_airline = support_airline;
     }
 
-    public String getSupportTail() {
-        return supportTail;
+    public String getSupport_tail() {
+        return support_tail;
     }
 
-    public void setSupportTail(String supportTail) {
-        this.supportTail = supportTail;
+    public void setSupport_tail(String support_tail) {
+        this.support_tail = support_tail;
     }
 
-    public int getProgress() {
+    public Integer getProgress() {
         return progress;
     }
 
-    public void setProgress(int progress) {
+    public void setProgress(Integer progress) {
         this.progress = progress;
     }
 
-    public String getAirplaneStatus() {
-        return airplaneStatus;
+    public String getAirplane_status() {
+        return airplane_status;
     }
 
-    public void setAirplaneStatus(String airplaneStatus) {
-        this.airplaneStatus = airplaneStatus;
+    public void setAirplane_status(String airplane_status) {
+        this.airplane_status = airplane_status;
     }
 
-    public LocalTime getNextTime() {
-        return nextTime;
+    public LocalTime getNext_time() {
+        return next_time;
     }
 
-    public void setNextTime(LocalTime nextTime) {
-        this.nextTime = nextTime;
+    public void setNext_time(LocalTime next_time) {
+        this.next_time = next_time;
     }
 }
