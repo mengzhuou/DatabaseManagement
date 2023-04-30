@@ -6,11 +6,11 @@ import java.util.Objects;
 public class TicketSeatsId implements Serializable {
 
     private String ticketID;
-    private String seatNumber;
+    private String seat_number;
 
-    public TicketSeatsId(String ticketID, String seatNumber) {
+    public TicketSeatsId(String ticketID, String seat_number) {
         this.ticketID = ticketID;
-        this.seatNumber = seatNumber;
+        this.seat_number = seat_number;
     }
 
     public TicketSeatsId(){}
@@ -23,11 +23,11 @@ public class TicketSeatsId implements Serializable {
     }
 
     public String getSeatNumber() {
-        return seatNumber;
+        return seat_number;
     }
 
-    public void setSeatNumber(String seatNumber) {
-        this.seatNumber = seatNumber;
+    public void setSeatNumber(String seat_number) {
+        this.seat_number = seat_number;
     }
 
     @Override
@@ -35,12 +35,12 @@ public class TicketSeatsId implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         TicketSeatsId that = (TicketSeatsId) o;
-        return Objects.equals(ticketID, that.ticketID) && Objects.equals(seatNumber, that.seatNumber);
+        return Objects.equals(ticketID, that.ticketID) && Objects.equals(seat_number, that.seat_number);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(ticketID, seatNumber);
+        return Objects.hash(ticketID, seat_number);
     }
 }
 

@@ -1,8 +1,6 @@
 package com.gtbackend.gtbackend.service;
 
-import com.gtbackend.gtbackend.dao.AirlineDao;
 import com.gtbackend.gtbackend.dao.FlightDao;
-import com.gtbackend.gtbackend.model.Airline;
 import com.gtbackend.gtbackend.model.Flight;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

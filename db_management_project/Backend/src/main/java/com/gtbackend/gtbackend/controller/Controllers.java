@@ -359,4 +359,26 @@ public class Controllers {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Controller failed to purchase ticket and seat: " + e.getMessage());
         }
     }
+
+    @PostMapping("/addUpdateLeg")
+    public ResponseEntity<String> addUpdateLeg(@RequestBody Leg leg) {
+        try {
+            boolean isAddedOrUpdated = legService.addUpdateLeg(
+                    leg.getLegID(),
+                    leg.getDistance(),
+                    leg.getDeparture(),
+                    leg.getArrival()
+            );
+            if (isAddedOrUpdated) {
+                return ResponseEntity.ok("Leg added or updated successfully");
+            } else {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Leg failed to be added or updated");
+            }
+        } catch (DataAccessException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Controller failed to add or update leg: " + e.getMessage());
+        } catch (ConstraintViolationException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Controller failed to add or update leg: " + e.getMessage());
+        }
+    }
+
 }

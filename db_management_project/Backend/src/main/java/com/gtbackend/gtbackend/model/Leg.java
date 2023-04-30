@@ -10,7 +10,7 @@ import javax.persistence.Table;
 public class Leg {
     @Id
     private String legID;
-    private int distance;
+    private Integer distance;
     private String departure;
     private String arrival;
 
@@ -22,11 +22,11 @@ public class Leg {
         this.legID = legID;
     }
 
-    public int getDistance() {
+    public Integer getDistance() {
         return distance;
     }
 
-    public void setDistance(int distance) {
+    public void setDistance(Integer distance) {
         this.distance = distance;
     }
 

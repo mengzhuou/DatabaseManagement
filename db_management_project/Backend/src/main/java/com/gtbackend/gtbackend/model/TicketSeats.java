@@ -13,14 +13,14 @@ public class TicketSeats {
 
     @Id
     @Column(name = "seat_number")
-    private String seatNumber;
+    private String seat_number;
 
     public TicketSeats() {
     }
 
-    public TicketSeats(String ticketID, String seatNumber) {
+    public TicketSeats(String ticketID, String seat_number) {
         this.ticketID = ticketID;
-        this.seatNumber = seatNumber;
+        this.seat_number = seat_number;
     }
 
     public String getTicket() {
@@ -32,11 +32,11 @@ public class TicketSeats {
     }
 
     public String getSeatNumber() {
-        return seatNumber;
+        return seat_number;
     }
 
-    public void setSeatNumber(String seatNumber) {
-        this.seatNumber = seatNumber;
+    public void setSeatNumber(String seat_number) {
+        this.seat_number = seat_number;
     }
 }
 
