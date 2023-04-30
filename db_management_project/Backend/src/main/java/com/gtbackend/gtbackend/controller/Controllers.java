@@ -1,5 +1,6 @@
 package com.gtbackend.gtbackend.controller;
 
+import com.gtbackend.gtbackend.dto.PilotLicensesDTO;
 import com.gtbackend.gtbackend.model.*;
 import com.gtbackend.gtbackend.service.*;
 import org.hibernate.exception.ConstraintViolationException;
@@ -174,6 +175,36 @@ public class Controllers {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Controller failed to add airport: " + e.getMessage());
         } catch (ConstraintViolationException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Controller failed to add airport: " + e.getMessage());
+        }
+    }
+
+    @PostMapping("/grantPilotLicense")
+    public ResponseEntity<String> grantPilotLicense(@RequestBody PilotLicensesDTO pilotLicensesDTO) {
+        try {
+
+            PilotLicenses pilotLicenses = new PilotLicenses();
+            Pilot pilot = new Pilot();
+            pilot.setPersonID(pilotLicensesDTO.getPersonID());
+            pilotLicenses.setPersonID(pilot);
+            pilotLicenses.setLicense(pilotLicensesDTO.getLicense());
+
+
+            System.out.println("personID: " + pilotLicensesDTO.getPersonID());
+            System.out.println("license: " + pilotLicensesDTO.getLicense());
+
+            boolean isOffered = pilotLicensesService.grantPilotLicense(
+                    pilotLicenses.getPersonID(),
+                    pilotLicenses.getLicense()
+            );
+            if (isOffered) {
+                return ResponseEntity.ok("Pilot license offered successfully");
+            } else {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Pilot license failed to be offered");
+            }
+        } catch (DataAccessException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Controller failed to add pilot license: " + e.getMessage());
+        } catch (ConstraintViolationException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Controller failed to add pilot license: " + e.getMessage());
         }
     }
 
