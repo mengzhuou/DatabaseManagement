@@ -7,6 +7,7 @@ import javax.persistence.*;
 public class Airline {
     @Id
     private String airlineID;
+    @Column(name = "revenue", columnDefinition = "INT DEFAULT null", nullable = true)
     private Integer revenue;
 
     public String getAirlineID() { return airlineID; }

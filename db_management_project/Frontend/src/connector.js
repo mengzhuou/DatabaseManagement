@@ -42,18 +42,6 @@ export async function addAirport(airport) {
   }
 }
 
-export async function getPilotLicensesAll(pilotLicense) {
-  try {
-    const response = await client.post(`${host}${apiPath}/getPilotLicensesAll`, pilotLicense, {
-      withCredentials: true,
-    });
-    return response.data;
-  } catch (error) {
-    console.error(error);
-    throw new Error('Failed to add pilot license');
-  }
-}
-
 export async function offerFlight(flight) {
   try {
     const response = await client.post(`${host}${apiPath}/offerFlight`, flight, {
