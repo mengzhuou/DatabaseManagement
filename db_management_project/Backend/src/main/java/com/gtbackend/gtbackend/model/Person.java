@@ -4,7 +4,8 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "person")
-@Inheritance(strategy = InheritanceType.JOINED)
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "dtype", discriminatorType = DiscriminatorType.STRING)
 public class Person {
     @Id
     @Column(name = "personID")
@@ -18,16 +19,6 @@ public class Person {
 
     @Column(name = "locationID")
     private String locationID;
-
-    public Person() {
-    }
-
-    public Person(String personID, String first_name, String last_name, String locationID) {
-        this.personID = personID;
-        this.first_name = first_name;
-        this.last_name = last_name;
-        this.locationID = locationID;
-    }
 
     //personID
     public String getPersonID(){
