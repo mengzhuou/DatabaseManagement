@@ -1,34 +1,33 @@
 package com.gtbackend.gtbackend.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 
-@IdClass(TicketSeatsId.class)
 @Entity
 @Table(name = "ticket_seats")
+@IdClass(TicketSeatsId.class)
 public class TicketSeats {
 
+    @Id
+    @Column(name = "ticketID")
+    private String ticketID;
 
-//    @JsonIgnore
     @Id
-    @ManyToOne
-    @JoinColumn(name = "ticketID")
-    private Ticket ticketID;
-    @Id
+    @Column(name = "seat_number")
     private String seatNumber;
 
-    public TicketSeats(){}
-    public TicketSeats(Ticket ticketID, String seatNumber) {
+    public TicketSeats() {
+    }
+
+    public TicketSeats(String ticketID, String seatNumber) {
         this.ticketID = ticketID;
         this.seatNumber = seatNumber;
     }
 
-    public Ticket getTicketID() {
+    public String getTicket() {
         return ticketID;
     }
 
-    public void setTicketID(Ticket ticketID) {
+    public void setTicket(String ticketID) {
         this.ticketID = ticketID;
     }
 

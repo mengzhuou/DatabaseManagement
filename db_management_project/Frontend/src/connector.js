@@ -77,3 +77,15 @@ export async function addPerson(person) {
     throw new Error('Failed to add person');
   }
 }
+
+export async function purchaseTicketAndSeat(ticket) {
+  try {
+    const response = await client.post(`${host}${apiPath}/purchaseTicketAndSeat`, ticket, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Failed to add person');
+  }
+}

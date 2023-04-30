@@ -59,7 +59,7 @@ public class Controllers {
                        RouteService routeService,
                        TicketService ticketService,
                        TicketSeatsService ticketSeatsService
-                       ) {
+    ) {
         this.airlineService = airlineService;
         this.airplaneService = airplaneService;
         this.airportService = airportService;
@@ -76,58 +76,67 @@ public class Controllers {
     }
 
     @GetMapping("/getAirlineAll")
-    public List<Airline> getAirlineAll(){
+    public List<Airline> getAirlineAll() {
         List<Airline> getInfo = airlineService.getAirlineAll();
         return getInfo;
     }
+
     @GetMapping("/getLocationAll")
-    public List<Location> getLocationAll(){
+    public List<Location> getLocationAll() {
         List<Location> getInfo = locationService.getLocationAll();
         return getInfo;
     }
+
     @GetMapping("/getAirportAll")
-    public List<Airport> getAirportAll(){
+    public List<Airport> getAirportAll() {
         List<Airport> getInfo = airportService.getAirportAll();
         return getInfo;
     }
 
     @GetMapping("/getFlightAll")
-    public List<Flight> getFlightAll(){
+    public List<Flight> getFlightAll() {
         List<Flight> getInfo = flightService.getFlightAll();
         return getInfo;
     }
+
     @GetMapping("/getAirplaneAll")
-    public List<Airplane> getAirplaneAll(){
+    public List<Airplane> getAirplaneAll() {
         List<Airplane> getInfo = airplaneService.getAirplaneAll();
         return getInfo;
     }
+
     @GetMapping("/getPersonAll")
-    public List<Person> getPersonAll(){
+    public List<Person> getPersonAll() {
         List<Person> getInfo = personService.getPersonAll();
         return getInfo;
     }
+
     @GetMapping("/getPassengerAll")
-    public List<Passenger> getPassengerAll(){
+    public List<Passenger> getPassengerAll() {
         List<Passenger> getInfo = passengerService.getPassengerAll();
         return getInfo;
     }
+
     @GetMapping("/getPilotAll")
-    public List<Pilot> getPilotAll(){
+    public List<Pilot> getPilotAll() {
         List<Pilot> getInfo = pilotService.getPilotAll();
         return getInfo;
     }
+
     @GetMapping("/getPilotLicensesAll")
-    public List<PilotLicenses> getPilotLicensesAll(){
+    public List<PilotLicenses> getPilotLicensesAll() {
         List<PilotLicenses> getInfo = pilotLicensesService.getPilotLicensesAll();
         return getInfo;
     }
+
     @GetMapping("/getTicketAll")
-    public List<Ticket> getTicketAll(){
+    public List<Ticket> getTicketAll() {
         List<Ticket> getInfo = ticketService.getTicketAll();
         return getInfo;
     }
+
     @GetMapping("/getTicketSeatsAll")
-    public List<TicketSeats> getTicketSeatsAll(){
+    public List<TicketSeats> getTicketSeatsAll() {
         List<TicketSeats> getInfo = ticketSeatsService.getTicketSeatsAll();
         return getInfo;
     }
@@ -260,6 +269,7 @@ public class Controllers {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Controller failed to add flight: " + e.getMessage());
         }
     }
+
     @PostMapping("/addPerson")
     public ResponseEntity<String> addPerson(@RequestBody PersonDetails personDetails) {
         try {
@@ -314,41 +324,39 @@ public class Controllers {
         }
     }
 
-//
-//    @PostMapping("/addLeg")
-//    public ResponseEntity<String> addLeg(@RequestBody Leg leg) {
-//        try {
-//            boolean isAdded = legService.addLeg(
-//                    leg.getLegID(),
-//                    leg.getDistance(),
-//                    leg.getDeparture(),
-//                    leg.getArrival()
-//            );
-//            if (isAdded) {
-//                return ResponseEntity.ok("Leg added successfully");
-//            } else {
-//                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Leg failed to be added");
-//            }
-//        } catch (DataAccessException e) {
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Controller failed to add leg: " + e.getMessage());
-//        }
-//    }
-//
-//    @PostMapping("/addLocation")
-//    public ResponseEntity<String> addLocation(@RequestBody Location location) {
-//        try {
-//            boolean isAdded = locationService.addLocation(
-//                    location.getLocationID()
-//            );
-//            if (isAdded) {
-//                return ResponseEntity.ok("Location added successfully");
-//            } else {
-//                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Location failed to be added");
-//            }
-//        } catch (DataAccessException e) {
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Controller failed to add location: " + e.getMessage());
-//        }
-//    }
+    @PostMapping("/purchaseTicketAndSeat")
+    public ResponseEntity<String> purchaseTicketAndSeat(@RequestBody TicketDetails ticketDetails) {
+        try {
+            Ticket ticket = ticketDetails.getTicket();
+            TicketSeats ticketSeats = ticketDetails.getTicketSeats();
+            if (ticketSeats == null) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("TicketSeats information is missing");
+            }
+            String ticketID = ticket.getTicketID();
+            Integer cost = ticket.getCost();
+            String carrier = ticket.getCarrier();
+            String customer = ticket.getCustomer();
+            String deplane_at = ticket.getDeplane_at();
+            String seat_number = ticketSeats.getSeatNumber();
 
+            boolean isPurchased = ticketService.purchaseTicketAndSeat(
+                    ticketID,
+                    cost,
+                    carrier,
+                    customer,
+                    deplane_at,
+                    seat_number
+            );
 
+            if (isPurchased) {
+                return ResponseEntity.ok("Ticket and seat purchased successfully");
+            } else {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Ticket and seat failed to be purchased.");
+            }
+        } catch (DataAccessException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Controller failed to purchase ticket and seat: " + e.getMessage());
+        } catch (ConstraintViolationException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Controller failed to purchase ticket and seat: " + e.getMessage());
+        }
+    }
 }

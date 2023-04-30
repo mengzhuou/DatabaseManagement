@@ -1,6 +1,7 @@
 package com.gtbackend.gtbackend.model;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public class TicketSeatsId implements Serializable {
 
@@ -27,6 +28,19 @@ public class TicketSeatsId implements Serializable {
 
     public void setSeatNumber(String seatNumber) {
         this.seatNumber = seatNumber;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TicketSeatsId that = (TicketSeatsId) o;
+        return Objects.equals(ticketID, that.ticketID) && Objects.equals(seatNumber, that.seatNumber);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(ticketID, seatNumber);
     }
 }
 
