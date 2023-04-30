@@ -6,10 +6,11 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="airline")
+@Table(name="airport")
 public class Airport {
 
     @Id
+    @Column(name = "airportID")
     private String airportID;
 
     @Column(name = "airport_name")

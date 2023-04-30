@@ -1,23 +1,17 @@
 package com.gtbackend.gtbackend.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "pilot")
 public class Pilot extends Person{
 
-    @Id
-    @Column(name = "personID")
-    private String personID;
-
     @Column(name = "taxID")
     private String taxID;
 
     @Column(name = "experience")
-    private int experience;
+    private Integer experience;
 
     @Column(name = "flying_airline")
     private String flying_airline;
@@ -25,16 +19,17 @@ public class Pilot extends Person{
     @Column(name = "flying_tail")
     private String flying_tail;
 
-    //personID
-    public String getPersonID(){
-        return personID;
+    public Pilot() {
     }
 
-    public void setPersonID(String personID){
-        this.personID = personID;
+    public Pilot(String personID, String first_name, String last_name, String locationID, String taxID, Integer experience, String flying_airline, String flying_tail) {
+        super(personID, first_name, last_name, locationID);
+        this.taxID = taxID;
+        this.experience = experience;
+        this.flying_airline = flying_airline;
+        this.flying_tail = flying_tail;
     }
 
-    //taxID
     public String getTaxID(){
         return taxID;
     }
@@ -43,16 +38,14 @@ public class Pilot extends Person{
         this.taxID = taxID;
     }
 
-    //experience
-    public int getExperience(){
+    public Integer getExperience(){
         return experience;
     }
 
-    public void setExperience(int experience){
+    public void setExperience(Integer experience){
         this.experience = experience;
     }
 
-    //flying_airline
     public String getFlying_airline(){
         return flying_airline;
     }
@@ -61,7 +54,6 @@ public class Pilot extends Person{
         this.flying_airline = flying_airline;
     }
 
-    //flying_tail
     public String getFlying_tail(){
         return flying_tail;
     }
@@ -69,4 +61,5 @@ public class Pilot extends Person{
     public void setFlying_tail(String flying_tail){
         this.flying_tail = flying_tail;
     }
+
 }

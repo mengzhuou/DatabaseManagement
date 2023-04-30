@@ -112,7 +112,7 @@ export default class AddAirplane1 extends Component {
       if (value === "") {
           value = null;
       }
-    }
+    }  
 
     this.setState({
       [name]: value,
