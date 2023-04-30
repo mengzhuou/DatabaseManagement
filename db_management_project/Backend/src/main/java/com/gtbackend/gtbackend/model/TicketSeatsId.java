@@ -12,6 +12,7 @@ public class TicketSeatsId implements Serializable {
         this.seatNumber = seatNumber;
     }
 
+    public TicketSeatsId(){}
     public String getTicketID() {
         return ticketID;
     }

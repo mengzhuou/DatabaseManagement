@@ -1,7 +1,6 @@
 package com.gtbackend.gtbackend.service;
 
-import com.gtbackend.gtbackend.dao.TicketDao;
-import com.gtbackend.gtbackend.model.Ticket;
+import com.gtbackend.gtbackend.dao.TicketSeatsDao;
 import com.gtbackend.gtbackend.model.TicketSeats;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,11 +8,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class TicketService {
+public class TicketSeatsService {
     @Autowired
-    private TicketDao ticketDao;
-
-    public List<Ticket> getTicketAll() {
-        return ticketDao.getTicketAll();
+    TicketSeatsDao ticketDao;
+    public List<TicketSeats> getTicketSeatsAll(){
+        return ticketDao.getTicketSeatsAll();
     }
 }

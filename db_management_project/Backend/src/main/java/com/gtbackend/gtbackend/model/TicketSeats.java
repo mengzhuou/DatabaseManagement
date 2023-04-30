@@ -18,6 +18,7 @@ public class TicketSeats {
     @Id
     private String seatNumber;
 
+    public TicketSeats(){}
     public TicketSeats(Ticket ticketID, String seatNumber) {
         this.ticketID = ticketID;
         this.seatNumber = seatNumber;

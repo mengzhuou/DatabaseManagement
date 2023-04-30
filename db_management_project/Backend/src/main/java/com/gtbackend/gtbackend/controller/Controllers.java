@@ -41,6 +41,9 @@ public class Controllers {
     private RouteService routeService;
     @Autowired
     private TicketService ticketService;
+    @Autowired
+    private TicketSeatsService ticketSeatsService;
+
 
     @Autowired
     public Controllers(AirlineService airlineService,
@@ -54,7 +57,8 @@ public class Controllers {
                        LocationService locationService,
                        LegService legService,
                        RouteService routeService,
-                       TicketService ticketService
+                       TicketService ticketService,
+                       TicketSeatsService ticketSeatsService
                        ) {
         this.airlineService = airlineService;
         this.airplaneService = airplaneService;
@@ -68,6 +72,7 @@ public class Controllers {
         this.legService = legService;
         this.routeService = routeService;
         this.ticketService = ticketService;
+        this.ticketSeatsService = ticketSeatsService;
     }
 
     @GetMapping("/getAirlineAll")
@@ -119,6 +124,11 @@ public class Controllers {
     @GetMapping("/getTicketAll")
     public List<Ticket> getTicketAll(){
         List<Ticket> getInfo = ticketService.getTicketAll();
+        return getInfo;
+    }
+    @GetMapping("/getTicketSeatsAll")
+    public List<TicketSeats> getTicketSeatsAll(){
+        List<TicketSeats> getInfo = ticketSeatsService.getTicketSeatsAll();
         return getInfo;
     }
 
