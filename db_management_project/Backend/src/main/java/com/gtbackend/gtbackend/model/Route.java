@@ -1,7 +1,6 @@
 package com.gtbackend.gtbackend.model;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Table(name = "route")

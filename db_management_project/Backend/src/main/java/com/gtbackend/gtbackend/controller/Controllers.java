@@ -396,4 +396,31 @@ public class Controllers {
         }
     }
 
+    @PostMapping("/startRoute")
+    public ResponseEntity<String> startRoute(@RequestBody RouteDetails routeDetails) {
+        try {
+            Route route = routeDetails.getRoute();
+            String routeID = route.getRouteID();
+
+            RoutePath routePath = routeDetails.getRoutePath();
+            String legID = routePath.getLegID();
+
+            boolean isStarted = routeService.startRoute(
+                    routeID,
+                    legID
+            );
+
+            if (isStarted) {
+                return ResponseEntity.ok("Route started successfully");
+            } else {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Route failed to start");
+            }
+        } catch (DataAccessException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Controller failed to start route: " + e.getMessage());
+        } catch (ConstraintViolationException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Controller failed to start route: " + e.getMessage());
+        }
+    }
+
+
 }
