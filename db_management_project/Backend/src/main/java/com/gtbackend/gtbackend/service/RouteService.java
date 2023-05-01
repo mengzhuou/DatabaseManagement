@@ -59,4 +59,29 @@ public class RouteService {
         }
     }
 
+    public boolean extendRoute(String routeID, String legID) {
+        try {
+            SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
+                    .withProcedureName("extend_route")
+                    .declareParameters(
+                            new SqlParameter("ip_routeID", Types.VARCHAR),
+                            new SqlParameter("ip_legID", Types.VARCHAR),
+                            new SqlOutParameter("op_success", Types.BOOLEAN)
+                    );
+            Map<String, Object> paramMap = new HashMap<>();
+            paramMap.put("ip_routeID", routeID);
+            paramMap.put("ip_legID", legID);
+
+            Map<String, Object> result = jdbcCall.execute(paramMap);
+            System.out.println("Result map: " + result);
+            Boolean op_success = (Boolean) result.get("op_success");
+            return op_success;
+        } catch (DataAccessException e) {
+            logger.error("Service error extending route: " + e.getMessage());
+            throw new DataIntegrityViolationException("Data Access Error extending route: " + e.getMessage(), e);
+        } catch (ConstraintViolationException e){
+            logger.error("Service error extending route: " + e.getMessage());
+            throw new DataIntegrityViolationException("Error extending route: " + e.getMessage(), e);
+        }
+    }
 }

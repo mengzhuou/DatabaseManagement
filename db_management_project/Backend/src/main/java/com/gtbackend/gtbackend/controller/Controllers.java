@@ -421,6 +421,31 @@ public class Controllers {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Controller failed to start route: " + e.getMessage());
         }
     }
+    @PostMapping("/extendRoute")
+    public ResponseEntity<String> extendRoute(@RequestBody RouteDetails routeDetails) {
+        try {
+            Route route = routeDetails.getRoute();
+            String routeID = route.getRouteID();
+
+            RoutePath routePath = routeDetails.getRoutePath();
+            String legID = routePath.getLegID();
+
+            boolean isExtended = routeService.extendRoute(
+                    routeID,
+                    legID
+            );
+
+            if (isExtended) {
+                return ResponseEntity.ok("Route extended successfully");
+            } else {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Route failed to extend");
+            }
+        } catch (DataAccessException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Controller failed to extend route: " + e.getMessage());
+        } catch (ConstraintViolationException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Controller failed to extend route: " + e.getMessage());
+        }
+    }
 
 
 }

@@ -86,6 +86,42 @@ export async function purchaseTicketAndSeat(ticket) {
     return response.data;
   } catch (error) {
     console.error(error);
-    throw new Error('Failed to add person');
+    throw new Error('Failed to add ticket');
+  }
+}
+
+export async function addUpdateLeg(leg) {
+  try {
+    const response = await client.post(`${host}${apiPath}/addUpdateLeg`, leg, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Failed to add leg');
+  }
+}
+
+export async function startRoute(route) {
+  try {
+    const response = await client.post(`${host}${apiPath}/startRoute`, route, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Failed to start route');
+  }
+}
+
+export async function extendRoute(route) {
+  try {
+    const response = await client.post(`${host}${apiPath}/extendRoute`, route, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Failed to extend route');
   }
 }
