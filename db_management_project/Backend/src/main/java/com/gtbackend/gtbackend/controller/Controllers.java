@@ -484,5 +484,23 @@ public class Controllers {
         }
     }
 
+    @PostMapping("/passengersBoard")
+    public ResponseEntity<String> passengersBoard(@RequestBody Flight flight) {
+        try {
+            String flightID = flight.getFlightID();
+            boolean isBoarded = flightService.passengersBoard(flightID);
+            if (isBoarded) {
+                return ResponseEntity.ok("Passengers boarded successfully");
+            } else {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Passengers failed to board");
+            }
+        } catch (DataAccessException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Controller failed to board passengers: " + e.getMessage());
+        } catch (ConstraintViolationException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Controller failed to board passengers: " + e.getMessage());
+        }
+    }
+
+
 
 }
