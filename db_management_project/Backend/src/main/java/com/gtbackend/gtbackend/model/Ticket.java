@@ -13,24 +13,15 @@ public class Ticket {
     @Column(name = "cost")
     private Integer cost;
 
-    @ManyToOne
-    @JoinColumn(name = "carrier", referencedColumnName = "flightID")
-    private Flight flight;
+    @JoinColumn(name = "carrier")
+    private String carrier;
 
-    @ManyToOne
-    @JoinColumn(name = "customer", referencedColumnName = "personID")
-    private Person person;
+    @JoinColumn(name = "customer")
+    private String customer;
 
-    @ManyToOne
-    @JoinColumn(name = "deplane_at", referencedColumnName = "airportID")
-    private Airport airport;
+    @JoinColumn(name = "deplane_at")
+    private String deplane_at;
 
-    @ElementCollection
-    @CollectionTable(name = "ticket_seats", joinColumns = @JoinColumn(name = "ticketID"))
-    @Column(name = "seat_number")
-    private List<String> seats;
-
-    // Getters and setters for all fields
     public String getTicketID() {
         return ticketID;
     }
@@ -47,35 +38,27 @@ public class Ticket {
         this.cost = cost;
     }
 
-    public Flight getFlight() {
-        return flight;
+    public String getCarrier() {
+        return carrier;
     }
 
-    public void setFlight(Flight flight) {
-        this.flight = flight;
+    public void setCarrier(String carrier) {
+        this.carrier = carrier;
     }
 
-    public Person getPerson() {
-        return person;
+    public String getCustomer() {
+        return customer;
     }
 
-    public void setPerson(Person person) {
-        this.person = person;
+    public void setCustomer(String customer) {
+        this.customer = customer;
     }
 
-    public Airport getAirport() {
-        return airport;
+    public String getDeplane_at() {
+        return deplane_at;
     }
 
-    public void setAirport(Airport airport) {
-        this.airport = airport;
-    }
-
-    public List<String> getSeats() {
-        return seats;
-    }
-
-    public void setSeats(List<String> seats) {
-        this.seats = seats;
+    public void setDeplane_at(String deplane_at) {
+        this.deplane_at = deplane_at;
     }
 }

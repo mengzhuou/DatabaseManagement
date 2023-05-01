@@ -1,52 +1,41 @@
 package com.gtbackend.gtbackend.model;
 
-import javax.persistence.Embeddable;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import java.io.Serializable;
 import java.util.Objects;
 
-@Embeddable
 public class RoutePathId implements Serializable {
-    @ManyToOne
-    @JoinColumn(name = "routeID")
-    private Route route;
 
-    @ManyToOne
-    @JoinColumn(name = "legID")
-    private Leg leg;
+    private String routeID;
 
-    public Route getRoute() {
-        return route;
+    private String legID;
+
+    public String getRouteID() {
+        return routeID;
     }
 
-    public void setRoute(Route route) {
-        this.route = route;
+    public void setRouteID(String routeID) {
+        this.routeID = routeID;
     }
 
-    public Leg getLeg() {
-        return leg;
+    public String getLegID() {
+        return legID;
     }
 
-    public void setLeg(Leg leg) {
-        this.leg = leg;
+    public void setLegID(String legID) {
+        this.legID = legID;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
+        if (!(o instanceof RoutePathId)) return false;
         RoutePathId that = (RoutePathId) o;
-
-        if (!Objects.equals(route, that.route)) return false;
-        return Objects.equals(leg, that.leg);
+        return Objects.equals(routeID, that.routeID) &&
+                Objects.equals(legID, that.legID);
     }
 
     @Override
     public int hashCode() {
-        int result = route != null ? route.hashCode() : 0;
-        result = 31 * result + (leg != null ? leg.hashCode() : 0);
-        return result;
+        return Objects.hash(routeID, legID);
     }
 }

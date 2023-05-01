@@ -77,3 +77,112 @@ export async function addPerson(person) {
     throw new Error('Failed to add person');
   }
 }
+
+export async function purchaseTicketAndSeat(ticket) {
+  try {
+    const response = await client.post(`${host}${apiPath}/purchaseTicketAndSeat`, ticket, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Failed to add ticket');
+  }
+}
+
+export async function addUpdateLeg(leg) {
+  try {
+    const response = await client.post(`${host}${apiPath}/addUpdateLeg`, leg, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Failed to add leg');
+  }
+}
+
+export async function startRoute(route) {
+  try {
+    const response = await client.post(`${host}${apiPath}/startRoute`, route, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Failed to start route');
+  }
+}
+
+export async function extendRoute(route) {
+  try {
+    const response = await client.post(`${host}${apiPath}/extendRoute`, route, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Failed to extend route');
+  }
+}
+
+export async function flightLanding(flight) {
+  try {
+    const response = await client.post(`${host}${apiPath}/flightLanding`, flight, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Failed to execute flight landing');
+  }
+}
+
+export async function flightTakeoff(flight) {
+  try {
+    const response = await client.post(`${host}${apiPath}/flightTakeoff`, flight, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Failed to execute flight taking off');
+  }
+}
+
+export async function passengersBoard(flight) {
+  try {
+    const response = await client.post(`${host}${apiPath}/passengersBoard`, flight, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Failed to execute passenger board');
+  }
+}
+
+export async function passengersDisembark(flight) {
+  try {
+    const response = await client.post(`${host}${apiPath}/passengersDisembark`, flight, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Failed to disembark passengers');
+  }
+}
+
+export async function assignPilot(flight) {
+  try {
+    const response = await client.post(`${host}${apiPath}/assignPilot`, flight, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Failed to assign pilot');
+  }
+}
+
