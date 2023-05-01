@@ -518,5 +518,25 @@ public class Controllers {
         }
     }
 
+    @PostMapping("/assignPilot")
+    public ResponseEntity<String> assignPilot(@RequestBody FlightDetails flightDetails) {
+        try {
+            Flight flight = flightDetails.getFlight();
+            String flightID = flight.getFlightID();
+
+            Pilot pilot = flightDetails.getPilot();
+            String personID = pilot.getPersonID();
+            boolean isAssigned = flightService.assignPilot(flightID, personID);
+            if (isAssigned) {
+                return ResponseEntity.ok("Pilot assigned successfully");
+            } else {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to assign pilot");
+            }
+        } catch (DataAccessException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Controller failed to assign pilot: " + e.getMessage());
+        } catch (ConstraintViolationException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Controller failed to assign pilot: " + e.getMessage());
+        }
+    }
 
 }

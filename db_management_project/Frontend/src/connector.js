@@ -174,3 +174,15 @@ export async function passengersDisembark(flight) {
   }
 }
 
+export async function assignPilot(flight) {
+  try {
+    const response = await client.post(`${host}${apiPath}/assignPilot`, flight, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Failed to assign pilot');
+  }
+}
+

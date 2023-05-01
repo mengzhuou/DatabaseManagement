@@ -30,6 +30,33 @@ public class FlightService {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    public boolean assignPilot(String flightID, String personID) {
+        try {
+            SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
+                    .withProcedureName("assign_pilot")
+                    .declareParameters(
+                            new SqlParameter("ip_flightID", Types.VARCHAR),
+                            new SqlParameter("ip_personID", Types.VARCHAR),
+                            new SqlOutParameter("op_success", Types.BOOLEAN)
+                    );
+            Map<String, Object> paramMap = new HashMap<>();
+            paramMap.put("ip_flightID", flightID);
+            paramMap.put("ip_personID", personID);
+
+            Map<String, Object> result = jdbcCall.execute(paramMap);
+            System.out.println("Result map: " + result);
+            Boolean op_success = (Boolean) result.get("op_success");
+            return op_success;
+        } catch (DataAccessException e) {
+            logger.error("Service error assigning pilot: " + e.getMessage());
+            throw new DataIntegrityViolationException("Data Access Error assigning pilot: " + e.getMessage(), e);
+        } catch (ConstraintViolationException e) {
+            logger.error("Service error assigning pilot: " + e.getMessage());
+            throw new DataIntegrityViolationException("Error assigning pilot: " + e.getMessage(), e);
+        }
+    }
+
+
     public boolean passengersDisembark(String flightID) {
         try {
             SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
