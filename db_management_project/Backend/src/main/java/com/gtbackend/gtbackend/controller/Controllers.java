@@ -41,6 +41,8 @@ public class Controllers {
     private RouteService routeService;
     @Autowired
     private FlightInTheAirService flightInTheAirService;
+    @Autowired
+    private FlightOnTheGroundService flightOnTheGroundService;
 
     @Autowired
     public Controllers(AirlineService airlineService,
@@ -54,7 +56,8 @@ public class Controllers {
                        LocationService locationService,
                        LegService legService,
                        RouteService routeService,
-                       FlightInTheAirService flightInTheAirService
+                       FlightInTheAirService flightInTheAirService,
+                       FlightOnTheGroundService flightOnTheGroundService
                        ) {
         this.airlineService = airlineService;
         this.airplaneService = airplaneService;
@@ -68,6 +71,8 @@ public class Controllers {
         this.legService = legService;
         this.routeService = routeService;
         this.flightInTheAirService = flightInTheAirService;
+        this.flightOnTheGroundService = flightOnTheGroundService;
+
     }
 
     @GetMapping("/getFlightInTheAir")
@@ -76,6 +81,12 @@ public class Controllers {
         return getInfo;
     }
     
+    @GetMapping("/getFlightsOnTheGround")
+    public List<FlightOnTheGround> getFlightsOnTheGround() {
+        List<FlightOnTheGround> flightOnGroundList = flightOnTheGroundService.getFlightsOnTheGround();
+        return flightOnGroundList;
+    }
+
     @GetMapping("/getAirlineAll")
     public List<Airline> getAirlineAll(){
         List<Airline> getInfo = airlineService.getAirlineAll();
