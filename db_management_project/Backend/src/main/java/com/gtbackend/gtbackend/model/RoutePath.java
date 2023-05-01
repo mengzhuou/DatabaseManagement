@@ -5,29 +5,43 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "route_path")
+@IdClass(RoutePathId.class)
 public class RoutePath implements Serializable {
-    @EmbeddedId
-    private RoutePathId id;
+
+    @Id
+    @Column(name = "routeID")
+    private String routeID;
+
+    @Id
+    @Column(name = "legID")
+    private String legID;
 
     @Column(name = "sequence")
     private int sequence;
 
-    @MapsId("route") // Change to the property name of RoutePathId class
-    @ManyToOne
-    @JoinColumn(name = "routeID")
-    private Route route;
-
-    @MapsId("leg") // Change to the property name of RoutePathId class
-    @ManyToOne
-    @JoinColumn(name = "legID")
-    private Leg leg;
-
-    public RoutePathId getId() {
-        return id;
+    public RoutePath() {
     }
 
-    public void setId(RoutePathId id) {
-        this.id = id;
+    public RoutePath(String routeID, String legID, int sequence) {
+        this.routeID = routeID;
+        this.legID = legID;
+        this.sequence = sequence;
+    }
+
+    public String getRouteID() {
+        return routeID;
+    }
+
+    public void setRouteID(String routeID) {
+        this.routeID = routeID;
+    }
+
+    public String getLegID() {
+        return legID;
+    }
+
+    public void setLegID(String legID) {
+        this.legID = legID;
     }
 
     public int getSequence() {
@@ -36,21 +50,5 @@ public class RoutePath implements Serializable {
 
     public void setSequence(int sequence) {
         this.sequence = sequence;
-    }
-
-    public Route getRoute() {
-        return route;
-    }
-
-    public void setRoute(Route route) {
-        this.route = route;
-    }
-
-    public Leg getLeg() {
-        return leg;
-    }
-
-    public void setLeg(Leg leg) {
-        this.leg = leg;
     }
 }

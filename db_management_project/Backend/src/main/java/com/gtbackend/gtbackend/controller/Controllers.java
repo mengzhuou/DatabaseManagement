@@ -40,6 +40,8 @@ public class Controllers {
     @Autowired
     private RouteService routeService;
     @Autowired
+    private RoutePathService routePathService;
+    @Autowired
     private TicketService ticketService;
     @Autowired
     private TicketSeatsService ticketSeatsService;
@@ -57,6 +59,7 @@ public class Controllers {
                        LocationService locationService,
                        LegService legService,
                        RouteService routeService,
+                       RoutePathService routePathService,
                        TicketService ticketService,
                        TicketSeatsService ticketSeatsService
     ) {
@@ -71,6 +74,7 @@ public class Controllers {
         this.locationService = locationService;
         this.legService = legService;
         this.routeService = routeService;
+        this.routePathService = routePathService;
         this.ticketService = ticketService;
         this.ticketSeatsService = ticketSeatsService;
     }
@@ -141,6 +145,17 @@ public class Controllers {
         return getInfo;
     }
 
+    @GetMapping("/getRouteAll")
+    public List<Route> getRouteAll() {
+        List<Route> getInfo = routeService.getRouteAll();
+        return getInfo;
+    }
+
+    @GetMapping("/getRoutePathAll")
+    public List<RoutePath> getRoutePathAll() {
+        List<RoutePath> getInfo = routePathService.getRoutePathAll();
+        return getInfo;
+    }
 
     @PostMapping("/addAirplane")
     public ResponseEntity<String> addAirplane(@RequestBody Airplane airplane) {

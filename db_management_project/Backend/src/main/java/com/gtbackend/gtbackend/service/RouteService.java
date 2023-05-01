@@ -1,10 +1,13 @@
 package com.gtbackend.gtbackend.service;
 
 import com.gtbackend.gtbackend.dao.RouteDao;
+import com.gtbackend.gtbackend.model.Pilot;
 import com.gtbackend.gtbackend.model.Route;
+import com.gtbackend.gtbackend.model.RoutePath;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.Optional;
+
+import java.util.List;
 
 @Service
 public class RouteService {
@@ -12,7 +15,7 @@ public class RouteService {
     @Autowired
     private RouteDao routeDao;
 
-    public Optional<Route> getRouteById(String routeId) {
-        return routeDao.findById(routeId);
+    public List<Route> getRouteAll() {
+        return routeDao.getRouteAll();
     }
 }
