@@ -25,9 +25,9 @@ export function Menu() {
         <br />
         <div
           className={activeTab === 'Pilots' ? 'active' : ''}
-          onClick={() => openTab("/Pilots")}
+          onClick={() => openTab("/GrantPilotLicense")}
         >
-          <button><a href="/Grant_Pilot_License">Pilots</a></button>
+          <button><a href="/GrantPilotLicense">Pilots</a></button>
         </div>
         <br />
         <div
@@ -276,7 +276,8 @@ export default class AddAirplane1 extends Component {
               />
             </label>
         </div>
-      <button type="submit">Submit</button>
+      <button type="submit">Add</button>
+      <button type="button" onClick={this.handleCancel}>Cancel</button>
       </form>
         );
       }
@@ -375,7 +376,67 @@ export class AddPerson extends Component {
           <input type="text" name="miles" value={this.state.miles} onChange={this.handleInputChange} />
         </label>
         <br />
-        <input type="submit" value="Submit" />
+        <input type="submit" value="Add" />
+        <button type="button" onClick={this.handleCancel}>Cancel</button>
+      </form>
+    );
+  }
+}
+
+
+
+export class GrantPilotLicense extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      personID: '',
+      licenseType: ''
+    };
+  }
+
+  handleInputChange = (event) => {
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
+
+    this.setState({
+      [name]: value
+    });
+  }
+
+  handleSubmit = (event) => {
+    event.preventDefault();
+    console.log('Form submitted:', this.state);
+    // TODO: send form data to server or perform other action
+  }
+
+  render() {
+    return (
+      <form onSubmit={this.handleSubmit}>
+        <label>
+          Person ID:
+          <select name="personID" value={this.state.personID} onChange={this.handleInputChange}>
+            <option value="">--Select a person ID--</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            {/* add more options as needed */}
+          </select>
+        </label>
+        <br />
+        <label>
+          License Type:
+          <select name="licenseType" value={this.state.licenseType} onChange={this.handleInputChange}>
+            <option value="">--Select a license type--</option>
+            <option value="Private">Private Pilot License</option>
+            <option value="Commercial">Commercial Pilot License</option>
+            <option value="Airline">Airline Transport Pilot License</option>
+            {/* add more options as needed */}
+          </select>
+        </label>
+        <br />
+        <input type="submit" value="Grant" />
+        <button type="button" onClick={this.handleCancel}>Cancel</button>
       </form>
     );
   }
