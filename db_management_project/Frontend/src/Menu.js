@@ -290,12 +290,12 @@ export class AddPerson extends Component {
     this.state = {
       personID: '',
       locationID: '',
-      firstName: '',
-      lastName: '',
+      first_name: '',
+      last_name: '',
       taxID: '',
       experience: '',
-      airline: '',
-      tail: '',
+      flying_airline: '',
+      flying_tail: '',
       miles: ''
     };
   }
@@ -313,7 +313,25 @@ export class AddPerson extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
     console.log('Form submitted:', this.state);
-    // TODO: send form data to server or perform other action
+    const personData =
+    {personID: '',
+           locationID: this.state.locationID,
+           first_name: this.state.first_name,
+           last_name: this.state.last_name,
+           taxID: this.state.taxID,
+           experience: this.state.experience,
+           flying_airline: this.state.flying_airline,
+           flying_tail: this.state.flying_tail,
+           miles: this.state.miles
+    }
+    alert(JSON.stringify(personData));
+    AddPerson(personData)
+          .then(data => {
+            console.log('Person added successfully:', data);
+          })
+          .catch(error => {
+            console.error('Failed to add person:', error);
+          });
   }
 
   render() {
@@ -343,12 +361,12 @@ export class AddPerson extends Component {
         <br />
         <label>
           First Name:
-          <input type="text" name="firstName" value={this.state.firstName} onChange={this.handleInputChange} />
+          <input type="text" name="firstName" value={this.state.first_name} onChange={this.handleInputChange} />
         </label>
         <br />
         <label>
           Last Name:
-          <input type="text" name="lastName" value={this.state.lastName} onChange={this.handleInputChange} />
+          <input type="text" name="lastName" value={this.state.last_name} onChange={this.handleInputChange} />
         </label>
         <br />
         <label>
@@ -363,12 +381,12 @@ export class AddPerson extends Component {
         <br />
         <label>
           Airline:
-          <input type="text" name="airline" value={this.state.airline} onChange={this.handleInputChange} />
+          <input type="text" name="airline" value={this.state.flying_airline} onChange={this.handleInputChange} />
         </label>
         <br />
         <label>
           Tail:
-          <input type="text" name="tail" value={this.state.tail} onChange={this.handleInputChange} />
+          <input type="text" name="tail" value={this.state.flying_tail} onChange={this.handleInputChange} />
         </label>
         <br />
         <label>
