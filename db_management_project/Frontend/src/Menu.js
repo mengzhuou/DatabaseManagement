@@ -3,7 +3,7 @@ import {addAirplane} from './connector';
 import './App.css';
 
 export function Menu() {
-  const [activeTab, setActiveTab] = useState('AddAirplane1');
+  const [activeTab, setActiveTab] = useState('AddAirplane1','AddPerson');
   const openTab = (url) => {
       window.open(url, "_blank");
     };
@@ -20,7 +20,7 @@ export function Menu() {
           onClick={() => openTab("/AddAirplane1")}
         >
         <br />
-         <button><a href="/addAirplane">Airplanes</a></button>
+         <button><a href="/AddAirplane1">Airplanes</a></button>
         </div>
         <br />
         <div
@@ -32,9 +32,9 @@ export function Menu() {
         <br />
         <div
           className={activeTab === 'People' ? 'active' : ''}
-          onClick={() => openTab("/People")}
+          onClick={() => openTab("/AddPerson")}
         >
-          <button><a href="/Add_Person">People</a></button>
+          <button><a href="/AddPerson">People</a></button>
         </div>
         <br />
         <div
@@ -281,4 +281,103 @@ export default class AddAirplane1 extends Component {
         );
       }
     }
+
+
+export class AddPerson extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      personID: '',
+      locationID: '',
+      firstName: '',
+      lastName: '',
+      taxID: '',
+      experience: '',
+      airline: '',
+      tail: '',
+      miles: ''
+    };
+  }
+
+  handleInputChange = (event) => {
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
+
+    this.setState({
+      [name]: value
+    });
+  }
+
+  handleSubmit = (event) => {
+    event.preventDefault();
+    console.log('Form submitted:', this.state);
+    // TODO: send form data to server or perform other action
+  }
+
+  render() {
+    return (
+      <form onSubmit={this.handleSubmit}>
+        <label>
+          Person ID:
+          <select name="personID" value={this.state.personID} onChange={this.handleInputChange}>
+            <option value="">--Select a person ID--</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            {/* add more options as needed */}
+          </select>
+        </label>
+        <br />
+        <label>
+          Location ID:
+          <select name="locationID" value={this.state.locationID} onChange={this.handleInputChange}>
+            <option value="">--Select a location ID--</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            {/* add more options as needed */}
+          </select>
+        </label>
+        <br />
+        <label>
+          First Name:
+          <input type="text" name="firstName" value={this.state.firstName} onChange={this.handleInputChange} />
+        </label>
+        <br />
+        <label>
+          Last Name:
+          <input type="text" name="lastName" value={this.state.lastName} onChange={this.handleInputChange} />
+        </label>
+        <br />
+        <label>
+          Tax ID:
+          <input type="text" name="taxID" value={this.state.taxID} onChange={this.handleInputChange} />
+        </label>
+        <br />
+        <label>
+          Experience:
+          <input type="text" name="experience" value={this.state.experience} onChange={this.handleInputChange} />
+        </label>
+        <br />
+        <label>
+          Airline:
+          <input type="text" name="airline" value={this.state.airline} onChange={this.handleInputChange} />
+        </label>
+        <br />
+        <label>
+          Tail:
+          <input type="text" name="tail" value={this.state.tail} onChange={this.handleInputChange} />
+        </label>
+        <br />
+        <label>
+          Miles:
+          <input type="text" name="miles" value={this.state.miles} onChange={this.handleInputChange} />
+        </label>
+        <br />
+        <input type="submit" value="Submit" />
+      </form>
+    );
+  }
+}
 
