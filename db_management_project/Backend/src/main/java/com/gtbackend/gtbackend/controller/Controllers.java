@@ -447,5 +447,22 @@ public class Controllers {
         }
     }
 
+    @PostMapping("/flightLanding")
+    public ResponseEntity<String> flightLanding(@RequestBody Flight flight) {
+        try {
+            String flightID = flight.getFlightID();
+            boolean isLanded = flightService.flightLanding(flightID);
+            if (isLanded) {
+                return ResponseEntity.ok("Flight landed successfully");
+            } else {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Flight failed to land");
+            }
+        } catch (DataAccessException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Controller failed to land flight: " + e.getMessage());
+        } catch (ConstraintViolationException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Controller failed to land flight: " + e.getMessage());
+        }
+    }
+
 
 }

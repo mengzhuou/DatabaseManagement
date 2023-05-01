@@ -125,3 +125,15 @@ export async function extendRoute(route) {
     throw new Error('Failed to extend route');
   }
 }
+
+export async function flightLanding(flight) {
+  try {
+    const response = await client.post(`${host}${apiPath}/flightLanding`, flight, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Failed to execute flight landing');
+  }
+}

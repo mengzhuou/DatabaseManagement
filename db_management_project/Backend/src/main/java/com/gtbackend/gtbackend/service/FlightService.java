@@ -29,6 +29,32 @@ public class FlightService {
     private FlightDao flightDao;
     @Autowired
     private JdbcTemplate jdbcTemplate;
+
+    public boolean flightLanding(String flightID) {
+        try {
+            SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
+                    .withProcedureName("flight_landing")
+                    .declareParameters(
+                            new SqlParameter("ip_flightID", Types.VARCHAR),
+                            new SqlOutParameter("op_success", Types.BOOLEAN)
+                    );
+            Map<String, Object> paramMap = new HashMap<>();
+            paramMap.put("ip_flightID", flightID);
+
+            Map<String, Object> result = jdbcCall.execute(paramMap);
+            System.out.println("Result map: " + result);
+            Boolean op_success = (Boolean) result.get("op_success");
+            return op_success;
+        } catch (DataAccessException e) {
+            logger.error("Service error landing flight: " + e.getMessage());
+            throw new DataIntegrityViolationException("Data Access Error landing flight: " + e.getMessage(), e);
+        } catch (ConstraintViolationException e){
+            logger.error("Service error landing flight: " + e.getMessage());
+            throw new DataIntegrityViolationException("Error landing flight: " + e.getMessage(), e);
+        }
+    }
+
+
     public boolean offerFlight(String flightID, String routeID, String supportAirline, String supportTail, Integer progress, String airplaneStatus, LocalTime nextTime) {
         try {
             SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
@@ -68,6 +94,4 @@ public class FlightService {
     public List<Flight> getFlightAll() {
         return flightDao.getFlightAll();
     }
-
-
 }
