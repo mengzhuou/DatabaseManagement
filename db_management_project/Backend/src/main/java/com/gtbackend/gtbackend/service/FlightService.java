@@ -30,6 +30,31 @@ public class FlightService {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    public boolean passengersDisembark(String flightID) {
+        try {
+            SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
+                    .withProcedureName("passengers_disembark")
+                    .declareParameters(
+                            new SqlParameter("ip_flightID", Types.VARCHAR),
+                            new SqlOutParameter("op_success", Types.BOOLEAN)
+                    );
+            Map<String, Object> paramMap = new HashMap<>();
+            paramMap.put("ip_flightID", flightID);
+
+            Map<String, Object> result = jdbcCall.execute(paramMap);
+            System.out.println("Result map: " + result);
+            Boolean op_success = (Boolean) result.get("op_success");
+            return op_success;
+        } catch (DataAccessException e) {
+            logger.error("Service error disembarking passengers: " + e.getMessage());
+            throw new DataIntegrityViolationException("Data Access Error disembarking passengers: " + e.getMessage(), e);
+        } catch (ConstraintViolationException e) {
+            logger.error("Service error disembarking passengers: " + e.getMessage());
+            throw new DataIntegrityViolationException("Error disembarking passengers: " + e.getMessage(), e);
+        }
+    }
+
+
     public boolean passengersBoard(String flightID) {
         try {
             SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)

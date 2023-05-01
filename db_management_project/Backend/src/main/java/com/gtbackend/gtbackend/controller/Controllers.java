@@ -501,6 +501,22 @@ public class Controllers {
         }
     }
 
+    @PostMapping("/passengersDisembark")
+    public ResponseEntity<String> passengersDisembark(@RequestBody Flight flight) {
+        try {
+            String flightID = flight.getFlightID();
+            boolean isDisembarked = flightService.passengersDisembark(flightID);
+            if (isDisembarked) {
+                return ResponseEntity.ok("Passengers disembarked successfully");
+            } else {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Passengers failed to disembark");
+            }
+        } catch (DataAccessException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Controller failed to disembark passengers: " + e.getMessage());
+        } catch (ConstraintViolationException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Controller failed to disembark passengers: " + e.getMessage());
+        }
+    }
 
 
 }
