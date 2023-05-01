@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 
 
 @Repository
-public interface FlightInTheAirDao extends JpaRepository<FlightInTheAir, Long>{
+public interface FlightInTheAirDao extends JpaRepository<FlightInTheAir, String>{
     @Query("SELECT a FROM FlightInTheAir a")
     List<FlightInTheAir> getFlightInTheAir();
 }

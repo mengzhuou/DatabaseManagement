@@ -2,11 +2,15 @@ package com.gtbackend.gtbackend.model;
 
 import javax.persistence.*;
 import java.time.LocalTime;
+import org.springframework.format.annotation.*;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "flights_in_the_air")
 public class FlightInTheAir {
-
+    @JsonIgnore
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -24,9 +28,13 @@ public class FlightInTheAir {
     private String flightList;
 
     @Column(name = "earliest_arrival")
+    @DateTimeFormat(pattern = "HH:mm:ss")
+    @JsonFormat(pattern = "HH:mm:ss")
     private LocalTime earliestArrival;
 
     @Column(name = "latest_arrival")
+    @DateTimeFormat(pattern = "HH:mm:ss")
+    @JsonFormat(pattern = "HH:mm:ss")
     private LocalTime latestArrival;
 
     @Column(name = "airplane_list")

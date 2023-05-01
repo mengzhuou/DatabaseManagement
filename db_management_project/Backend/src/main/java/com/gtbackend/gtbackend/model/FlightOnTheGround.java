@@ -2,7 +2,9 @@ package com.gtbackend.gtbackend.model;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.format.annotation.*;
 
 import java.time.LocalTime;
 
@@ -24,9 +26,13 @@ public class FlightOnTheGround {
     private String flightList;
 
     @Column(name = "earliest_arrival")
+    @DateTimeFormat(pattern = "HH:mm:ss")
+    @JsonFormat(pattern = "HH:mm:ss")
     private LocalTime earliestArrival;
 
     @Column(name = "latest_arrival")
+    @DateTimeFormat(pattern = "HH:mm:ss")
+    @JsonFormat(pattern = "HH:mm:ss")
     private LocalTime latestArrival;
 
     @Column(name = "airplane_list")
