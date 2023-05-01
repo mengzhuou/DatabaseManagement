@@ -407,7 +407,18 @@ export class GrantPilotLicense extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
     console.log('Form submitted:', this.state);
-    // TODO: send form data to server or perform other action
+    const PilotLicenseData = {
+    personID: this.state.personID,
+    license: this.state.license
+    };
+    alert(JSON.stringify(PilotLicenseData));
+    GrantPilotLicense(PilotLicenseData)
+          .then(data => {
+            console.log('Airplane added successfully:', data);
+          })
+          .catch(error => {
+            console.error('Failed to add airplane:', error);
+          });
   }
 
   render() {
@@ -417,9 +428,14 @@ export class GrantPilotLicense extends Component {
           Person ID:
           <select name="personID" value={this.state.personID} onChange={this.handleInputChange}>
             <option value="">--Select a person ID--</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
+            <option value="p1">p1</option>
+            <option value="p2">p2</option>
+            <option value="p3">p3</option>
+            <option value="p4">p4</option>
+            <option value="p5">p5</option>
+            <option value="p6">p6</option>
+            <option value="p7">p7</option>
+            <option value="p8">p8</option>
             {/* add more options as needed */}
           </select>
         </label>
@@ -428,7 +444,7 @@ export class GrantPilotLicense extends Component {
           License Type:
           <select name="licenseType" value={this.state.licenseType} onChange={this.handleInputChange}>
             <option value="">--Select a license type--</option>
-            <option value="Private">Private Pilot License</option>
+            <option value="Prop">Prop License</option>
             <option value="Commercial">Commercial Pilot License</option>
             <option value="Airline">Airline Transport Pilot License</option>
             {/* add more options as needed */}

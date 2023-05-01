@@ -2,9 +2,8 @@ import './App.css';
 import ReactDOM from "react-dom/client";
 import {Menu} from './Menu';
 import {Routes, Route, BrowserRouter} from 'react-router-dom';
-//import AddAirplane1 from './Menu';
 import AddAirplane1, { AddPerson, GrantPilotLicense } from './Menu';
-//import AddPerson from './Menu';
+
 
 
 export default function App() {
