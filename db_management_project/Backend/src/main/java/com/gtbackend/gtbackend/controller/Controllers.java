@@ -463,6 +463,26 @@ public class Controllers {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Controller failed to land flight: " + e.getMessage());
         }
     }
+    @PostMapping("/flightTakeoff")
+    public ResponseEntity<String> flightTakeoff(@RequestBody Flight flight) {
+        try {
+            String flightID = flight.getFlightID();
+
+            boolean isTakenOff = flightService.flightTakeoff(
+                    flightID
+            );
+
+            if (isTakenOff) {
+                return ResponseEntity.ok("Flight has taken off");
+            } else {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Flight failed to take off");
+            }
+        } catch (DataAccessException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Controller failed to take off flight: " + e.getMessage());
+        } catch (ConstraintViolationException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Controller failed to take off flight: " + e.getMessage());
+        }
+    }
 
 
 }

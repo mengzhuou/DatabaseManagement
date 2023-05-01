@@ -137,3 +137,14 @@ export async function flightLanding(flight) {
     throw new Error('Failed to execute flight landing');
   }
 }
+export async function flightTakeoff(flight) {
+  try {
+    const response = await client.post(`${host}${apiPath}/flightTakeoff`, flight, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Failed to execute flight taking off');
+  }
+}
