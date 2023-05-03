@@ -1,5 +1,5 @@
 import React, { Component, useState } from 'react';
-import {addAirplane} from './connector';
+import {addAirplane, purchaseTicketAndSeat, addAirport} from './connector';
 import './App.css';
 
 export function Menu() {
@@ -806,6 +806,205 @@ export class FlightsInTheAir extends Component {
           {/* Render the data rows here */}
         </tbody>
       </table>
+    );
+  }
+}
+/*Q2
+export class AddAirport extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      airportID: '',
+      airport_name: '',
+      city: '',
+      state: '',
+      location_id: ''
+    };
+  }
+
+  handleInputChange = (event) => {
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
+
+    this.setState({
+      [name]: value
+    });
+  }
+
+  handleSubmit = (event) => {
+    event.preventDefault();
+    console.log('Form submitted:', this.state);
+    const airportData =
+    {airportID: '',
+           airportID: this.airportID,
+           airport_name: this.airport_name,
+           city: this.city,
+           state: this.state,
+           location_id: this.location_id,
+          
+    }
+    alert(JSON.stringify(airportData));
+    AddAirport(airportData)
+          .then(data => {
+            console.log('Person added successfully:', data);
+          })
+          .catch(error => {
+            console.error('Failed to add person:', error);
+          });
+  }
+
+  render() {
+    return (
+      //locationid use drop down, other txtbox
+      <form onSubmit={this.handleSubmit}>
+<div>
+  <label>
+        Airport ID:
+        <input type="text" name="Airport ID:" value={this.state.airportID} onChange={this.handleInputChange} />
+      </label>
+      </div>
+        
+      <div>
+      <label>
+  Airport Name:
+  <input type="text" name="airport_name" value={this.state.airport_name} onChange={this.handleInputChange} />
+</label>
+</div>
+<div><label>
+  City:
+  <input type="text" name="city" value={this.state.city} onChange={this.handleInputChange} />
+</label></div>
+
+<div><label>
+  State:
+  <input type="text" name="state" value={this.state.state} onChange={this.handleInputChange} />
+</label></div>
+
+
+<label>
+        
+          location_id:
+          <select name="location_id" value={this.state.location_id} onChange={this.handleInputChange}>
+            <option value="">--Select a location ID--</option>
+            //update options later
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            {/* add more options as needed /}
+          </select>
+        </label>
+
+
+        <br />
+        <input type="submit" value="Add" />
+        <button type="button" onClick={this.handleCancel}>Cancel</button>
+      </form>
+    );
+  }
+}
+*/
+
+//Q6 purchase_ticket_and_seat() 
+//see class name change
+
+export class AddTicket extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      ticketID: '',
+      cost: '',
+      carrier: '',
+      customer: '',
+      deplane: '',
+      seat_num: '',
+    };
+  }
+
+  handleInputChange = (event) => {
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
+
+    this.setState({
+      [name]: value
+    });
+  }
+
+  handleSubmit = (event) => {
+    event.preventDefault();
+    console.log('Form submitted:', this.state);
+    const ticketData =
+    { ticketID: this.state.ticketID,
+      cost: this.state.cost,
+      carrier: this.state.carrier,
+      customer: this.state.customer,
+      deplane: this.state.deplane,
+      seat_num: this.state.seat_num,
+    }
+    alert(JSON.stringify(ticketData));
+    // Call the function to add the data to the database
+    purchaseTicketAndSeat(ticketData);
+  }
+
+  render() {
+    return (
+      <form onSubmit={this.handleSubmit}>
+        <div>
+          <label>
+            Ticket ID:
+            <select name="ticketID" value={this.state.ticketID} onChange={this.handleInputChange}>
+              <option value="">--Select a ticket ID--</option>
+              {/* Add options for ticket ID here */}
+            </select>
+          </label>
+        </div>
+
+        <div>
+          <label>
+            Cost:
+            <select name="cost" value={this.state.cost} onChange={this.handleInputChange}>
+              <option value="">--Select a cost--</option>
+              {/* Add options for cost here */}
+            </select>
+          </label>
+        </div>
+
+        <div>
+          <label>
+            Carrier:
+            <input type="text" name="carrier" value={this.state.carrier} onChange={this.handleInputChange} />
+          </label>
+        </div>
+
+        <div>
+          <label>
+            Customer:
+            <input type="text" name="customer" value={this.state.customer} onChange={this.handleInputChange} />
+          </label>
+        </div>
+
+        <div>
+          <label>
+            Deplane:
+            <select name="deplane" value={this.state.deplane} onChange={this.handleInputChange}>
+              <option value="">--Select a deplane--</option>
+              {/* Add options for deplane here */}
+            </select>
+          </label>
+        </div>
+
+        <div>
+          <label>
+            Seat Number:
+            <input type="text" name="seat_num" value={this.state.seat_num} onChange={this.handleInputChange} />
+          </label>
+        </div>
+
+        <br />
+        <input type="submit" value="Add" />
+        <button type="button" onClick={this.handleCancel}>Cancel</button>
+      </form>
     );
   }
 }
