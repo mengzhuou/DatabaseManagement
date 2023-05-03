@@ -2,7 +2,7 @@ import './App.css';
 import ReactDOM from "react-dom/client";
 import {Menu} from './Menu';
 import {Routes, Route, BrowserRouter} from 'react-router-dom';
-import AddAirplane1, { AddPerson, GrantPilotLicense, Flights, Routes_sub_menu, Airports, ViewsandSimulationCycle, FlightsInTheAir } from './Menu';
+import AddAirplane1, {  AddTicket, AddPerson, GrantPilotLicense, Flights, Routes_sub_menu, Airports, ViewsandSimulationCycle, FlightsInTheAir } from './Menu';
 
 export default function App() {
   return (
@@ -17,6 +17,8 @@ export default function App() {
         <Route path="Airports" element={<Airports/>} />
         <Route path="ViewsandSimulationCycle" element={<ViewsandSimulationCycle/>} />
         <Route path="FlightsInTheAir" element={<FlightsInTheAir/>} />
+        
+        <Route path="Tickets" element={<AddTicket/>} />
 
       </Routes>
     </BrowserRouter>
