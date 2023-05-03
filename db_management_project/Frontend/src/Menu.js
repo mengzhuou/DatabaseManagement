@@ -3,7 +3,7 @@ import {addAirplane, purchaseTicketAndSeat, addAirport} from './connector';
 import './App.css';
 
 export function Menu() {
-  const [activeTab, setActiveTab] = useState('AddAirplane1','AddPerson');
+  const [activeTab, setActiveTab] = useState('AddAirplane1','AddPerson', 'GrantPilotLicense', 'Flights', 'Routes_sub_menu', 'Tickets', 'Airports', 'ViewsandSimulationCycle');
   const openTab = (url) => {
       window.open(url, "_blank");
     };
@@ -321,7 +321,7 @@ export class AddPerson extends Component {
     event.preventDefault();
     console.log('Form submitted:', this.state);
     const personData =
-    {personID: '',
+    {personID: this.state.personID,
            locationID: this.state.locationID,
            first_name: this.state.first_name,
            last_name: this.state.last_name,
@@ -483,118 +483,452 @@ export class GrantPilotLicense extends Component {
   }
 }
 
-//Flights Sub Menu
 
-export class Flights extends Component {
+export function Flights() {
+  const [activeTab, setActiveTab] = useState('Offer_flight','Assign_pilot', 'Recycle_crew', 'Retire_flight', 'Remove_pilot_role', 'Remove_passenger_role');
+  const openTab = (url) => {
+      window.open(url, "_blank");
+    };
+  const handleTabClick = (tabName) => {
+    setActiveTab(tabName);
+  };
+  return (
+    <div className="Flights">
+    <br />
+    Flights
+      <div className="sidebar">
+        <div
+          className={activeTab === 'Offer_flight' ? 'active' : ''}
+          onClick={() => openTab("/Offer_flight")}
+        >
+        <br />
+         <button><a href="/Offer_flight">Offer_flight</a></button>
+        </div>
+        <br />
+        <div
+          className={activeTab === 'Assign_pilot' ? 'active' : ''}
+          onClick={() => openTab("/Assign_pilot")}
+        >
+          <button><a href="/Assign_pilot">assign_pilot</a></button>
+        </div>
+        <br />
+        <div
+          className={activeTab === 'Recycle_crew' ? 'active' : ''}
+          onClick={() => openTab("/Recycle_crew")}
+        >
+          <button><a href="/Recycle_crew">Recycle_crew</a></button>
+        </div>
+        <br />
+        <div
+          className={activeTab === 'Retire_flight' ? 'active' : ''}
+          onClick={() => openTab("/Retire_flight")}
+        >
+          <button><a href="/Retire_flight">Retire_flight"</a></button>
+        </div>
+        <br />
+      </div>
+      <div className="main">
+        <div
+          className={activeTab === 'Remove_pilot_role' ? 'active' : ''}
+          onClick={() => openTab("/Remove_pilot_role")}
+        >
+          <button><a href="/Remove_pilot_role">Remove_pilot_role</a></button>
+        </div>
+        <br />
+        <div
+          className={activeTab === 'Remove_passenger_role' ? 'active' : ''}
+          onClick={() => openTab("/Remove_passenger_role")}
+        >
+          <button><a href="/Remove_passenger_role">Remove_passenger_role</a></button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+
+
+
+// Q5
+export class Offer_flight extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeTab: '',
+      flightID: '',
+      routeID: '',
+      support_tail: '',
+      progress: '',
+      airplane_status: '',
+      support_airline: '',
+      next_time: '',
     };
   }
 
-  handleButtonClick = (tabName) => {
-    this.setState({ activeTab: tabName });
-  };
+  handleInputChange = (event) => {
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
+
+    this.setState({
+      [name]: value
+    });
+  }
+
+  handleSubmit = (event) => {
+    event.preventDefault();
+    console.log('Form submitted:', this.state);
+    const personData =
+    {flightID: this.state.flightID,
+           routeID: this.state.routeID,
+           support_tail: this.state.support_tail,
+           progress: this.state.progress,
+           airplane_status: this.state.airplane_status,
+           support_airline: this.state.support_airline,
+           next_time: this.state.next_time
+    }
+    alert(JSON.stringify(personData));
+    AddPerson(personData)
+          .then(data => {
+            console.log('Flight added successfully:', data);
+          })
+          .catch(error => {
+            console.error('Failed to add Flight:', error);
+          });
+  }
 
   render() {
-    const { activeTab } = this.state;
-
     return (
-      <div className="Flights">
-        <div className="buttons-container">
-          <button onClick={() => this.handleButtonClick('offer_flight')}>Offer Flight</button>
-          <button onClick={() => this.handleButtonClick('assign_pilot')}>Assign Pilot</button>
-          <button onClick={() => this.handleButtonClick('recycle_crew')}>Recycle Crew</button>
-          <button onClick={() => this.handleButtonClick('retire_flight')}>Retire Flight</button>
-          <button onClick={() => this.handleButtonClick('remove_pilot_role')}>Remove Pilot Role</button>
-          <button onClick={() => this.handleButtonClick('remove_passenger_role')}>Remove Passenger Role</button>
-        </div>
-        <div className="tab-content">
-        // Q5
-          {activeTab === 'offer_flight' && (
-
-            <div className="offer-flight">
-              <label>Flight ID: <input type="text" name="flightID" /></label>
-                            <label>Support Tail: <input type="text" name="support_tail" /></label>
-                            <label>Route ID: <input type="text" name="routeID" /></label>
-                            <label>Progress: <input type="text" name="progress" /></label>
-                            <label>Next Time: <input type="text" name="next_time" /></label>
-                            <label>
-                              Support Airline:
-                              <select name="support_airline">
-                                {/* Add options here */}
-                              </select>
-                            </label>
-                            <label>
-                              Airplane Status:
-                              <select name="airplane_status">
-                                {/* Add options here */}
-                              </select>
-                            </label>
-            </div>
-          )}
-            // Q14
-          {activeTab === 'assign_pilot' && (
-            <div className="assign-pilot">
-              <label>
-                              Person ID:
-                              <select name="personID">
-                                {/* Add options here */}
-                              </select>
-                            </label>
-                            <label>
-                              Flight:
-                              <select name="flight">
-                                {/* Add options here */}
-                              </select>
-                            </label>
-            </div>
-          )}
-            // Q15
-          {activeTab === 'recycle_crew' && (
-            <div className="recycle-crew">
-              <label>
-                              Flight:
-                              <select name="flight">
-                                {/* Add options here */}
-                              </select>
-                            </label>
-            </div>
-          )}
-            // Q16
-          {activeTab === 'retire_flight' && (
-            <div className="retire-flight">
-              <label>Flight ID: <input type="text" name="flightID" /></label>
-            </div>
-          )}
-            // Q18
-          {activeTab === 'remove_pilot_role' && (
-            <div className="remove-pilot-role">
-              <label>
-                              Person ID:
-                              <select name="personID">
-                                {/* Add options here */}
-                              </select>
-                            </label>
-            </div>
-          )}
-            // Q17
-          {activeTab === 'remove_passenger_role' && (
-            <div className="remove-passenger-role">
-              <label>
-                              Person ID:
-                              <select name="personID">
-                                {/* Add options here */}
-                              </select>
-                            </label>
-            </div>
-          )}
-        </div>
-      </div>
+      <form onSubmit={this.handleSubmit}>
+        <label>
+          support_airline:
+          <select name="support_airline" value={this.state.support_airline} onChange={this.handleInputChange}>
+            <option value="">--Select a support_airline--</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            {/* add more options as needed */}
+          </select>
+        </label>
+        <br />
+        <label>
+          airplane_status:
+          <select name="airplane_status" value={this.state.airplane_status} onChange={this.handleInputChange}>
+            <option value="">--Select a airplane_status--</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            {/* add more options as needed */}
+          </select>
+        </label>
+        <br />
+        <label>
+          flightID:
+          <input type="text" name="flightID" value={this.state.flightID} onChange={this.handleInputChange} />
+        </label>
+        <br />
+        <label>
+          routeID:
+          <input type="text" name="routeID" value={this.state.routeID} onChange={this.handleInputChange} />
+        </label>
+        <br />
+        <label>
+          support_tail:
+          <input type="text" name="support_tail" value={this.state.support_tail} onChange={this.handleInputChange} />
+        </label>
+        <br />
+        <label>
+          progress:
+          <input type="text" name="progress" value={this.state.progress} onChange={this.handleInputChange} />
+        </label>
+        <br />
+        <label>
+          next_time:
+          <input type="text" name="next_time" value={this.state.next_time} onChange={this.handleInputChange} />
+        </label>
+      </form>
     );
   }
 }
+
+// Q14
+export class Assign_pilot extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      personID: '',
+      flight: ''
+    };
+  }
+
+  handleInputChange = (event) => {
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
+
+    this.setState({
+      [name]: value
+    });
+  }
+
+  handleSubmit = (event) => {
+    event.preventDefault();
+    console.log('Form submitted:', this.state);
+    const personData =
+    {personID: this.state.personID,
+           flight: this.state.flight
+    }
+    alert(JSON.stringify(personData));
+    AddPerson(personData)
+          .then(data => {
+            console.log('Pilot assigned successfully:', data);
+          })
+          .catch(error => {
+            console.error('Failed to assign Pilot :', error);
+          });
+  }
+
+  render() {
+    return (
+      <form onSubmit={this.handleSubmit}>
+        <label>
+          Person ID:
+          <select name="personID" value={this.state.personID} onChange={this.handleInputChange}>
+            <option value="">--Select a personID--</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            {/* add more options as needed */}
+          </select>
+        </label>
+        <br />
+        <label>
+          Flight:
+          <select name="airplane_status" value={this.state.flight} onChange={this.handleInputChange}>
+            <option value="">--Select a flight--</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            {/* add more options as needed */}
+          </select>
+        </label>
+      </form>
+    );
+  }
+}
+
+// Q15
+export class Recycle_crew extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      flight: ''
+    };
+  }
+
+  handleInputChange = (event) => {
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
+
+    this.setState({
+      [name]: value
+    });
+  }
+
+  handleSubmit = (event) => {
+    event.preventDefault();
+    console.log('Form submitted:', this.state);
+    const personData =
+    {flight: this.state.flight
+    }
+    alert(JSON.stringify(personData));
+    AddPerson(personData)
+          .then(data => {
+            console.log('recycle_crew successfully:', data);
+          })
+          .catch(error => {
+            console.error('Failed to recycle_crew :', error);
+          });
+  }
+
+  render() {
+    return (
+      <form onSubmit={this.handleSubmit}>
+        <label>
+          Flight:
+          <select name="flight" value={this.state.flight} onChange={this.handleInputChange}>
+            <option value="">--Select a flight--</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            {/* add more options as needed */}
+          </select>
+        </label>
+      </form>
+    );
+  }
+}
+
+// Q16
+export class Retire_flight extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      flightID: ''
+    };
+  }
+
+  handleInputChange = (event) => {
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
+
+    this.setState({
+      [name]: value
+    });
+  }
+
+  handleSubmit = (event) => {
+    event.preventDefault();
+    console.log('Form submitted:', this.state);
+    const personData =
+    {flightID: this.state.flightID
+    }
+    alert(JSON.stringify(personData));
+    AddPerson(personData)
+          .then(data => {
+            console.log('Retire_flight successfully:', data);
+          })
+          .catch(error => {
+            console.error('Failed to Retire_flight :', error);
+          });
+  }
+
+  render() {
+    return (
+      <form onSubmit={this.handleSubmit}>
+        <label>
+          flightID:
+          <select name="flightID" value={this.state.flightID} onChange={this.handleInputChange}>
+            <option value="">--Select a flightID--</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            {/* add more options as needed */}
+          </select>
+        </label>
+      </form>
+    );
+  }
+}
+
+
+// Q17
+export class Remove_passenger_role extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      personID: ''
+    };
+  }
+
+  handleInputChange = (event) => {
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
+
+    this.setState({
+      [name]: value
+    });
+  }
+
+  handleSubmit = (event) => {
+    event.preventDefault();
+    console.log('Form submitted:', this.state);
+    const personData =
+    {personID: this.state.personID
+    }
+    alert(JSON.stringify(personData));
+    AddPerson(personData)
+          .then(data => {
+            console.log('Remove_passenger_role successfully:', data);
+          })
+          .catch(error => {
+            console.error('Failed to Remove_passenger_role :', error);
+          });
+  }
+
+  render() {
+    return (
+      <form onSubmit={this.handleSubmit}>
+        <label>
+          personID:
+          <select name="personID" value={this.state.personID} onChange={this.handleInputChange}>
+            <option value="">--Select a personID--</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            {/* add more options as needed */}
+          </select>
+        </label>
+      </form>
+    );
+  }
+}
+
+// Q18
+export class Remove_pilot_role extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      personID: ''
+    };
+  }
+
+  handleInputChange = (event) => {
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
+
+    this.setState({
+      [name]: value
+    });
+  }
+
+  handleSubmit = (event) => {
+    event.preventDefault();
+    console.log('Form submitted:', this.state);
+    const personData =
+    {personID: this.state.personID
+    }
+    alert(JSON.stringify(personData));
+    AddPerson(personData)
+          .then(data => {
+            console.log('Remove_pilot_role successfully:', data);
+          })
+          .catch(error => {
+            console.error('Failed to Remove_pilot_role :', error);
+          });
+  }
+
+  render() {
+    return (
+      <form onSubmit={this.handleSubmit}>
+        <label>
+          personID:
+          <select name="personID" value={this.state.personID} onChange={this.handleInputChange}>
+            <option value="">--Select a personID--</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            {/* add more options as needed */}
+          </select>
+        </label>
+      </form>
+    );
+  }
+}
+
 
 // Routes Sub Menu
 export class Routes_sub_menu extends Component {
