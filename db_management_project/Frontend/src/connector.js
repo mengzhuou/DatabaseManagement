@@ -191,6 +191,17 @@ export async function assignPilot(flight) {
 }
 
 //Q15
+export async function recycleCrew(flight) {
+  try {
+    const response = await client.post(`${host}${apiPath}/recycleCrew`, flight, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Failed to recycle crew');
+  }
+}
 //Q16
 //Q17
 //Q18

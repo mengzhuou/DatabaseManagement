@@ -596,4 +596,22 @@ public class Controllers {
         }
     }
 
+    @PostMapping("/recycleCrew")
+    public ResponseEntity<String> recycleCrew(@RequestBody Flight flight) {
+        try {
+            String flightID = flight.getFlightID();
+            boolean isRecycled = flightService.recycleCrew(flightID);
+            if (isRecycled) {
+                return ResponseEntity.ok("Crew recycled successfully");
+            } else {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Crew failed to recycle");
+            }
+        } catch (DataAccessException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Controller failed to recycle crew: " + e.getMessage());
+        } catch (ConstraintViolationException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Controller failed to recycle crew: " + e.getMessage());
+        }
+    }
+
+
 }

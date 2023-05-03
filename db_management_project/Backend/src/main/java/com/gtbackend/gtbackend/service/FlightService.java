@@ -30,6 +30,31 @@ public class FlightService {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    public boolean recycleCrew(String flightID) {
+        try {
+            SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
+                    .withProcedureName("recycle_crew")
+                    .declareParameters(
+                            new SqlParameter("ip_flightID", Types.VARCHAR),
+                            new SqlOutParameter("op_success", Types.BOOLEAN)
+                    );
+            Map<String, Object> paramMap = new HashMap<>();
+            paramMap.put("ip_flightID", flightID);
+
+            Map<String, Object> result = jdbcCall.execute(paramMap);
+            System.out.println("Result map: " + result);
+            Boolean op_success = (Boolean) result.get("op_success");
+            return op_success;
+        } catch (DataAccessException e) {
+            logger.error("Service error recycling crew: " + e.getMessage());
+            throw new DataIntegrityViolationException("Data Access Error recycling crew: " + e.getMessage(), e);
+        } catch (ConstraintViolationException e) {
+            logger.error("Service error recycling crew: " + e.getMessage());
+            throw new DataIntegrityViolationException("Error recycling crew: " + e.getMessage(), e);
+        }
+    }
+
+
     public boolean assignPilot(String flightID, String personID) {
         try {
             SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
