@@ -432,10 +432,10 @@ export class GrantPilotLicense extends Component {
     alert(JSON.stringify(PilotLicenseData));
     GrantPilotLicense(PilotLicenseData)
           .then(data => {
-            console.log('Airplane added successfully:', data);
+            console.log('License added successfully:', data);
           })
           .catch(error => {
-            console.error('Failed to add airplane:', error);
+            console.error('Failed to add License:', error);
           });
   }
 
