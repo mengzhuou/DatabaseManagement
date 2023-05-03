@@ -73,6 +73,13 @@ export function Menu() {
         >
           <button><a href="/ViewsandSimulationCycle1">Views and Simulation Cycle</a></button>
         </div>
+        <div
+                  className={activeTab === 'FlightsInTheAir' ? 'active' : ''}
+                    onClick={() => openTab("/FlightsInTheAir")}
+                >
+
+                </div>
+
         <br />
       </div>
     </div>
@@ -504,6 +511,7 @@ export class Flights extends Component {
           <button onClick={() => this.handleButtonClick('remove_passenger_role')}>Remove Passenger Role</button>
         </div>
         <div className="tab-content">
+        // Q5
           {activeTab === 'offer_flight' && (
 
             <div className="offer-flight">
@@ -526,7 +534,7 @@ export class Flights extends Component {
                             </label>
             </div>
           )}
-
+            // Q14
           {activeTab === 'assign_pilot' && (
             <div className="assign-pilot">
               <label>
@@ -543,7 +551,7 @@ export class Flights extends Component {
                             </label>
             </div>
           )}
-
+            // Q15
           {activeTab === 'recycle_crew' && (
             <div className="recycle-crew">
               <label>
@@ -554,13 +562,13 @@ export class Flights extends Component {
                             </label>
             </div>
           )}
-
+            // Q16
           {activeTab === 'retire_flight' && (
             <div className="retire-flight">
               <label>Flight ID: <input type="text" name="flightID" /></label>
             </div>
           )}
-
+            // Q18
           {activeTab === 'remove_pilot_role' && (
             <div className="remove-pilot-role">
               <label>
@@ -571,7 +579,7 @@ export class Flights extends Component {
                             </label>
             </div>
           )}
-
+            // Q17
           {activeTab === 'remove_passenger_role' && (
             <div className="remove-passenger-role">
               <label>
@@ -612,6 +620,7 @@ export class Routes_sub_menu extends Component {
           <button onClick={() => this.handleButtonClick('extend_route')}>Extend Route</button>
         </div>
         <div className="tab-content">
+        // Q7
           {activeTab === 'add_update_leg' && (
             <div className="add-update-leg">
               <label>Leg ID: <input type="text" name="legID" /></label>
@@ -630,6 +639,7 @@ export class Routes_sub_menu extends Component {
               </label>
             </div>
           )}
+          // Q8
           {activeTab === 'start_route' && (
             <div className="start-route">
               <label>
@@ -641,6 +651,7 @@ export class Routes_sub_menu extends Component {
               <label>Route ID: <input type="text" name="routeID" /></label>
             </div>
           )}
+          // Q9
           {activeTab === 'extend_route' && (
             <div className="extend-route">
               <label>
@@ -657,7 +668,7 @@ export class Routes_sub_menu extends Component {
     );
   }
 }
-
+//Airports Sub Menu
 export class Airports extends Component {
   constructor(props) {
     super(props);
@@ -683,6 +694,7 @@ export class Airports extends Component {
           <button onClick={() => this.handleButtonClick('passengers_disembark')}>Passengers Disembark</button>
         </div>
         <div className="tab-content">
+        // Q2
           {activeTab === 'add_airport' && (
             <div className="add-airport">
               <label>Airport ID: <input type="text" name="airportID" /></label>
@@ -697,16 +709,19 @@ export class Airports extends Component {
               </label>
             </div>
           )}
+          // Q10
           {activeTab === 'flight_landing' && (
             <div className="flight-landing">
               <label>Flight ID: <input type="text" name="flightID" /></label>
             </div>
           )}
+          // Q11
           {activeTab === 'flight_takeoff' && (
             <div className="flight-takeoff">
               <label>Flight ID: <input type="text" name="flightID" /></label>
             </div>
           )}
+          // Q12
           {activeTab === 'passengers_board' && (
             <div className="passengers-board">
               <label>
@@ -717,6 +732,7 @@ export class Airports extends Component {
               </label>
             </div>
           )}
+          // Q13
           {activeTab === 'passengers_disembark' && (
             <div className="passengers-disembark">
               <label>
@@ -733,3 +749,63 @@ export class Airports extends Component {
   }
 }
 
+//View sub menu
+export class ViewsandSimulationCycle extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      activeTab: '',
+    };
+  }
+
+  handleButtonClick = (tabName) => {
+    this.setState({ activeTab: tabName });
+  };
+
+  render() {
+    const { activeTab } = this.state;
+
+    return (
+      <div className="ViewsandSimulationCycle">
+        <div className="buttons-container">
+          <button onClick={() => this.handleButtonClick('FlightsInTheAir')}>Flights In The Air</button>
+          <button onClick={() => this.handleButtonClick('flights_on_the_ground')}>Flights On The Ground</button>
+          <button onClick={() => this.handleButtonClick('people_in_the_air')}>People in the air</button>
+          <button onClick={() => this.handleButtonClick('people_in_the_ground')}>People in the ground</button>
+          <button onClick={() => this.handleButtonClick('route_summary')}>Route Summary</button>
+          <button onClick={() => this.handleButtonClick('alternative_airports')}>Alternative Airports</button>
+          <button onClick={() => this.handleButtonClick('simulation_cycle')}>Simulation Cycle</button>
+        </div>
+        <div className="tab-content">
+          {/* Add components for each tab */}
+        </div>
+      </div>
+    );
+  }
+}
+
+//Q19 View
+export class FlightsInTheAir extends Component {
+  // Fetch the data and manage the state here
+
+  render() {
+    return (
+      <table>
+        <thead>
+          <tr>
+            <th>Departure Airport</th>
+            <th>Arrival Airport</th>
+            <th>Number Flights</th>
+            <th>Flight List</th>
+            <th>Earliest Arrival</th>
+            <th>Latest Arrival</th>
+            <th>Airplane List</th>
+          </tr>
+        </thead>
+        <tbody>
+          {/* Render the data rows here */}
+        </tbody>
+      </table>
+    );
+  }
+}
