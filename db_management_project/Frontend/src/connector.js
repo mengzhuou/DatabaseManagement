@@ -191,9 +191,56 @@ export async function assignPilot(flight) {
 }
 
 //Q15
+export async function recycleCrew(flight) {
+  try {
+    const response = await client.post(`${host}${apiPath}/recycleCrew`, flight, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Failed to recycle crew');
+  }
+}
+
 //Q16
+export async function retireFlight(flight) {
+  try {
+    const response = await client.post(`${host}${apiPath}/retireFlight`, flight, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Failed to retire flight');
+  }
+}
+
 //Q17
+export async function removePassengerRole(person) {
+  try {
+    const response = await client.post(`${host}${apiPath}/removePassengerRole`, person, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Failed to remove passenger');
+  }
+}
+
 //Q18
+export async function removePilotRole(person) {
+  try {
+    const response = await client.post(`${host}${apiPath}/removePilotRole`, person, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Failed to remove pilot');
+  }
+}
 //Q19
 //Q20
 //Q21
