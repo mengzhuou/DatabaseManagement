@@ -658,5 +658,78 @@ export class Routes_sub_menu extends Component {
   }
 }
 
+export class Airports extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      activeTab: '',
+    };
+  }
 
+  handleButtonClick = (tabName) => {
+    this.setState({ activeTab: tabName });
+  };
+
+  render() {
+    const { activeTab } = this.state;
+
+    return (
+      <div className="Airports">
+        <div className="buttons-container">
+          <button onClick={() => this.handleButtonClick('add_airport')}>Add Airport</button>
+          <button onClick={() => this.handleButtonClick('flight_landing')}>Flight Landing</button>
+          <button onClick={() => this.handleButtonClick('flight_takeoff')}>Flight Takeoff</button>
+          <button onClick={() => this.handleButtonClick('passengers_board')}>Passengers Board</button>
+          <button onClick={() => this.handleButtonClick('passengers_disembark')}>Passengers Disembark</button>
+        </div>
+        <div className="tab-content">
+          {activeTab === 'add_airport' && (
+            <div className="add-airport">
+              <label>Airport ID: <input type="text" name="airportID" /></label>
+              <label>Airport Name: <input type="text" name="airport_name" /></label>
+              <label>City: <input type="text" name="city" /></label>
+              <label>State: <input type="text" name="state" /></label>
+              <label>
+                Location ID:
+                <select name="location_id">
+                  {/* Add options here */}
+                </select>
+              </label>
+            </div>
+          )}
+          {activeTab === 'flight_landing' && (
+            <div className="flight-landing">
+              <label>Flight ID: <input type="text" name="flightID" /></label>
+            </div>
+          )}
+          {activeTab === 'flight_takeoff' && (
+            <div className="flight-takeoff">
+              <label>Flight ID: <input type="text" name="flightID" /></label>
+            </div>
+          )}
+          {activeTab === 'passengers_board' && (
+            <div className="passengers-board">
+              <label>
+                Flight ID:
+                <select name="flightID">
+                  {/* Add options here */}
+                </select>
+              </label>
+            </div>
+          )}
+          {activeTab === 'passengers_disembark' && (
+            <div className="passengers-disembark">
+              <label>
+                Flight ID:
+                <select name="flightID">
+                  {/* Add options here */}
+                </select>
+              </label>
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  }
+}
 
