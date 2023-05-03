@@ -228,7 +228,19 @@ export async function removePassengerRole(person) {
     throw new Error('Failed to remove passenger');
   }
 }
+
 //Q18
+export async function removePilotRole(person) {
+  try {
+    const response = await client.post(`${host}${apiPath}/removePilotRole`, person, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Failed to remove pilot');
+  }
+}
 //Q19
 //Q20
 //Q21

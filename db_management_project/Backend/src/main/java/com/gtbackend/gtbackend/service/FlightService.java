@@ -30,6 +30,31 @@ public class FlightService {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    public boolean removePilotRole(String personID) {
+        try {
+            SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
+                    .withProcedureName("remove_pilot_role")
+                    .declareParameters(
+                            new SqlParameter("ip_personID", Types.VARCHAR),
+                            new SqlOutParameter("op_success", Types.BOOLEAN)
+                    );
+            Map<String, Object> paramMap = new HashMap<>();
+            paramMap.put("ip_personID", personID);
+
+            Map<String, Object> result = jdbcCall.execute(paramMap);
+            System.out.println("Result map: " + result);
+            Boolean op_success = (Boolean) result.get("op_success");
+            return op_success;
+        } catch (DataAccessException e) {
+            logger.error("Service error removing pilot role: " + e.getMessage());
+            throw new DataIntegrityViolationException("Data Access Error removing pilot role: " + e.getMessage(), e);
+        } catch (ConstraintViolationException e) {
+            logger.error("Service error removing pilot role: " + e.getMessage());
+            throw new DataIntegrityViolationException("Error removing pilot role: " + e.getMessage(), e);
+        }
+    }
+
+
     public boolean removePassengerRole(String personID) {
         try {
             SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)

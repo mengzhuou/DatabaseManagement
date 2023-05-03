@@ -647,6 +647,22 @@ public class Controllers {
         }
     }
 
+    @PostMapping("/removePilotRole")
+    public ResponseEntity<String> removePilotRole(@RequestBody Person person) {
+        try {
+            String personID = person.getPersonID();
+            boolean success = flightService.removePilotRole(personID);
+            if (success) {
+                return ResponseEntity.ok("Pilot role removed successfully");
+            } else {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to remove pilot role");
+            }
+        } catch (DataAccessException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Controller failed to remove pilot role: " + e.getMessage());
+        } catch (ConstraintViolationException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Controller failed to remove pilot role: " + e.getMessage());
+        }
+    }
 
 
 }
