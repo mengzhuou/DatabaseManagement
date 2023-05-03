@@ -30,6 +30,55 @@ public class FlightService {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    public boolean removePassengerRole(String personID) {
+        try {
+            SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
+                    .withProcedureName("remove_passenger_role")
+                    .declareParameters(
+                            new SqlParameter("ip_personID", Types.VARCHAR),
+                            new SqlOutParameter("op_success", Types.BOOLEAN)
+                    );
+            Map<String, Object> paramMap = new HashMap<>();
+            paramMap.put("ip_personID", personID);
+
+            Map<String, Object> result = jdbcCall.execute(paramMap);
+            System.out.println("Result map: " + result);
+            Boolean op_success = (Boolean) result.get("op_success");
+            return op_success;
+        } catch (DataAccessException e) {
+            logger.error("Service error removing passenger role: " + e.getMessage());
+            throw new DataIntegrityViolationException("Data Access Error removing passenger role: " + e.getMessage(), e);
+        } catch (ConstraintViolationException e) {
+            logger.error("Service error removing passenger role: " + e.getMessage());
+            throw new DataIntegrityViolationException("Error removing passenger role: " + e.getMessage(), e);
+        }
+    }
+
+    public boolean retireFlight(String flightID) {
+        try {
+            SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
+                    .withProcedureName("retire_flight")
+                    .declareParameters(
+                            new SqlParameter("ip_flightID", Types.VARCHAR),
+                            new SqlOutParameter("op_success", Types.BOOLEAN)
+                    );
+            Map<String, Object> paramMap = new HashMap<>();
+            paramMap.put("ip_flightID", flightID);
+
+            Map<String, Object> result = jdbcCall.execute(paramMap);
+            System.out.println("Result map: " + result);
+            Boolean op_success = (Boolean) result.get("op_success");
+            return op_success;
+        } catch (DataAccessException e) {
+            logger.error("Service error retiring flight: " + e.getMessage());
+            throw new DataIntegrityViolationException("Data Access Error retiring flight: " + e.getMessage(), e);
+        } catch (ConstraintViolationException e) {
+            logger.error("Service error retiring flight: " + e.getMessage());
+            throw new DataIntegrityViolationException("Error retiring flight: " + e.getMessage(), e);
+        }
+    }
+
+
     public boolean recycleCrew(String flightID) {
         try {
             SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)

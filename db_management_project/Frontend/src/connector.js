@@ -202,8 +202,32 @@ export async function recycleCrew(flight) {
     throw new Error('Failed to recycle crew');
   }
 }
+
 //Q16
+export async function retireFlight(flight) {
+  try {
+    const response = await client.post(`${host}${apiPath}/retireFlight`, flight, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Failed to retire flight');
+  }
+}
+
 //Q17
+export async function removePassengerRole(person) {
+  try {
+    const response = await client.post(`${host}${apiPath}/removePassengerRole`, person, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Failed to remove passenger');
+  }
+}
 //Q18
 //Q19
 //Q20

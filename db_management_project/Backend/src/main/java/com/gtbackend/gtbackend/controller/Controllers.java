@@ -613,5 +613,40 @@ public class Controllers {
         }
     }
 
+    @PostMapping("/retireFlight")
+    public ResponseEntity<String> retireFlight(@RequestBody Flight flight) {
+        try {
+            String flightID = flight.getFlightID();
+            boolean isRetired = flightService.retireFlight(flightID);
+            if (isRetired) {
+                return ResponseEntity.ok("Flight retired successfully");
+            } else {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to retire flight");
+            }
+        } catch (DataAccessException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Controller failed to retire flight: " + e.getMessage());
+        } catch (ConstraintViolationException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Controller failed to retire flight: " + e.getMessage());
+        }
+    }
+
+    @PostMapping("/removePassengerRole")
+    public ResponseEntity<String> removePassengerRole(@RequestBody Person person) {
+        try {
+            String personID = person.getPersonID();
+            boolean isRemoved = flightService.removePassengerRole(personID);
+            if (isRemoved) {
+                return ResponseEntity.ok("Passenger role removed successfully");
+            } else {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to remove passenger role");
+            }
+        } catch (DataAccessException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Controller failed to remove passenger role: " + e.getMessage());
+        } catch (ConstraintViolationException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Controller failed to remove passenger role: " + e.getMessage());
+        }
+    }
+
+
 
 }
