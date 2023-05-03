@@ -8,15 +8,7 @@ const client = wrapper(axios.create({ jar }));
 const host = 'http://localhost:8080';
 const apiPath = '/api/v1';
 
-// Define functions for making API requests
-
-export async function getAirlineAll() {
-  const response = await client.get(`${host}${apiPath}/getAirlineAll`, {
-    withCredentials: true,
-  });
-  return response.data;
-}
-
+//Q1
 export async function addAirplane(airplane) {
   try {
     const response = await client.post(`${host}${apiPath}/addAirplane`, airplane, {
@@ -29,7 +21,7 @@ export async function addAirplane(airplane) {
   }
 }
 
-
+//Q2
 export async function addAirport(airport) {
   try {
     const response = await client.post(`${host}${apiPath}/addAirport`, airport, {
@@ -42,30 +34,7 @@ export async function addAirport(airport) {
   }
 }
 
-export async function getPilotLicensesAll(pilotLicense) {
-  try {
-    const response = await client.post(`${host}${apiPath}/getPilotLicensesAll`, pilotLicense, {
-      withCredentials: true,
-    });
-    return response.data;
-  } catch (error) {
-    console.error(error);
-    throw new Error('Failed to add pilot license');
-  }
-}
-
-export async function offerFlight(flight) {
-  try {
-    const response = await client.post(`${host}${apiPath}/offerFlight`, flight, {
-      withCredentials: true,
-    });
-    return response.data;
-  } catch (error) {
-    console.error(error);
-    throw new Error('Failed to add flight');
-  }
-}
-
+//Q3
 export async function addPerson(person) {
   try {
     const response = await client.post(`${host}${apiPath}/addPerson`, person, {
@@ -78,6 +47,33 @@ export async function addPerson(person) {
   }
 }
 
+//Q4
+export async function grantPilotLicense(license) {
+  try {
+    const response = await client.post(`${host}${apiPath}/grantPilotLicense`, license, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Failed to add flight');
+  }
+}
+
+//Q5
+export async function offerFlight(flight) {
+  try {
+    const response = await client.post(`${host}${apiPath}/offerFlight`, flight, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Failed to add flight');
+  }
+}
+
+//Q6
 export async function purchaseTicketAndSeat(ticket) {
   try {
     const response = await client.post(`${host}${apiPath}/purchaseTicketAndSeat`, ticket, {
@@ -90,6 +86,7 @@ export async function purchaseTicketAndSeat(ticket) {
   }
 }
 
+//Q7
 export async function addUpdateLeg(leg) {
   try {
     const response = await client.post(`${host}${apiPath}/addUpdateLeg`, leg, {
@@ -102,6 +99,7 @@ export async function addUpdateLeg(leg) {
   }
 }
 
+//Q8
 export async function startRoute(route) {
   try {
     const response = await client.post(`${host}${apiPath}/startRoute`, route, {
@@ -114,6 +112,7 @@ export async function startRoute(route) {
   }
 }
 
+//Q9
 export async function extendRoute(route) {
   try {
     const response = await client.post(`${host}${apiPath}/extendRoute`, route, {
@@ -126,6 +125,7 @@ export async function extendRoute(route) {
   }
 }
 
+//Q10
 export async function flightLanding(flight) {
   try {
     const response = await client.post(`${host}${apiPath}/flightLanding`, flight, {
@@ -138,6 +138,7 @@ export async function flightLanding(flight) {
   }
 }
 
+//Q11
 export async function flightTakeoff(flight) {
   try {
     const response = await client.post(`${host}${apiPath}/flightTakeoff`, flight, {
@@ -150,6 +151,7 @@ export async function flightTakeoff(flight) {
   }
 }
 
+//Q12
 export async function passengersBoard(flight) {
   try {
     const response = await client.post(`${host}${apiPath}/passengersBoard`, flight, {
@@ -162,6 +164,7 @@ export async function passengersBoard(flight) {
   }
 }
 
+//Q13
 export async function passengersDisembark(flight) {
   try {
     const response = await client.post(`${host}${apiPath}/passengersDisembark`, flight, {
@@ -174,6 +177,7 @@ export async function passengersDisembark(flight) {
   }
 }
 
+//Q14
 export async function assignPilot(flight) {
   try {
     const response = await client.post(`${host}${apiPath}/assignPilot`, flight, {
@@ -185,4 +189,17 @@ export async function assignPilot(flight) {
     throw new Error('Failed to assign pilot');
   }
 }
+
+//Q15
+//Q16
+//Q17
+//Q18
+//Q19
+//Q20
+//Q21
+//Q22
+//Q23
+//Q24
+
+
 
