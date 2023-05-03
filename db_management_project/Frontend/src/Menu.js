@@ -79,7 +79,7 @@ export function Menu() {
   );
 }
 
-
+#Q1
 export default class AddAirplane1 extends Component {
   constructor(props) {
     super(props);
@@ -283,7 +283,7 @@ export default class AddAirplane1 extends Component {
       }
     }
 
-
+#Q3
 export class AddPerson extends Component {
   constructor(props) {
     super(props);
@@ -402,7 +402,7 @@ export class AddPerson extends Component {
 }
 
 
-
+#Q4
 export class GrantPilotLicense extends Component {
   constructor(props) {
     super(props);

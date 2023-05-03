@@ -1,12 +1,21 @@
 import './App.css';
-import Menu from './Menu';
+import ReactDOM from "react-dom/client";
+import {Menu} from './Menu';
+import {Routes, Route, BrowserRouter} from 'react-router-dom';
+import AddAirplane1, { AddPerson, GrantPilotLicense } from './Menu';
 
-function App() {
+export default function App() {
   return (
-    <div className="App">
-      <Menu />
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Menu />}/>
+        <Route path="AddAirplane1" element={<AddAirplane1/>} />
+        <Route path="AddPerson" element={<AddPerson/>} />
+        <Route path="GrantPilotLicense" element={<GrantPilotLicense/>} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
-export default App;
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<Menu />);
