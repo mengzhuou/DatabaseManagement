@@ -41,16 +41,16 @@ export function Menu() {
           className={activeTab === 'Flights' ? 'active' : ''}
           onClick={() => openTab("/Flights")}
         >
-          <button><a href="/Offer_Flight">Flights</a></button>
+          <button><a href="/Flights">Flights</a></button>
         </div>
         <br />
       </div>
       <div className="main">
         <div
-          className={activeTab === 'Routes' ? 'active' : ''}
-          onClick={() => openTab("/Routes")}
+          className={activeTab === 'Routes_sub_menu' ? 'active' : ''}
+          onClick={() => openTab("/Routes_sub_menu")}
         >
-          <button><a href="/Routes1">Routes</a></button>
+          <button><a href="/Routes_sub_menu">Routes</a></button>
         </div>
         <br />
         <div
@@ -475,3 +475,188 @@ export class GrantPilotLicense extends Component {
     );
   }
 }
+
+//Flights Sub Menu
+
+export class Flights extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      activeTab: '',
+    };
+  }
+
+  handleButtonClick = (tabName) => {
+    this.setState({ activeTab: tabName });
+  };
+
+  render() {
+    const { activeTab } = this.state;
+
+    return (
+      <div className="Flights">
+        <div className="buttons-container">
+          <button onClick={() => this.handleButtonClick('offer_flight')}>Offer Flight</button>
+          <button onClick={() => this.handleButtonClick('assign_pilot')}>Assign Pilot</button>
+          <button onClick={() => this.handleButtonClick('recycle_crew')}>Recycle Crew</button>
+          <button onClick={() => this.handleButtonClick('retire_flight')}>Retire Flight</button>
+          <button onClick={() => this.handleButtonClick('remove_pilot_role')}>Remove Pilot Role</button>
+          <button onClick={() => this.handleButtonClick('remove_passenger_role')}>Remove Passenger Role</button>
+        </div>
+        <div className="tab-content">
+          {activeTab === 'offer_flight' && (
+
+            <div className="offer-flight">
+              <label>Flight ID: <input type="text" name="flightID" /></label>
+                            <label>Support Tail: <input type="text" name="support_tail" /></label>
+                            <label>Route ID: <input type="text" name="routeID" /></label>
+                            <label>Progress: <input type="text" name="progress" /></label>
+                            <label>Next Time: <input type="text" name="next_time" /></label>
+                            <label>
+                              Support Airline:
+                              <select name="support_airline">
+                                {/* Add options here */}
+                              </select>
+                            </label>
+                            <label>
+                              Airplane Status:
+                              <select name="airplane_status">
+                                {/* Add options here */}
+                              </select>
+                            </label>
+            </div>
+          )}
+
+          {activeTab === 'assign_pilot' && (
+            <div className="assign-pilot">
+              <label>
+                              Person ID:
+                              <select name="personID">
+                                {/* Add options here */}
+                              </select>
+                            </label>
+                            <label>
+                              Flight:
+                              <select name="flight">
+                                {/* Add options here */}
+                              </select>
+                            </label>
+            </div>
+          )}
+
+          {activeTab === 'recycle_crew' && (
+            <div className="recycle-crew">
+              <label>
+                              Flight:
+                              <select name="flight">
+                                {/* Add options here */}
+                              </select>
+                            </label>
+            </div>
+          )}
+
+          {activeTab === 'retire_flight' && (
+            <div className="retire-flight">
+              <label>Flight ID: <input type="text" name="flightID" /></label>
+            </div>
+          )}
+
+          {activeTab === 'remove_pilot_role' && (
+            <div className="remove-pilot-role">
+              <label>
+                              Person ID:
+                              <select name="personID">
+                                {/* Add options here */}
+                              </select>
+                            </label>
+            </div>
+          )}
+
+          {activeTab === 'remove_passenger_role' && (
+            <div className="remove-passenger-role">
+              <label>
+                              Person ID:
+                              <select name="personID">
+                                {/* Add options here */}
+                              </select>
+                            </label>
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  }
+}
+
+// Routes Sub Menu
+export class Routes_sub_menu extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      activeTab: '',
+    };
+  }
+
+  handleButtonClick = (tabName) => {
+    this.setState({ activeTab: tabName });
+  };
+
+  render() {
+    const { activeTab } = this.state;
+
+    return (
+      <div className="Routes_sub_menu">
+        <div className="buttons-container">
+          <button onClick={() => this.handleButtonClick('add_update_leg')}>Add Update Leg</button>
+          <button onClick={() => this.handleButtonClick('start_route')}>Start Route</button>
+          <button onClick={() => this.handleButtonClick('extend_route')}>Extend Route</button>
+        </div>
+        <div className="tab-content">
+          {activeTab === 'add_update_leg' && (
+            <div className="add-update-leg">
+              <label>Leg ID: <input type="text" name="legID" /></label>
+              <label>Distance: <input type="text" name="distance" /></label>
+              <label>
+                Departure:
+                <select name="departure">
+                  {/* Add options here */}
+                </select>
+              </label>
+              <label>
+                Arrival:
+                <select name="arrival">
+                  {/* Add options here */}
+                </select>
+              </label>
+            </div>
+          )}
+          {activeTab === 'start_route' && (
+            <div className="start-route">
+              <label>
+                Leg ID:
+                <select name="legID">
+                  {/* Add options here */}
+                </select>
+              </label>
+              <label>Route ID: <input type="text" name="routeID" /></label>
+            </div>
+          )}
+          {activeTab === 'extend_route' && (
+            <div className="extend-route">
+              <label>
+                Leg ID:
+                <select name="legID">
+                  {/* Add options here */}
+                </select>
+              </label>
+              <label>Route ID: <input type="text" name="routeID" /></label>
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  }
+}
+
+
+
