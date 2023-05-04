@@ -1,5 +1,5 @@
 import React, { Component, useState } from 'react';
-import {addAirplane, purchaseTicketAndSeat, addAirport} from './connector';
+import {addAirplane, purchaseTicketAndSeat, addAirport, addUpdateLeg, startRoute, extendRoute, flightLanding, flightTakeoff, passengersBoard, passengersDisembark, assignPilot, retireFlight, recycleCrew, removePassengerRole, removePilotRole, offerFlight } from './connector';
 import './App.css';
 
 export function Menu() {
@@ -551,107 +551,112 @@ export function Flights() {
 
 // Q5
 export class Offer_flight extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      flightID: '',
-      routeID: '',
-      support_tail: '',
-      progress: '',
-      airplane_status: '',
-      support_airline: '',
-      next_time: '',
-    };
-  }
-
-  handleInputChange = (event) => {
-    const target = event.target;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
-    const name = target.name;
-
-    this.setState({
-      [name]: value
-    });
-  }
-
-  handleSubmit = (event) => {
-    event.preventDefault();
-    console.log('Form submitted:', this.state);
-    const personData =
-    {flightID: this.state.flightID,
-           routeID: this.state.routeID,
-           support_tail: this.state.support_tail,
-           progress: this.state.progress,
-           airplane_status: this.state.airplane_status,
-           support_airline: this.state.support_airline,
-           next_time: this.state.next_time
+    constructor(props) {
+      super(props);
+      this.state = {
+        flightID: '',
+        routeID: '',
+        support_tail: '',
+        progress: '',
+        airplane_status: '',
+        support_airline: '',
+        next_time: '',
+      };
     }
-    alert(JSON.stringify(personData));
-    AddPerson(personData)
-          .then(data => {
-            console.log('Flight added successfully:', data);
-          })
-          .catch(error => {
-            console.error('Failed to add Flight:', error);
-          });
+  
+    handleInputChange = (event) => {
+      const target = event.target;
+      const value = target.type === 'checkbox' ? target.checked : target.value;
+      const name = target.name;
+  
+      this.setState({
+        [name]: value
+      });
+    }
+  
+    handleSubmit = (event) => {
+      event.preventDefault();
+      console.log('Form submitted:', this.state);
+      const flight =
+      {
+        flightID: this.state.flightID,
+             routeID: this.state.routeID,
+             support_tail: this.state.support_tail,
+             progress: this.state.progress,
+             airplane_status: this.state.airplane_status,
+             support_airline: this.state.support_airline,
+             next_time: this.state.next_time
+      }
+      alert(JSON.stringify(flight));
+      offerFlight(flight)
+        .then(data => {
+          console.log('Person added successfully:', data);
+        })
+        .catch(error => {
+          console.error('Failed to add person:', error);
+        });
+    }
+  
+    render() {
+      return (
+        <form onSubmit={this.handleSubmit}>
+          <div>
+          <label>
+            support_airline:
+            <select name="support_airline" value={this.state.support_airline} onChange={this.handleInputChange}>
+              <option value="">--Select a support_airline--</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              {/* add more options as needed */}
+            </select>
+          </label>
+          <br />
+          <label>
+            airplane_status:
+            <select name="airplane_status" value={this.state.airplane_status} onChange={this.handleInputChange}>
+              <option value="">--Select a airplane_status--</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              {/* add more options as needed */}
+            </select>
+          </label>
+          <br />
+          <label>
+            flightID:
+            <input type="text" name="flightID" value={this.state.flightID} onChange={this.handleInputChange} />
+          </label>
+          <br />
+          <label>
+            routeID:
+            <input type="text" name="routeID" value={this.state.routeID} onChange={this.handleInputChange} />
+          </label>
+          <br />
+          <label>
+            support_tail:
+            <input type="text" name="support_tail" value={this.state.support_tail} onChange={this.handleInputChange} />
+          </label>
+          <br />
+          <label>
+            progress:
+            <input type="text" name="progress" value={this.state.progress} onChange={this.handleInputChange} />
+          </label>
+          <br />
+          <label>
+            next_time:
+            <input type="text" name="next_time" value={this.state.next_time} onChange={this.handleInputChange} />
+          </label>
+          </div>
+          <br />
+          <input type="submit" value="Add" />
+          <button type="button" onClick={this.handleCancel}>Cancel</button>
+        </form>
+    )}
   }
+//Q14 Assign Pilot 2 drop downs
 
-  render() {
-    return (
-      <form onSubmit={this.handleSubmit}>
-        <label>
-          support_airline:
-          <select name="support_airline" value={this.state.support_airline} onChange={this.handleInputChange}>
-            <option value="">--Select a support_airline--</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            {/* add more options as needed */}
-          </select>
-        </label>
-        <br />
-        <label>
-          airplane_status:
-          <select name="airplane_status" value={this.state.airplane_status} onChange={this.handleInputChange}>
-            <option value="">--Select a airplane_status--</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            {/* add more options as needed */}
-          </select>
-        </label>
-        <br />
-        <label>
-          flightID:
-          <input type="text" name="flightID" value={this.state.flightID} onChange={this.handleInputChange} />
-        </label>
-        <br />
-        <label>
-          routeID:
-          <input type="text" name="routeID" value={this.state.routeID} onChange={this.handleInputChange} />
-        </label>
-        <br />
-        <label>
-          support_tail:
-          <input type="text" name="support_tail" value={this.state.support_tail} onChange={this.handleInputChange} />
-        </label>
-        <br />
-        <label>
-          progress:
-          <input type="text" name="progress" value={this.state.progress} onChange={this.handleInputChange} />
-        </label>
-        <br />
-        <label>
-          next_time:
-          <input type="text" name="next_time" value={this.state.next_time} onChange={this.handleInputChange} />
-        </label>
-      </form>
-    );
-  }
-}
-
-// Q14
-export class Assign_pilot extends Component {
+export class AssignPilot extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -673,55 +678,59 @@ export class Assign_pilot extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
     console.log('Form submitted:', this.state);
-    const personData =
-    {personID: this.state.personID,
-           flight: this.state.flight
+    const pilotData =
+    {
+      routeID: this.state.routeID,
+      legID: this.state.legID
     }
-    alert(JSON.stringify(personData));
-    AddPerson(personData)
-          .then(data => {
-            console.log('Pilot assigned successfully:', data);
-          })
-          .catch(error => {
-            console.error('Failed to assign Pilot :', error);
-          });
+    alert(JSON.stringify(pilotData));
+    assignPilot(pilotData)
+      .then(data => {
+        console.log('Person added successfully:', data);
+      })
+      .catch(error => {
+        console.error('Failed to add person:', error);
+      });
   }
 
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
-        <label>
-          Person ID:
-          <select name="personID" value={this.state.personID} onChange={this.handleInputChange}>
-            <option value="">--Select a personID--</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            {/* add more options as needed */}
-          </select>
-        </label>
+        <div>
+          <label>
+            Person ID:
+            <select name="personID" value={this.state.personID} onChange={this.handleInputChange}>
+              <option value="">--Select a person ID--</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+            </select>
+          </label>
+        </div>
+        <div>
+          <label>
+            Flight:
+            <select name="personID" value={this.state.flight} onChange={this.handleInputChange}>
+              <option value="">--Select a flight--</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+            </select>
+          </label>
+        </div>
         <br />
-        <label>
-          Flight:
-          <select name="airplane_status" value={this.state.flight} onChange={this.handleInputChange}>
-            <option value="">--Select a flight--</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            {/* add more options as needed */}
-          </select>
-        </label>
+        <input type="submit" value="Add" />
+        <button type="button" onClick={this.handleCancel}>Cancel</button>
       </form>
-    );
-  }
+  )}
 }
 
-// Q15
+//Q15 Assign Pilot 2 drop downs
 export class Recycle_crew extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      flight: ''
+      flightID: ''
     };
   }
 
@@ -738,38 +747,44 @@ export class Recycle_crew extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
     console.log('Form submitted:', this.state);
-    const personData =
-    {flight: this.state.flight
+    const flightData =
+    {
+      routeID: this.state.routeID,
+      legID: this.state.legID
     }
-    alert(JSON.stringify(personData));
-    AddPerson(personData)
-          .then(data => {
-            console.log('recycle_crew successfully:', data);
-          })
-          .catch(error => {
-            console.error('Failed to recycle_crew :', error);
-          });
+    alert(JSON.stringify(flightData));
+    recycleCrew(flightData)
+      .then(data => {
+        console.log('Person added successfully:', data);
+      })
+      .catch(error => {
+        console.error('Failed to add person:', error);
+      });
   }
 
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
-        <label>
-          Flight:
-          <select name="flight" value={this.state.flight} onChange={this.handleInputChange}>
-            <option value="">--Select a flight--</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            {/* add more options as needed */}
-          </select>
-        </label>
+        <div>
+          <label>
+            Flight ID:
+            <select name="personID" value={this.state.personID} onChange={this.handleInputChange}>
+              <option value="">--Select a person ID--</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+            </select>
+          </label>
+        </div>
+        <br />
+        <input type="submit" value="Add" />
+        <button type="button" onClick={this.handleCancel}>Cancel</button>
       </form>
-    );
-  }
+  )}
 }
 
 // Q16
+
 export class Retire_flight extends Component {
   constructor(props) {
     super(props);
@@ -791,39 +806,44 @@ export class Retire_flight extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
     console.log('Form submitted:', this.state);
-    const personData =
-    {flightID: this.state.flightID
+    const flightData =
+    {
+      routeID: this.state.routeID,
+      legID: this.state.legID
     }
-    alert(JSON.stringify(personData));
-    AddPerson(personData)
-          .then(data => {
-            console.log('Retire_flight successfully:', data);
-          })
-          .catch(error => {
-            console.error('Failed to Retire_flight :', error);
-          });
+    alert(JSON.stringify(flightData));
+    retireFlight(flightData)
+      .then(data => {
+        console.log('Person added successfully:', data);
+      })
+      .catch(error => {
+        console.error('Failed to add person:', error);
+      });
   }
 
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
-        <label>
-          flightID:
-          <select name="flightID" value={this.state.flightID} onChange={this.handleInputChange}>
-            <option value="">--Select a flightID--</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            {/* add more options as needed */}
-          </select>
-        </label>
+        <div>
+          <label>
+            Flight ID:
+            <select name="personID" value={this.state.personID} onChange={this.handleInputChange}>
+              <option value="">--Select a person ID--</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+            </select>
+          </label>
+        </div>
+        <br />
+        <input type="submit" value="Add" />
+        <button type="button" onClick={this.handleCancel}>Cancel</button>
       </form>
-    );
-  }
+  )}
 }
 
 
-// Q17
+//Q17
 export class Remove_passenger_role extends Component {
   constructor(props) {
     super(props);
@@ -845,35 +865,39 @@ export class Remove_passenger_role extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
     console.log('Form submitted:', this.state);
-    const personData =
-    {personID: this.state.personID
+    const person =
+    {
+      personID: this.state.personID,
     }
-    alert(JSON.stringify(personData));
-    AddPerson(personData)
-          .then(data => {
-            console.log('Remove_passenger_role successfully:', data);
-          })
-          .catch(error => {
-            console.error('Failed to Remove_passenger_role :', error);
-          });
+    alert(JSON.stringify(person));
+    removePassengerRole(person)
+      .then(data => {
+        console.log('Person added successfully:', data);
+      })
+      .catch(error => {
+        console.error('Failed to add person:', error);
+      });
   }
 
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
-        <label>
-          personID:
-          <select name="personID" value={this.state.personID} onChange={this.handleInputChange}>
-            <option value="">--Select a personID--</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            {/* add more options as needed */}
-          </select>
-        </label>
+        <div>
+          <label>
+            Person ID:
+            <select name="personID" value={this.state.personID} onChange={this.handleInputChange}>
+              <option value="">--Select a person ID--</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+            </select>
+          </label>
+        </div>
+        <br />
+        <input type="submit" value="Add" />
+        <button type="button" onClick={this.handleCancel}>Cancel</button>
       </form>
-    );
-  }
+  )}
 }
 
 // Q18
@@ -898,35 +922,39 @@ export class Remove_pilot_role extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
     console.log('Form submitted:', this.state);
-    const personData =
-    {personID: this.state.personID
+    const person =
+    {
+      personID: this.state.personID,
     }
-    alert(JSON.stringify(personData));
-    AddPerson(personData)
-          .then(data => {
-            console.log('Remove_pilot_role successfully:', data);
-          })
-          .catch(error => {
-            console.error('Failed to Remove_pilot_role :', error);
-          });
+    alert(JSON.stringify(person));
+    removePilotRole(person)
+      .then(data => {
+        console.log('Person added successfully:', data);
+      })
+      .catch(error => {
+        console.error('Failed to add person:', error);
+      });
   }
 
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
-        <label>
-          personID:
-          <select name="personID" value={this.state.personID} onChange={this.handleInputChange}>
-            <option value="">--Select a personID--</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            {/* add more options as needed */}
-          </select>
-        </label>
+        <div>
+          <label>
+            Person ID:
+            <select name="personID" value={this.state.personID} onChange={this.handleInputChange}>
+              <option value="">--Select a person ID--</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+            </select>
+          </label>
+        </div>
+        <br />
+        <input type="submit" value="Add" />
+        <button type="button" onClick={this.handleCancel}>Cancel</button>
       </form>
-    );
-  }
+  )}
 }
 
 
@@ -1226,7 +1254,7 @@ export function Airports() {
 }
 
 // Q2
-export class Add_Airport extends Component {
+export class AddAirport extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -1251,67 +1279,137 @@ export class Add_Airport extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
     console.log('Form submitted:', this.state);
-    const personData =
-    {airportID: this.state.airportID,
-           airport_name: this.state.airport_name,
-           city: this.state.city,
-           state: this.state.state,
-           location_id: this.state.location_id
+    const airportData =
+    {airportID: '',
+           airportID: this.airportID,
+           airport_name: this.airport_name,
+           city: this.city,
+           state: this.state,
+           location_id: this.location_id,
+          
     }
-    alert(JSON.stringify(personData));
-    AddPerson(personData)
+    alert(JSON.stringify(airportData));
+    addAirport(airportData)
           .then(data => {
-            console.log('Airport added successfully:', data);
+            console.log('Person added successfully:', data);
           })
           .catch(error => {
-            console.error('Failed to Airport:', error);
+            console.error('Failed to add person:', error);
           });
   }
 
   render() {
     return (
+      //locationid use drop down, other txtbox
       <form onSubmit={this.handleSubmit}>
-        <label>
+<div>
+  <label>
+        Airport ID:
+        <input type="text" name="Airport ID:" value={this.state.airportID} onChange={this.handleInputChange} />
+      </label>
+      </div>
+        
+      <div>
+      <label>
+  Airport Name:
+  <input type="text" name="airport_name" value={this.state.airport_name} onChange={this.handleInputChange} />
+</label>
+</div>
+<div><label>
+  City:
+  <input type="text" name="city" value={this.state.city} onChange={this.handleInputChange} />
+</label></div>
+
+<div><label>
+  State:
+  <input type="text" name="state" value={this.state.state} onChange={this.handleInputChange} />
+</label></div>
+
+
+<label>
+        
           location_id:
           <select name="location_id" value={this.state.location_id} onChange={this.handleInputChange}>
-            <option value="">--Select a location_id--</option>
+            <option value="">--Select a location ID--</option>
+            //update options later
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
             {/* add more options as needed */}
           </select>
         </label>
+
+
         <br />
-        <label>
-          airportID:
-          <input type="text" name="airportID" value={this.state.airportID} onChange={this.handleInputChange} />
-        </label>
+        <input type="submit" value="Add" />
+        <button type="button" onClick={this.handleCancel}>Cancel</button>
+      </form>
+    );
+  }
+}
+
+  
+
+//Q10 flight landing
+export class FlightLanding extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      flightID: '',
+    };
+  }
+
+  handleInputChange = (event) => {
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
+
+    this.setState({
+      [name]: value
+    });
+  }
+
+  handleSubmit = (event) => {
+    event.preventDefault();
+    console.log('Form submitted:', this.state);
+    const flight =
+    {
+      flightID: this.state.routeID,
+    }
+    alert(JSON.stringify(flight));
+    flightLanding(flight)
+      .then(data => {
+        console.log('Person added successfully:', data);
+      })
+      .catch(error => {
+        console.error('Failed to add person:', error);
+      });
+  }
+
+  render() {
+    return (
+      <form onSubmit={this.handleSubmit}>
+        <div>
+          <label>
+            flight ID:
+            <input type="text" name="routeID" value={this.state.routeID} onChange={this.handleInputChange} />
+          </label>
+        </div>
+        
         <br />
-        <label>
-          airport_name:
-          <input type="text" name="airport_name" value={this.state.airport_name} onChange={this.handleInputChange} />
-        </label>
-                <br />
-                <label>
-                  city:
-                  <input type="text" name="city" value={this.state.city} onChange={this.handleInputChange} />
-        </label>
-                <br />
-                <label>
-                  state:
-                  <input type="text" name="state" value={this.state.state} onChange={this.handleInputChange} />
-        </label>
+        <input type="submit" value="Add" />
+        <button type="button" onClick={this.handleCancel}>Cancel</button>
       </form>
-    );
-  }
+  )}
 }
+            
 
-// Q10
-export class Flight_landing extends Component {
+//Q11 flight takeoff
+export class FlightTakeoff extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      flightID: ''
+      flightID: '',
     };
   }
 
@@ -1328,37 +1426,45 @@ export class Flight_landing extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
     console.log('Form submitted:', this.state);
-    const personData =
-    {flightID: this.state.flightID
+    const flight =
+    {
+      flightID: this.state.routeID,
     }
-    alert(JSON.stringify(personData));
-    AddPerson(personData)
-          .then(data => {
-            console.log('Flight_landing added successfully:', data);
-          })
-          .catch(error => {
-            console.error('Failed to Flight_landing:', error);
-          });
+    alert(JSON.stringify(flight));
+    flightTakeoff(flight)
+      .then(data => {
+        console.log('Person added successfully:', data);
+      })
+      .catch(error => {
+        console.error('Failed to add person:', error);
+      });
   }
 
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
-        <label>
-          flightID:
-          <input type="text" name="flightID" value={this.state.flightID} onChange={this.handleInputChange} />
-        </label>
+        <div>
+          <label>
+            flight ID:
+            <input type="text" name="routeID" value={this.state.routeID} onChange={this.handleInputChange} />
+          </label>
+        </div>
+        
+        <br />
+        <input type="submit" value="Add" />
+        <button type="button" onClick={this.handleCancel}>Cancel</button>
       </form>
-    );
-  }
+  )}
 }
 
-// Q11
-export class Flight_takeoff extends Component {
+
+
+//Q12 - flight dropdown!
+export class PassengersBoard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      flightID: ''
+      flightID: '',
     };
   }
 
@@ -1375,38 +1481,45 @@ export class Flight_takeoff extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
     console.log('Form submitted:', this.state);
-    const personData =
-    {flightID: this.state.flightID
+    const flight =
+    {
+      flightID: this.state.routeID,
     }
-    alert(JSON.stringify(personData));
-    AddPerson(personData)
-          .then(data => {
-            console.log('Flight_takeoff added successfully:', data);
-          })
-          .catch(error => {
-            console.error('Failed to Flight_takeoff:', error);
-          });
+    alert(JSON.stringify(flight));
+    passengersBoard(flight)
+      .then(data => {
+        console.log('Person added successfully:', data);
+      })
+      .catch(error => {
+        console.error('Failed to add person:', error);
+      });
   }
 
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
-        <label>
-          flightID:
-          <input type="text" name="flightID" value={this.state.flightID} onChange={this.handleInputChange} />
-        </label>
+        <div>
+          <label>
+            flight ID:
+            <input type="text" name="routeID" value={this.state.routeID} onChange={this.handleInputChange} />
+          </label>
+        </div>
+        
+        <br />
+        <input type="submit" value="Add" />
+        <button type="button" onClick={this.handleCancel}>Cancel</button>
       </form>
-    );
-  }
+  )}
 }
+ 
 
 
-// Q12
-export class Passengers_board extends Component {
+//Q13 flight dropdown!
+export class PassengersDisembark extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      flightID: ''
+      flightID: '',
     };
   }
 
@@ -1423,89 +1536,38 @@ export class Passengers_board extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
     console.log('Form submitted:', this.state);
-    const personData =
-    {flightID: this.state.flightID
+    const flight =
+    {
+      flightID: this.state.routeID,
     }
-    alert(JSON.stringify(personData));
-    AddPerson(personData)
-          .then(data => {
-            console.log('Passengers_board added successfully:', data);
-          })
-          .catch(error => {
-            console.error('Failed to Passengers_board:', error);
-          });
+    alert(JSON.stringify(flight));
+    passengersDisembark(flight)
+      .then(data => {
+        console.log('Person added successfully:', data);
+      })
+      .catch(error => {
+        console.error('Failed to add person:', error);
+      });
   }
 
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
-        <label>
-          flightID:
-          <select name="flightID" value={this.state.flightID} onChange={this.handleInputChange}>
-            <option value="">--Select a flightID--</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            {/* add more options as needed */}
-          </select>
-        </label>
+        <div>
+          <label>
+            flight ID:
+            <input type="text" name="routeID" value={this.state.routeID} onChange={this.handleInputChange} />
+          </label>
+        </div>
+        
+        <br />
+        <input type="submit" value="Add" />
+        <button type="button" onClick={this.handleCancel}>Cancel</button>
       </form>
-    );
-  }
+  )}
 }
 
-// Q13
-export class Passengers_disembark extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      flightID: ''
-    };
-  }
-
-  handleInputChange = (event) => {
-    const target = event.target;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
-    const name = target.name;
-
-    this.setState({
-      [name]: value
-    });
-  }
-
-  handleSubmit = (event) => {
-    event.preventDefault();
-    console.log('Form submitted:', this.state);
-    const personData =
-    {flightID: this.state.flightID
-    }
-    alert(JSON.stringify(personData));
-    AddPerson(personData)
-          .then(data => {
-            console.log('Passengers_disembark added successfully:', data);
-          })
-          .catch(error => {
-            console.error('Failed to Passengers_disembark:', error);
-          });
-  }
-
-  render() {
-    return (
-      <form onSubmit={this.handleSubmit}>
-        <label>
-          flightID:
-          <select name="flightID" value={this.state.flightID} onChange={this.handleInputChange}>
-            <option value="">--Select a flightID--</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            {/* add more options as needed */}
-          </select>
-        </label>
-      </form>
-    );
-  }
-}
+ 
 
 
 export function ViewsandSimulationCycle() {
@@ -1799,4 +1861,222 @@ export class AddTicket extends Component {
       </form>
     );
   }
+}
+//Q7 Add_Update_Leg()
+
+export class AddUpdateLeg extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      legID: '',
+      distance: '',
+      departure: '',
+      arrival: ''
+    };
+  }
+
+  handleInputChange = (event) => {
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
+
+    this.setState({
+      [name]: value
+    });
+  }
+
+  handleSubmit = (event) => {
+    event.preventDefault();
+    console.log('Form submitted:', this.state);
+    const legData =
+    {
+      legID: this.state.legID,
+      distance: this.state.distance,
+      departure: this.state.departure,
+      arrival: this.state.arrival
+    }
+    alert(JSON.stringify(legData));
+    // Add your code to push the data to the server here
+    addUpdateLeg(legData);
+  }
+
+  render() {
+    return (
+      <form onSubmit={this.handleSubmit}>
+        <div>
+          <label>
+            Leg ID:
+            <input type="text" name="legID" value={this.state.legID} onChange={this.handleInputChange} />
+          </label>
+        </div>
+        <div>
+          <label>
+            Distance:
+            <input type="text" name="distance" value={this.state.distance} onChange={this.handleInputChange} />
+          </label>
+        </div>
+        <div>
+          <label>
+            Departure:
+            <select name="departure" value={this.state.departure} onChange={this.handleInputChange}>
+              <option value="">--Select a departure location--</option>
+              <option value="New York">New York</option>
+              <option value="Los Angeles">Los Angeles</option>
+              <option value="Chicago">Chicago</option>
+              {/* add more options as needed */}
+            </select>
+          </label>
+        </div>
+        <div>
+          <label>
+            Arrival:
+            <select name="arrival" value={this.state.arrival} onChange={this.handleInputChange}>
+              <option value="">--Select an arrival location--</option>
+              <option value="London">London</option>
+              <option value="Paris">Paris</option>
+              <option value="Dubai">Dubai</option>
+              {/* add more options as needed */}
+            </select>
+          </label>
+        </div>
+        <br />
+        <input type="submit" value="Add" />
+        <button type="button" onClick={this.handleCancel}>Cancel</button>
+      </form>
+    );
+  }
+}
+
+//Q8 Start_Route()
+
+
+export class StartRoute extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+    
+      routeID: '',
+      legID: ''
+    };
+  }
+
+  handleInputChange = (event) => {
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
+
+    this.setState({
+      [name]: value
+    });
+  }
+
+  handleSubmit = (event) => {
+    event.preventDefault();
+    console.log('Form submitted:', this.state);
+    const routeData =
+    {
+      routeID: this.state.routeID,
+      legID: this.state.legID
+    }
+    alert(JSON.stringify(routeData));
+    startRoute(routeData)
+      .then(data => {
+        console.log('Person added successfully:', data);
+      })
+      .catch(error => {
+        console.error('Failed to add person:', error);
+      });
+  }
+
+  render() {
+    return (
+      <form onSubmit={this.handleSubmit}>
+        <div>
+          <label>
+            Route ID:
+            <input type="text" name="routeID" value={this.state.routeID} onChange={this.handleInputChange} />
+          </label>
+        </div>
+        <div>
+          <label>
+            Leg ID:
+            <select name="legID" value={this.state.legID} onChange={this.handleInputChange}>
+              <option value="">--Select a leg ID--</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+            </select>
+          </label>
+        </div>
+        <br />
+        <input type="submit" value="Add" />
+        <button type="button" onClick={this.handleCancel}>Cancel</button>
+      </form>
+  )}
+}
+
+//Q9 Extend Route
+
+export class ExtendRoute extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      routeID: '',
+      legID: ''
+    };
+  }
+
+  handleInputChange = (event) => {
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
+
+    this.setState({
+      [name]: value
+    });
+  }
+
+  handleSubmit = (event) => {
+    event.preventDefault();
+    console.log('Form submitted:', this.state);
+    const routeData =
+    {
+      routeID: this.state.routeID,
+      legID: this.state.legID
+    }
+    alert(JSON.stringify(routeData));
+    extendRoute(routeData)
+      .then(data => {
+        console.log('Person added successfully:', data);
+      })
+      .catch(error => {
+        console.error('Failed to add person:', error);
+      });
+  }
+
+  render() {
+    return (
+      <form onSubmit={this.handleSubmit}>
+        <div>
+          <label>
+            Route ID:
+            <input type="text" name="routeID" value={this.state.routeID} onChange={this.handleInputChange} />
+          </label>
+        </div>
+        <div>
+          <label>
+            Leg ID:
+            <select name="legID" value={this.state.legID} onChange={this.handleInputChange}>
+              <option value="">--Select a leg ID--</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+            </select>
+          </label>
+        </div>
+        <br />
+        <input type="submit" value="Add" />
+        <button type="button" onClick={this.handleCancel}>Cancel</button>
+      </form>
+  )}
 }
