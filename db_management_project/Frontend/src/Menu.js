@@ -101,10 +101,10 @@ export default class AddAirplane1 extends Component {
       tail_num: "",
       seat_capacity: "",
       speed: "",
-      locationID: "",
+      locationID: null,
       plane_type: "",
-      skids: "",
-      propellers: "",
+      skids: null,
+      propellers: null,
       jet_engines: "",
     };
 
@@ -428,7 +428,7 @@ export class GrantPilotLicense extends Component {
     super(props);
     this.state = {
       personID: '',
-      licenseType: ''
+      license: null
     };
   }
 
@@ -436,6 +436,8 @@ export class GrantPilotLicense extends Component {
     const target = event.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
+
+
 
     this.setState({
       [name]: value
@@ -446,17 +448,17 @@ export class GrantPilotLicense extends Component {
     event.preventDefault();
     console.log('Form submitted:', this.state);
     const PilotLicenseData = {
-    personID: this.state.personID,
-    license: this.state.license
+      personID: this.state.personID,
+      license: this.state.license
     };
     alert(JSON.stringify(PilotLicenseData));
     grantPilotLicense(PilotLicenseData)
-          .then(data => {
-            console.log('Airplane added successfully:', data);
-          })
-          .catch(error => {
-            console.error('Failed to add airplane:', error);
-          });
+    .then(data => {
+      window.alert('Person added successfully!');
+    })
+    .catch(error => {
+      window.alert('Failed to add person: ' + error.message);
+    });
   }
 
   render() {
@@ -469,7 +471,7 @@ export class GrantPilotLicense extends Component {
         <br />
         <label>
                         License Type:
-                        <input type="text" name="licenseType" value={this.state.licenseType} onChange={this.handleInputChange} />
+                        <input type="text" name="license" value={this.state.license} onChange={this.handleInputChange} />
         </label>
         <br />
         <input type="submit" value="Grant" />
@@ -585,12 +587,12 @@ export class Offer_flight extends Component {
       }
       alert(JSON.stringify(flight));
       offerFlight(flight)
-        .then(data => {
-          console.log('Person added successfully:', data);
-        })
-        .catch(error => {
-          console.error('Failed to add person:', error);
-        });
+      .then(data => {
+        window.alert('Person added successfully!');
+      })
+      .catch(error => {
+        window.alert('Failed to add person: ' + error.message);
+      });
     }
   
     render() {
@@ -836,10 +838,10 @@ export class Remove_passenger_role extends Component {
     alert(JSON.stringify(person));
     removePassengerRole(person)
       .then(data => {
-        console.log('Person added successfully:', data);
+        window.alert('Person added successfully!');
       })
       .catch(error => {
-        console.error('Failed to add person:', error);
+        window.alert('Failed to add person: ' + error.message);
       });
   }
 
@@ -1698,7 +1700,13 @@ export class AddTicket extends Component {
     }
     alert(JSON.stringify(ticketData));
     // Call the function to add the data to the database
-    purchaseTicketAndSeat(ticketData);
+    purchaseTicketAndSeat(ticketData)
+    .then(data => {
+      window.alert('Person added successfully!');
+    })
+    .catch(error => {
+      window.alert('Failed to add person: ' + error.message);
+    });
   }
 
   render() {
@@ -1708,7 +1716,7 @@ export class AddTicket extends Component {
         <div>
         <label>
           Ticket ID:
-          <input type="number" name="ticketID" value={this.state.ticketID} onChange={this.handleInputChange} />
+          <input type="text" name="ticketID" value={this.state.ticketID} onChange={this.handleInputChange} />
         </label>
         </div>
 
@@ -1736,7 +1744,7 @@ export class AddTicket extends Component {
         <div>
           <label>
             Deplane:
-            <input type="text" name="deplane_at" value={this.state.deplane_at} onChange={this.handleInputChange} />
+            <input type="text" name="deplane" value={this.state.deplane} onChange={this.handleInputChange} />
           </label>
         </div>
 
@@ -1789,7 +1797,13 @@ export class AddUpdateLeg extends Component {
     }
     alert(JSON.stringify(legData));
     // Add your code to push the data to the server here
-    addUpdateLeg(legData);
+    addUpdateLeg(legData)    
+      .then(data => {
+        window.alert('Person added successfully!');
+      })
+      .catch(error => {
+        window.alert('Failed to add person: ' + error.message);
+      });
   }
 
   render() {
@@ -1860,12 +1874,12 @@ export class StartRoute extends Component {
     }
     alert(JSON.stringify(routeData));
     startRoute(routeData)
-      .then(data => {
-        console.log('Person added successfully:', data);
-      })
-      .catch(error => {
-        console.error('Failed to add person:', error);
-      });
+    .then(data => {
+      window.alert('Person added successfully!');
+    })
+    .catch(error => {
+      window.alert('Failed to add person: ' + error.message);
+    });
   }
 
   render() {
@@ -1922,12 +1936,12 @@ export class ExtendRoute extends Component {
     }
     alert(JSON.stringify(routeData));
     extendRoute(routeData)
-      .then(data => {
-        console.log('Person added successfully:', data);
-      })
-      .catch(error => {
-        console.error('Failed to add person:', error);
-      });
+    .then(data => {
+      window.alert('Person added successfully!');
+    })
+    .catch(error => {
+      window.alert('Failed to add person: ' + error.message);
+    });
   }
 
   render() {
