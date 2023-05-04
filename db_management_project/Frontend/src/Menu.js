@@ -1276,20 +1276,12 @@ export class AddAirport extends Component {
   <input type="text" name="state" value={this.state.state} onChange={this.handleInputChange} />
 </label></div>
 
-
-<label>
-        
-          location_id:
-          <select name="location_id" value={this.state.location_id} onChange={this.handleInputChange}>
-            <option value="">--Select a location ID--</option>
-            //update options later
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            {/* add more options as needed */}
-          </select>
-        </label>
-
+        <div>
+          <label>
+            location_id:
+            <input type="text" name="location_id" value={this.state.location_id} onChange={this.handleInputChange} />
+          </label>
+        </div>
 
         <br />
         <input type="submit" value="Add" />
@@ -1755,24 +1747,19 @@ export class AddTicket extends Component {
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
+
         <div>
-          <label>
-            Ticket ID:
-            <select name="ticketID" value={this.state.ticketID} onChange={this.handleInputChange}>
-              <option value="">--Select a ticket ID--</option>
-              {/* Add options for ticket ID here */}
-            </select>
-          </label>
+        <label>
+          Ticket ID:
+          <input type="number" name="ticketID" value={this.state.ticketID} onChange={this.handleInputChange} />
+        </label>
         </div>
 
         <div>
-          <label>
-            Cost:
-            <select name="cost" value={this.state.cost} onChange={this.handleInputChange}>
-              <option value="">--Select a cost--</option>
-              {/* Add options for cost here */}
-            </select>
-          </label>
+        <label>
+          Cost:
+          <input type="number" name="cost" value={this.state.cost} onChange={this.handleInputChange} />
+        </label>
         </div>
 
         <div>
@@ -1792,10 +1779,7 @@ export class AddTicket extends Component {
         <div>
           <label>
             Deplane:
-            <select name="deplane" value={this.state.deplane} onChange={this.handleInputChange}>
-              <option value="">--Select a deplane--</option>
-              {/* Add options for deplane here */}
-            </select>
+            <input type="text" name="deplane_at" value={this.state.deplane_at} onChange={this.handleInputChange} />
           </label>
         </div>
 
@@ -1866,30 +1850,20 @@ export class AddUpdateLeg extends Component {
             <input type="text" name="distance" value={this.state.distance} onChange={this.handleInputChange} />
           </label>
         </div>
+
         <div>
           <label>
-            Departure:
-            <select name="departure" value={this.state.departure} onChange={this.handleInputChange}>
-              <option value="">--Select a departure location--</option>
-              <option value="New York">New York</option>
-              <option value="Los Angeles">Los Angeles</option>
-              <option value="Chicago">Chicago</option>
-              {/* add more options as needed */}
-            </select>
+                    Departure:
+                    <input type="text" name="departure" value={this.state.departure} onChange={this.handleInputChange} />
           </label>
-        </div>
-        <div>
+         </div>
+
+         <div>
           <label>
-            Arrival:
-            <select name="arrival" value={this.state.arrival} onChange={this.handleInputChange}>
-              <option value="">--Select an arrival location--</option>
-              <option value="London">London</option>
-              <option value="Paris">Paris</option>
-              <option value="Dubai">Dubai</option>
-              {/* add more options as needed */}
-            </select>
+                          Arrival:
+                          <input type="text" name="arrival" value={this.state.arrival} onChange={this.handleInputChange} />
           </label>
-        </div>
+         </div>
         <br />
         <input type="submit" value="Add" />
         <button type="button" onClick={this.handleCancel}>Cancel</button>
@@ -1899,8 +1873,6 @@ export class AddUpdateLeg extends Component {
 }
 
 //Q8 Start_Route()
-
-
 export class StartRoute extends Component {
   constructor(props) {
     super(props);
@@ -1948,15 +1920,11 @@ export class StartRoute extends Component {
             <input type="text" name="routeID" value={this.state.routeID} onChange={this.handleInputChange} />
           </label>
         </div>
+
         <div>
           <label>
             Leg ID:
-            <select name="legID" value={this.state.legID} onChange={this.handleInputChange}>
-              <option value="">--Select a leg ID--</option>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-            </select>
+            <input type="text" name="legID" value={this.state.legID} onChange={this.handleInputChange} />
           </label>
         </div>
         <br />
@@ -2017,12 +1985,7 @@ export class ExtendRoute extends Component {
         <div>
           <label>
             Leg ID:
-            <select name="legID" value={this.state.legID} onChange={this.handleInputChange}>
-              <option value="">--Select a leg ID--</option>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-            </select>
+            <input type="text" name="legID" value={this.state.legID} onChange={this.handleInputChange} />
           </label>
         </div>
         <br />
