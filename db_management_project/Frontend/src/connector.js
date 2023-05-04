@@ -269,6 +269,17 @@ export async function getRouteSummary() {
   }
 }
 //Q24
+export async function getAlternativeAirports() {
+  try {
+    const response = await client.get(`${host}${apiPath}/getAlternativeAirports`, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Failed to get alternative airports');
+  }
+}
 //Q25
 
 
