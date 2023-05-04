@@ -267,6 +267,17 @@ export async function getPeopleInTheAir() {
   }
 }
 //Q22
+export async function getPeopleOnTheGround() {
+  try {
+    const response = await client.get(`${host}${apiPath}/getPeopleOnTheGround`, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Failed to get people on the ground');
+  }
+}
 //Q23
 export async function getRouteSummary() {
   try {

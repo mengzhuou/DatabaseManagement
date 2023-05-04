@@ -2,7 +2,7 @@ import React, { Component, useState } from 'react';
 import {addPerson, addAirplane, purchaseTicketAndSeat, addAirport, addUpdateLeg, startRoute, 
   extendRoute, flightLanding, flightTakeoff, passengersBoard, passengersDisembark, assignPilot, 
   retireFlight, recycleCrew, removePassengerRole, removePilotRole, offerFlight, getFlightInTheAir,
-  getRouteSummary, grantPilotLicense, getAlternativeAirports, getPeopleInTheAir
+  getRouteSummary, grantPilotLicense, getAlternativeAirports, getPeopleInTheAir, getPeopleOnTheGround
 } from './connector';
 import './Menu.css';
 
@@ -1497,7 +1497,7 @@ export class PassengersDisembark extends Component {
 
 
 export function ViewsandSimulationCycle() {
-  const [activeTab, setActiveTab] = useState('FlightsInTheAir','FlightsOnTheGround', 'PeopleInTheAir', 'PeopleInTheGround', 'RouteSummary', 'AlternativeAirports', 'SimulationCycle');
+  const [activeTab, setActiveTab] = useState('FlightsInTheAir','FlightsOnTheGround', 'PeopleInTheAir', 'PeopleOnTheGround', 'RouteSummary', 'AlternativeAirports', 'SimulationCycle');
   const openTab = (url) => {
       window.open(url, "_blank");
     };
@@ -1532,10 +1532,10 @@ export function ViewsandSimulationCycle() {
         </div>
         <br />
         <div
-                  className={activeTab === 'PeopleInTheGround' ? 'active' : ''}
-                  onClick={() => openTab("/PeopleInTheGround")}
+                  className={activeTab === 'PeopleOnTheGround' ? 'active' : ''}
+                  onClick={() => openTab("/PeopleOnTheGround")}
                 >
-                  <button><a href="/PeopleInTheGround">PeopleInTheGround</a></button>
+                  <button><a href="/PeopleOnTheGround">PeopleOnTheGround</a></button>
         </div>
         <br />
         <div
@@ -2157,6 +2157,85 @@ export class PeopleInTheAir extends Component {
   }
 }
 
+//Q22
+export class PeopleOnTheGround extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      peopleData: [],
+      isLoading: true,
+      error: null,
+    };
+  }
+
+  componentDidMount() {
+    this.fetchPeopleData();
+  }
+
+  fetchPeopleData() {
+    getPeopleOnTheGround()
+      .then(data => {
+        this.setState({
+          peopleData: data,
+          isLoading: false,
+        });
+      })
+      .catch(error => {
+        this.setState({
+          error,
+          isLoading: false,
+        });
+      });
+  }
+
+  render() {
+    const { peopleData, isLoading, error } = this.state;
+
+    if (isLoading) {
+      return <div>Loading...</div>;
+    }
+
+    if (error) {
+      return <div>Error: {error.message}</div>;
+    }
+
+    return (
+      <div>
+        <h1>People Data</h1>
+        <table className='tableView'>
+          <thead className='theadView'>
+            <tr className='trView'>
+              <th className='thView'>Departing From</th>
+              <th className='thView'>Airport</th>
+              <th className='thView'>City</th>
+              <th className='thView'>State</th>
+              <th className='thView'>Airport Name</th>
+              <th className='thView'>Number of Pilots</th>
+              <th className='thView'>Number of Passengers</th>
+              <th className='thView'>Person List</th>
+              <th className='thView'>Joint Pilots/Passengers</th>
+            </tr>
+          </thead>
+          <tbody>
+            {peopleData.map((person, index) => (
+              <tr key={index}>
+                <td className='tdView'>{person.departingFrom}</td>
+                <td className='tdView'>{person.airport}</td>
+                <td className='tdView'>{person.city}</td>
+                <td className='tdView'>{person.state}</td>
+                <td className='tdView'>{person.airportName}</td>
+                <td className='tdView'>{person.numPilots}</td>
+                <td className='tdView'>{person.numPassengers}</td>
+                <td className='tdView'>{person.personList}</td>
+                <td className='tdView'>{person.jointPilotsPassengers}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    );
+  }
+}
 
 //Q23
 export class RouteSummary extends Component {
