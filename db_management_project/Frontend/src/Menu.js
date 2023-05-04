@@ -1999,11 +1999,11 @@ export class FlightsInTheAir extends Component {
       );
     } else if (sortOption === 'earliestArrival') {
       sortedData = this.state.flightData.sort((a, b) =>
-        a.earliestArrival.localeCompare(b.earliestArrival)
+        Date.parse("1970-01-01T" + a.earliestArrival) - Date.parse("1970-01-01T" + b.earliestArrival)
       );
     } else if (sortOption === 'latestArrival') {
       sortedData = this.state.flightData.sort((a, b) =>
-        a.latestArrival.localeCompare(b.latestArrival)
+        Date.parse("1970-01-01T" + a.latestArrival) - Date.parse("1970-01-01T" + b.latestArrival)
       );
     } else {
       sortedData = this.state.flightData;
@@ -2015,7 +2015,7 @@ export class FlightsInTheAir extends Component {
   };
 
   render() {
-    const { flightData, isLoading, error, sortBy } = this.state;
+    const { flightData, isLoading, error } = this.state;
 
     if (isLoading) {
       return <div>Loading...</div>;
