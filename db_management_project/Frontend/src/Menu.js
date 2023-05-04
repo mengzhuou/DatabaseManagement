@@ -148,13 +148,11 @@ export default class AddAirplane1 extends Component {
 
     addAirplane(airplaneData)
       .then(data => {
-        console.log('Airplane added successfully:', data);
+        window.alert('Airplane added successfully!');
       })
       .catch(error => {
-        console.error('Failed to add airplane:', error);
+        window.alert('Failed to add airplane: ' + error.message);
       });
-
-
   }
 
   render() {
@@ -359,10 +357,10 @@ export class AddPerson extends Component {
     alert(JSON.stringify(personData));
     addPerson(personData)
           .then(data => {
-            console.log('Person added successfully:', data);
+            window.alert('Person added successfully!');
           })
           .catch(error => {
-            console.error('Failed to add person:', error);
+            window.alert('Failed to add person: ' + error.message);
           });
   }
 
