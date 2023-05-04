@@ -1,7 +1,7 @@
 import React, { Component, useState } from 'react';
 import {addPerson, addAirplane, purchaseTicketAndSeat, addAirport, addUpdateLeg, startRoute, 
   extendRoute, flightLanding, flightTakeoff, passengersBoard, passengersDisembark, assignPilot, 
-  retireFlight, recycleCrew, removePassengerRole, removePilotRole, offerFlight, getFlightInTheAir } from './connector';
+  retireFlight, recycleCrew, removePassengerRole, removePilotRole, offerFlight, getFlightInTheAir, grantPilotLicense } from './connector';
 import './Menu.css';
 
 
@@ -450,7 +450,7 @@ export class GrantPilotLicense extends Component {
     license: this.state.license
     };
     alert(JSON.stringify(PilotLicenseData));
-    GrantPilotLicense(PilotLicenseData)
+    grantPilotLicense(PilotLicenseData)
           .then(data => {
             console.log('Airplane added successfully:', data);
           })
