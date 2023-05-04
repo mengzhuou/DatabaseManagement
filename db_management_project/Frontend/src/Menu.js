@@ -1708,7 +1708,7 @@ export class AddTicket extends Component {
         <div>
         <label>
           Ticket ID:
-          <input type="number" name="ticketID" value={this.state.ticketID} onChange={this.handleInputChange} />
+          <input type="text" name="ticketID" value={this.state.ticketID} onChange={this.handleInputChange} />
         </label>
         </div>
 
@@ -2441,6 +2441,123 @@ export class AlternativeAirports extends Component {
                 <td className='tdView'>{airport.airportNameList}</td>
                 <td className='tdView'>{airport.airportCodeList}</td>
                 <td className='tdView'>{airport.numAirports}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    );
+  }
+}
+
+//Q20
+export class FlightsOnTheGround extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      flightData: [],
+      isLoading: true,
+      error: null,
+      sortBy: '', // new state variable to keep track of selected sort option
+    };
+  }
+
+  componentDidMount() {
+    this.fetchFlightData();
+  }
+
+  fetchFlightData() {
+    getFlightInTheAir()
+      .then(data => {
+        this.setState({
+          flightData: data,
+          isLoading: false,
+        });
+      })
+      .catch(error => {
+        this.setState({
+          error,
+          isLoading: false,
+        });
+      });
+  }
+
+  sortFlightData = (sortOption) => {
+    let sortedData = [];
+
+    if (sortOption === 'departingFrom') {
+      sortedData = this.state.flightData.sort((a, b) =>
+        a.departingFrom.localeCompare(b.departingFrom)
+      );
+    } else if (sortOption === 'numFlights') {
+      sortedData = this.state.flightData.sort((a, b) =>
+        a.numFlights.localeCompare(b.numFlights)
+      );
+    } else if (sortOption === 'earliestArrival') {
+      sortedData = this.state.flightData.sort((a, b) =>
+        a.earliestArrival.localeCompare(b.earliestArrival)
+      );
+    } else if (sortOption === 'latestArrival') {
+      sortedData = this.state.flightData.sort((a, b) =>
+        a.latestArrival.localeCompare(b.latestArrival)
+      );
+    } else {
+      sortedData = this.state.flightData;
+    }
+    this.setState({
+      sortBy: sortOption,
+      flightData: sortedData,
+    });
+  };
+
+  render() {
+    const { flightData, isLoading, error, sortBy } = this.state;
+
+    if (isLoading) {
+      return <div>Loading...</div>;
+    }
+
+    if (error) {
+      return <div>Error: {error.message}</div>;
+    }
+
+    return (
+      <div>
+        <h1>Flight Data</h1>
+        <div className="sort-container">
+          <label htmlFor="sort-select">Sort by:</label>
+          <select
+            id="sort-select"
+            onChange={e => this.sortFlightData(e.target.value)}
+
+          >
+            <option value="default">Default</option>
+            <option value="departingFrom">Departing From (A-Z)</option>
+            <option value="numFlights">Number Flights</option>
+            <option value="earliestArrival">Earliest Arrival</option>
+            <option value="latestArrival">Latest Arrival</option>
+          </select>
+        </div>
+        <table className='tableView'>
+          <thead className='theadView'>
+            <tr className='trView'>
+              <th className='thView'>Departing From</th>
+              <th className='thView'>Number of Flights</th>
+              <th className='thView'>Flight List</th>
+              <th className='thView'>Earliest Arrival</th>
+              <th className='thView'>Latest Arrival</th>
+              <th className='thView'>Airplane List</th>
+            </tr>
+          </thead>
+          <tbody>
+            {flightData.map((flight, index) => (
+              <tr key={index}>
+                <td className='tdView'>{flight.departingFrom}</td>
+                <td className='tdView'>{flight.numFlights}</td>
+                <td className='tdView'>{flight.flightList}</td>
+                <td className='tdView'>{flight.earliestArrival}</td>
+                <td className='tdView'>{flight.latestArrival}</td>
+                <td className='tdView'>{flight.airplaneList}</td>
               </tr>
             ))}
           </tbody>
