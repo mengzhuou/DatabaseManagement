@@ -4,7 +4,7 @@ import {Menu} from './Menu';
 import {Routes, Route, BrowserRouter} from 'react-router-dom';
 import AddAirplane1, {  AddTicket, AddPerson, GrantPilotLicense, Flights, Routes_sub_menu, Airports, ViewsandSimulationCycle, FlightsInTheAir, Offer_flight, AssignPilot,
 Recycle_crew, Retire_flight, Remove_pilot_role, Remove_passenger_role, AddUpdateLeg, StartRoute, ExtendRoute, AddAirport, FlightLanding, FlightTakeoff,
-PassengersBoard, PassengersDisembark, RouteSummary, AlternativeAirports} from './Menu';
+PassengersBoard, PassengersDisembark, RouteSummary, AlternativeAirports, PeopleInTheAir} from './Menu';
 
 export default function App() {
   return (
@@ -20,6 +20,7 @@ export default function App() {
         <Route path="ViewsandSimulationCycle" element={<ViewsandSimulationCycle/>} />
         <Route path="FlightsInTheAir" element={<FlightsInTheAir/>} />
         <Route path="RouteSummary" element={<RouteSummary/>} />
+        <Route path="PeopleInTheAir" element={<PeopleInTheAir/>} />
         <Route path="AlternativeAirports" element={<AlternativeAirports/>} />
         <Route path="Tickets" element={<AddTicket/>} />
         <Route path="Offer_flight" element={<Offer_flight/>} />

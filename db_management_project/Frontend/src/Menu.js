@@ -2,7 +2,7 @@ import React, { Component, useState } from 'react';
 import {addPerson, addAirplane, purchaseTicketAndSeat, addAirport, addUpdateLeg, startRoute, 
   extendRoute, flightLanding, flightTakeoff, passengersBoard, passengersDisembark, assignPilot, 
   retireFlight, recycleCrew, removePassengerRole, removePilotRole, offerFlight, getFlightInTheAir,
-  getRouteSummary, grantPilotLicense, getAlternativeAirports
+  getRouteSummary, grantPilotLicense, getAlternativeAirports, getPeopleInTheAir
 } from './connector';
 import './Menu.css';
 
@@ -2072,6 +2072,91 @@ export class FlightsInTheAir extends Component {
     );
   }
 }
+
+//Q21
+export class PeopleInTheAir extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      peopleData: [],
+      isLoading: true,
+      error: null,
+    };
+  }
+
+  componentDidMount() {
+    this.fetchPeopleData();
+  }
+
+  fetchPeopleData() {
+    getPeopleInTheAir()
+      .then(data => {
+        this.setState({
+          peopleData: data,
+          isLoading: false,
+        });
+      })
+      .catch(error => {
+        this.setState({
+          error,
+          isLoading: false,
+        });
+      });
+  }
+
+  render() {
+    const { peopleData, isLoading, error } = this.state;
+
+    if (isLoading) {
+      return <div>Loading...</div>;
+    }
+
+    if (error) {
+      return <div>Error: {error.message}</div>;
+    }
+
+    return (
+      <div>
+        <h1>People Data</h1>
+        <table className='tableView'>
+          <thead className='theadView'>
+            <tr className='trView'>
+              <th className='thView'>Departing From</th>
+              <th className='thView'>Arriving At</th>
+              <th className='thView'>Number of Airplanes</th>
+              <th className='thView'>Airplane List</th>
+              <th className='thView'>Flight List</th>
+              <th className='thView'>Earliest Arrival</th>
+              <th className='thView'>Latest Arrival</th>
+              <th className='thView'>Number of Pilots</th>
+              <th className='thView'>Number of Passengers</th>
+              <th className='thView'>Joint Pilots and Passengers</th>
+              <th className='thView'>Person List</th>
+            </tr>
+          </thead>
+          <tbody>
+            {peopleData.map((person, index) => (
+              <tr key={index}>
+                <td className='tdView'>{person.departingFrom}</td>
+                <td className='tdView'>{person.arrivingAt}</td>
+                <td className='tdView'>{person.numAirplanes}</td>
+                <td className='tdView'>{person.airplaneList}</td>
+                <td className='tdView'>{person.flightList}</td>
+                <td className='tdView'>{person.earliestArrival}</td>
+                <td className='tdView'>{person.latestArrival}</td>
+                <td className='tdView'>{person.numPilots}</td>
+                <td className='tdView'>{person.numPassengers}</td>
+                <td className='tdView'>{person.jointPilotsPassengers}</td>
+                <td className='tdView'>{person.personList}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    );
+  }
+}
+
 
 //Q23
 export class RouteSummary extends Component {
