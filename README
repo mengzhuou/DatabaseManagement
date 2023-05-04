@@ -1,0 +1,12 @@
+This folder is created by CS4400 section A - team 3.
+
+Simple Airline Management System (SAMS)
+
+1. Setup Instructions and Tech Stacks
+  Git clone this repository and npm start the front-end files to access UI. Note front-end code is in React.js so node.js should be installed.
+  Backend codes requires java and springboot enrionemnt, so check and configure the JDK before running backend codes.
+  MySQL was served as the database, and all views and stored procedures follows same criteria from phase3 of course CS 4400.
+ 
+2. Work Distributions
+  All four members have participated in the development and testing.
+  
