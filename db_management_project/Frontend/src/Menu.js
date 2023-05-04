@@ -459,31 +459,14 @@ export class GrantPilotLicense extends Component {
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
-        <label>
-          Person ID:
-          <select name="personID" value={this.state.personID} onChange={this.handleInputChange}>
-            <option value="">--Select a person ID--</option>
-            <option value="p1">p1</option>
-            <option value="p2">p2</option>
-            <option value="p3">p3</option>
-            <option value="p4">p4</option>
-            <option value="p5">p5</option>
-            <option value="p6">p6</option>
-            <option value="p7">p7</option>
-            <option value="p8">p8</option>
-            {/* add more options as needed */}
-          </select>
-        </label>
+      <label>
+                Person ID:
+                <input type="text" name="personID" value={this.state.personID} onChange={this.handleInputChange} />
+      </label>
         <br />
         <label>
-          License Type:
-          <select name="licenseType" value={this.state.licenseType} onChange={this.handleInputChange}>
-            <option value="">--Select a license type--</option>
-            <option value="Prop">Prop License</option>
-            <option value="Commercial">Commercial Pilot License</option>
-            <option value="Airline">Airline Transport Pilot License</option>
-            {/* add more options as needed */}
-          </select>
+                        License Type:
+                        <input type="text" name="licenseType" value={this.state.licenseType} onChange={this.handleInputChange} />
         </label>
         <br />
         <input type="submit" value="Grant" />
@@ -612,25 +595,13 @@ export class Offer_flight extends Component {
         <form onSubmit={this.handleSubmit}>
           <div>
           <label>
-            support_airline:
-            <select name="support_airline" value={this.state.support_airline} onChange={this.handleInputChange}>
-              <option value="">--Select a support_airline--</option>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              {/* add more options as needed */}
-            </select>
+               support_airline:
+               <input type="text" name="support_airline" value={this.state.support_airline} onChange={this.handleInputChange} />
           </label>
           <br />
           <label>
-            airplane_status:
-            <select name="airplane_status" value={this.state.airplane_status} onChange={this.handleInputChange}>
-              <option value="">--Select a airplane_status--</option>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              {/* add more options as needed */}
-            </select>
+              airplane_status:
+              <input type="text" name="airplane_status" value={this.state.airplane_status} onChange={this.handleInputChange} />
           </label>
           <br />
           <label>
@@ -709,23 +680,13 @@ export class AssignPilot extends Component {
         <div>
           <label>
             Person ID:
-            <select name="personID" value={this.state.personID} onChange={this.handleInputChange}>
-              <option value="">--Select a person ID--</option>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-            </select>
+            <input type="text" name="personID" value={this.state.personID} onChange={this.handleInputChange} />
           </label>
         </div>
         <div>
           <label>
-            Flight:
-            <select name="personID" value={this.state.flight} onChange={this.handleInputChange}>
-              <option value="">--Select a flight--</option>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-            </select>
+             Flight:
+             <input type="text" name="flight" value={this.state.flight} onChange={this.handleInputChange} />
           </label>
         </div>
         <br />
@@ -776,15 +737,10 @@ export class Recycle_crew extends Component {
     return (
       <form onSubmit={this.handleSubmit}>
         <div>
-          <label>
-            Flight ID:
-            <select name="personID" value={this.state.personID} onChange={this.handleInputChange}>
-              <option value="">--Select a person ID--</option>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-            </select>
-          </label>
+         <label>
+           Person ID:
+           <input type="text" name="personID" value={this.state.personID} onChange={this.handleInputChange} />
+         </label>
         </div>
         <br />
         <input type="submit" value="Add" />
@@ -836,13 +792,8 @@ export class Retire_flight extends Component {
       <form onSubmit={this.handleSubmit}>
         <div>
           <label>
-            Flight ID:
-            <select name="personID" value={this.state.personID} onChange={this.handleInputChange}>
-              <option value="">--Select a person ID--</option>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-            </select>
+            Person ID:
+            <input type="text" name="personID" value={this.state.personID} onChange={this.handleInputChange} />
           </label>
         </div>
         <br />
@@ -895,12 +846,7 @@ export class Remove_passenger_role extends Component {
         <div>
           <label>
             Person ID:
-            <select name="personID" value={this.state.personID} onChange={this.handleInputChange}>
-              <option value="">--Select a person ID--</option>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-            </select>
+            <input type="text" name="personID" value={this.state.personID} onChange={this.handleInputChange} />
           </label>
         </div>
         <br />
@@ -952,12 +898,7 @@ export class Remove_pilot_role extends Component {
         <div>
           <label>
             Person ID:
-            <select name="personID" value={this.state.personID} onChange={this.handleInputChange}>
-              <option value="">--Select a person ID--</option>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-            </select>
+            <input type="text" name="personID" value={this.state.personID} onChange={this.handleInputChange} />
           </label>
         </div>
         <br />
