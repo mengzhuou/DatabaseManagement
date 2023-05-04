@@ -1954,8 +1954,7 @@ export class ExtendRoute extends Component {
 
 
 
-
-//Q19 View
+//Q19
 export class FlightsInTheAir extends Component {
   constructor(props) {
     super(props);
@@ -1963,6 +1962,7 @@ export class FlightsInTheAir extends Component {
       flightData: [],
       isLoading: true,
       error: null,
+      sortBy: '', // new state variable to keep track of selected sort option
     };
   }
 
@@ -1986,8 +1986,36 @@ export class FlightsInTheAir extends Component {
       });
   }
 
+  sortFlightData = (sortOption) => {
+    let sortedData = [];
+
+    if (sortOption === 'departingFrom') {
+      sortedData = this.state.flightData.sort((a, b) =>
+        a.departingFrom.localeCompare(b.departingFrom)
+      );
+    } else if (sortOption === 'arrivingAt') {
+      sortedData = this.state.flightData.sort((a, b) =>
+        a.arrivingAt.localeCompare(b.arrivingAt)
+      );
+    } else if (sortOption === 'earliestArrival') {
+      sortedData = this.state.flightData.sort((a, b) =>
+        a.earliestArrival.localeCompare(b.earliestArrival)
+      );
+    } else if (sortOption === 'latestArrival') {
+      sortedData = this.state.flightData.sort((a, b) =>
+        a.latestArrival.localeCompare(b.latestArrival)
+      );
+    } else {
+      sortedData = this.state.flightData;
+    }
+    this.setState({
+      sortBy: sortOption,
+      flightData: sortedData,
+    });
+  };
+
   render() {
-    const { flightData, isLoading, error } = this.state;
+    const { flightData, isLoading, error, sortBy } = this.state;
 
     if (isLoading) {
       return <div>Loading...</div>;
@@ -2000,6 +2028,20 @@ export class FlightsInTheAir extends Component {
     return (
       <div>
         <h1>Flight Data</h1>
+        <div className="sort-container">
+          <label htmlFor="sort-select">Sort by:</label>
+          <select
+            id="sort-select"
+            onChange={e => this.sortFlightData(e.target.value)}
+
+          >
+            <option value="default">Default</option>
+            <option value="departingFrom">Departing From (A-Z)</option>
+            <option value="arrivingAt">Arriving At (A-Z)</option>
+            <option value="earliestArrival">Earliest Arrival</option>
+            <option value="latestArrival">Latest Arrival</option>
+          </select>
+        </div>
         <table className='tableView'>
           <thead className='theadView'>
             <tr className='trView'>
