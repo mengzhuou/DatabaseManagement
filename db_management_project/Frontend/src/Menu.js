@@ -994,27 +994,19 @@ export class Add_Update_Leg extends Component {
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
-        <label>
-          departure:
-          <select name="departure" value={this.state.departure} onChange={this.handleInputChange}>
-            <option value="">--Select a departure--</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            {/* add more options as needed */}
-          </select>
-        </label>
+        <div>
+          <label>
+                    Departure:
+                    <input type="text" name="departure" value={this.state.departure} onChange={this.handleInputChange} />
+          </label>
+         </div>
         <br />
-        <label>
-          arrival:
-          <select name="arrival" value={this.state.arrival} onChange={this.handleInputChange}>
-            <option value="">--Select a arrival--</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            {/* add more options as needed */}
-          </select>
-        </label>
+                <div>
+                  <label>
+                            Arrival:
+                            <input type="text" name="arrival" value={this.state.arrival} onChange={this.handleInputChange} />
+                  </label>
+                 </div>
         <br />
         <label>
           legID:
@@ -1072,13 +1064,7 @@ export class Start_Route extends Component {
       <form onSubmit={this.handleSubmit}>
         <label>
           legID:
-          <select name="legID" value={this.state.legID} onChange={this.handleInputChange}>
-            <option value="">--Select a legID--</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            {/* add more options as needed */}
-          </select>
+          <input type="text" name="legID" value={this.state.legID} onChange={this.handleInputChange} />
         </label>
         <br />
         <label>
@@ -1132,13 +1118,7 @@ export class Extend_Route extends Component {
       <form onSubmit={this.handleSubmit}>
         <label>
           legID:
-          <select name="legID" value={this.state.legID} onChange={this.handleInputChange}>
-            <option value="">--Select a legID--</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            {/* add more options as needed */}
-          </select>
+          <input type="text" name="legID" value={this.state.legID} onChange={this.handleInputChange} />
         </label>
         <br />
         <label>
