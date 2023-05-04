@@ -1,5 +1,5 @@
 import React, { Component, useState } from 'react';
-import {addAirplane, purchaseTicketAndSeat, addAirport, addUpdateLeg, startRoute, extendRoute, flightLanding, flightTakeoff, passengersBoard, passengersDisembark, assignPilot, retireFlight, recycleCrew, removePassengerRole, removePilotRole, offerFlight } from './connector';
+import {addPerson, addAirplane, purchaseTicketAndSeat, addAirport, addUpdateLeg, startRoute, extendRoute, flightLanding, flightTakeoff, passengersBoard, passengersDisembark, assignPilot, retireFlight, recycleCrew, removePassengerRole, removePilotRole, offerFlight } from './connector';
 import './App.css';
 
 export function Menu() {
