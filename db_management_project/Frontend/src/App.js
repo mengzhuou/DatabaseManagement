@@ -2,8 +2,9 @@ import './App.css';
 import ReactDOM from "react-dom/client";
 import {Menu} from './Menu';
 import {Routes, Route, BrowserRouter} from 'react-router-dom';
-import AddAirplane1, {  AddTicket, AddPerson, GrantPilotLicense, Flights, Routes_sub_menu, Airports, ViewsandSimulationCycle, FlightsInTheAir, Offer_flight, Assign_pilot,
-Recycle_crew, Retire_flight, Remove_pilot_role, Remove_passenger_role} from './Menu';
+import AddAirplane1, {  AddTicket, AddPerson, GrantPilotLicense, Flights, Routes_sub_menu, Airports, ViewsandSimulationCycle, FlightsInTheAir, Offer_flight, AssignPilot,
+Recycle_crew, Retire_flight, Remove_pilot_role, Remove_passenger_role, AddUpdateLeg, StartRoute, ExtendRoute, AddAirport, FlightLanding, FlightTakeoff,
+PassengersBoard, PassengersDisembark} from './Menu';
 
 export default function App() {
   return (
@@ -20,12 +21,19 @@ export default function App() {
         <Route path="FlightsInTheAir" element={<FlightsInTheAir/>} />
         <Route path="Tickets" element={<AddTicket/>} />
         <Route path="Offer_flight" element={<Offer_flight/>} />
-        <Route path="Assign_pilot" element={<Assign_pilot/>} />
+        <Route path="Assign_pilot" element={<AssignPilot/>} />
         <Route path="Recycle_crew" element={<Recycle_crew/>} />
         <Route path="Retire_flight" element={<Retire_flight/>} />
         <Route path="Remove_pilot_role" element={<Remove_pilot_role/>} />
         <Route path="Remove_passenger_role" element={<Remove_passenger_role/>} />
-
+        <Route path="Add_Update_Leg" element={<AddUpdateLeg/>} />
+        <Route path="Start_Route" element={<StartRoute/>} />
+        <Route path="Extend_Route" element={<ExtendRoute/>} />
+        <Route path="Add_Airport" element={<AddAirport/>} />
+        <Route path="Flight_landing" element={<FlightLanding/>} />
+        <Route path="Flight_takeoff" element={<FlightTakeoff/>} />
+        <Route path="Passengers_board" element={<PassengersBoard/>} />
+        <Route path="Passengers_disembark" element={<PassengersDisembark/>} />
       </Routes>
     </BrowserRouter>
   );
