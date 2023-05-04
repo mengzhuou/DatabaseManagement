@@ -1,7 +1,9 @@
 import React, { Component, useState } from 'react';
 import {addPerson, addAirplane, purchaseTicketAndSeat, addAirport, addUpdateLeg, startRoute, 
   extendRoute, flightLanding, flightTakeoff, passengersBoard, passengersDisembark, assignPilot, 
-  retireFlight, recycleCrew, removePassengerRole, removePilotRole, offerFlight, getFlightInTheAir } from './connector';
+  retireFlight, recycleCrew, removePassengerRole, removePilotRole, offerFlight, getFlightInTheAir,
+  getRouteSummary
+} from './connector';
 import './Menu.css';
 
 
@@ -2064,6 +2066,114 @@ export class FlightsInTheAir extends Component {
                 <td className='tdView'>{flight.earliestArrival}</td>
                 <td className='tdView'>{flight.latestArrival}</td>
                 <td className='tdView'>{flight.airplaneList}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    );
+  }
+}
+
+//Q23
+export class RouteSummary extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      routeData: [],
+      isLoading: true,
+      error: null,
+      sortBy: '',
+    };
+  }
+
+  componentDidMount() {
+    this.fetchRouteData();
+  }
+
+  fetchRouteData() {
+    getRouteSummary()
+      .then(data => {
+        this.setState({
+          routeData: data,
+          isLoading: false,
+        });
+      })
+      .catch(error => {
+        this.setState({
+          error,
+          isLoading: false,
+        });
+      });
+  }
+
+  sortRouteData = (sortOption) => {
+    let sortedData = [];
+
+    if (sortOption === 'route') {
+      sortedData = this.state.routeData.sort((a, b) =>
+        a.route.localeCompare(b.route)
+      );
+    } else if (sortOption === 'routeLength') {
+      sortedData = this.state.routeData.sort((a, b) =>
+        a.routeLength - b.routeLength
+      );
+    } else {
+      sortedData = this.state.routeData;
+    }
+    this.setState({
+      sortBy: sortOption,
+      routeData: sortedData,
+    });
+  };
+
+  render() {
+    const { routeData, isLoading, error } = this.state;
+
+    if (isLoading) {
+      return <div>Loading...</div>;
+    }
+
+    if (error) {
+      return <div>Error: {error.message}</div>;
+    }
+
+    return (
+      <div>
+        <h1>Route Summary</h1>
+        <div className="sort-container">
+          <label htmlFor="sort-select">Sort by:</label>
+          <select
+            id="sort-select"
+            onChange={e => this.sortRouteData(e.target.value)}
+          >
+            <option value="default">Default</option>
+            <option value="route">Route (A-Z)</option>
+            <option value="routeLength">Route Length (Low to High)</option>
+          </select>
+        </div>
+        <table className='tableView'>
+          <thead className='theadView'>
+            <tr className='trView'>
+              <th className='thView'>Route</th>
+              <th className='thView'>Route Length</th>
+              <th className='thView'>Number of Legs</th>
+              <th className='thView'>Leg Sequence</th>
+              <th className='thView'>Airport Sequence</th>
+              <th className='thView'>Number of Flights</th>
+              <th className='thView'>Flight List</th>
+            </tr>
+          </thead>
+          <tbody>
+            {routeData.map((route, index) => (
+              <tr key={index}>
+                <td className='tdView'>{route.route}</td>
+                <td className='tdView'>{route.routeLength}</td>
+                <td className='tdView'>{route.numLegs}</td>
+                <td className='tdView'>{route.legSequence}</td>
+                <td className='tdView'>{route.airportSequence}</td>
+                <td className='tdView'>{route.numFlights}</td>
+                <td className='tdView'>{route.flightList}</td>
               </tr>
             ))}
           </tbody>
