@@ -2,7 +2,7 @@ import './App.css';
 import ReactDOM from "react-dom/client";
 import {Menu} from './Menu';
 import {Routes, Route, BrowserRouter} from 'react-router-dom';
-import AddAirplane1, {  AddTicket, AddPerson, GrantPilotLicense, Flights, Routes_sub_menu, Airports, ViewsandSimulationCycle, FlightsInTheAir, Offer_flight, AssignPilot,
+import AddAirplane1, {  AddTicket, AddPerson, GrantPilotLicense, Flights, Routes_sub_menu, Airports, ViewsandSimulationCycle, FlightsInTheAir, FlightsOnTheGround, Offer_flight, AssignPilot,
 Recycle_crew, Retire_flight, Remove_pilot_role, Remove_passenger_role, AddUpdateLeg, StartRoute, ExtendRoute, AddAirport, FlightLanding, FlightTakeoff,
 PassengersBoard, PassengersDisembark, RouteSummary, AlternativeAirports, PeopleInTheAir, PeopleOnTheGround, FlightsOnTheGround} from './Menu';
 
@@ -39,6 +39,10 @@ export default function App() {
         <Route path="Passengers_board" element={<PassengersBoard/>} />
         <Route path="Passengers_disembark" element={<PassengersDisembark/>} />
         <Route path="FlightsOnTheGround" element={<FlightsOnTheGround/>} />
+<<<<<<< HEAD
+=======
+
+>>>>>>> edd3cfe2874c5862a26d41c38d60accd6479a875
       </Routes>
     </BrowserRouter>
   );
