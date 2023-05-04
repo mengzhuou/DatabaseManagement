@@ -296,21 +296,35 @@ export class AddPerson extends Component {
     super(props);
     this.state = {
       personID: '',
+      firstName: '',
+      lastName: '',
       locationID: '',
-      first_name: '',
-      last_name: '',
-      taxID: '',
-      experience: '',
-      flying_airline: '',
-      flying_tail: '',
-      miles: ''
+      taxID: null,
+      experience: null,
+      flyingAirline: '',
+      flyingTail: '',
+      miles: null
     };
   }
 
   handleInputChange = (event) => {
     const target = event.target;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
+    let value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
+
+    if (name === "taxID" && value === "") {
+      value = null;
+    }
+
+    if (name === 'miles' || name === 'experience') {
+      if (value === '') {
+          value = null
+      } else {
+          value = parseInt(value)
+      }
+    } else {
+        value = value
+    }
 
     this.setState({
       [name]: value
@@ -320,19 +334,25 @@ export class AddPerson extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
     console.log('Form submitted:', this.state);
-    const personData =
-    {personID: this.state.personID,
-           locationID: this.state.locationID,
-           first_name: this.state.first_name,
-           last_name: this.state.last_name,
-           taxID: this.state.taxID,
-           experience: this.state.experience,
-           flying_airline: this.state.flying_airline,
-           flying_tail: this.state.flying_tail,
-           miles: this.state.miles
-    }
+    const personData = {
+      person: {
+        personID: this.state.personID,
+        first_name: this.state.firstName,
+        last_name: this.state.lastName,
+        locationID: this.state.locationID,
+      },
+      pilot: {
+        taxID: this.state.taxID,
+        experience: this.state.experience,
+        flying_airline: this.state.flyingAirline,
+        flying_tail: this.state.flyingTail,
+      },
+      passenger: {
+        miles: this.state.miles,
+      },
+    };
     alert(JSON.stringify(personData));
-    AddPerson(personData)
+    addPerson(personData)
           .then(data => {
             console.log('Person added successfully:', data);
           })
@@ -346,34 +366,22 @@ export class AddPerson extends Component {
       <form onSubmit={this.handleSubmit}>
         <label>
           Person ID:
-          <select name="personID" value={this.state.personID} onChange={this.handleInputChange}>
-            <option value="">--Select a person ID--</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            {/* add more options as needed */}
-          </select>
-        </label>
-        <br />
-        <label>
-          Location ID:
-          <select name="locationID" value={this.state.locationID} onChange={this.handleInputChange}>
-            <option value="">--Select a location ID--</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            {/* add more options as needed */}
-          </select>
+          <input type="text" name="personID" value={this.state.personID} onChange={this.handleInputChange} />
         </label>
         <br />
         <label>
           First Name:
-          <input type="text" name="firstName" value={this.state.first_name} onChange={this.handleInputChange} />
+          <input type="text" name="firstName" value={this.state.firstName} onChange={this.handleInputChange} />
         </label>
         <br />
         <label>
           Last Name:
-          <input type="text" name="lastName" value={this.state.last_name} onChange={this.handleInputChange} />
+          <input type="text" name="lastName" value={this.state.lastName} onChange={this.handleInputChange} />
+        </label>
+        <br />
+        <label>
+          Location ID:
+          <input type="text" name="locationID" value={this.state.locationID} onChange={this.handleInputChange} />
         </label>
         <br />
         <label>
@@ -383,23 +391,25 @@ export class AddPerson extends Component {
         <br />
         <label>
           Experience:
-          <input type="text" name="experience" value={this.state.experience} onChange={this.handleInputChange} />
+          <input type="number" name="experience" value={this.state.experience} onChange={this.handleInputChange} />
         </label>
         <br />
         <label>
           Airline:
-          <input type="text" name="airline" value={this.state.flying_airline} onChange={this.handleInputChange} />
+          <input type="text" name="flyingAirline" value={this.state.flyingAirline} onChange={this.handleInputChange} />
         </label>
         <br />
         <label>
           Tail:
-          <input type="text" name="tail" value={this.state.flying_tail} onChange={this.handleInputChange} />
+          <input type="text" name="flyingTail" value={this.state.flyingTail} onChange={this.handleInputChange} />
         </label>
         <br />
-        <label>
-          Miles:
-          <input type="text" name="miles" value={this.state.miles} onChange={this.handleInputChange} />
-        </label>
+        Miles:
+        {this.state.miles === '' ?
+          <input type="number" name="miles" onChange={this.handleInputChange} />
+          :
+          <input type="number" name="miles" value={this.state.miles} onChange={this.handleInputChange} />
+        }
         <br />
         <input type="submit" value="Add" />
         <button type="button" onClick={this.handleCancel}>Cancel</button>

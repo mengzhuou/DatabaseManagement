@@ -372,6 +372,17 @@ public class Controllers {
                 miles = passenger.getMiles();
             }
 
+            System.out.println("personID: " + personID);
+            System.out.println("first_name: " + first_name);
+            System.out.println("last_name: " + last_name);
+            System.out.println("locationID: " + locationID);
+            System.out.println("taxID: " + taxID);
+            System.out.println("experience: " + experience);
+            System.out.println("flying_airline: " + flying_airline);
+            System.out.println("flying_tail: " + flying_tail);
+            System.out.println("miles: " + miles);
+
+
             boolean isAdded = personService.addPerson(
                     personID,
                     first_name,
