@@ -2,7 +2,7 @@ import React, { Component, useState } from 'react';
 import {addPerson, addAirplane, purchaseTicketAndSeat, addAirport, addUpdateLeg, startRoute, 
   extendRoute, flightLanding, flightTakeoff, passengersBoard, passengersDisembark, assignPilot, 
   retireFlight, recycleCrew, removePassengerRole, removePilotRole, offerFlight, getFlightInTheAir,
-  getRouteSummary
+  getRouteSummary, grantPilotLicense
 } from './connector';
 import './Menu.css';
 
