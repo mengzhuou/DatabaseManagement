@@ -1,7 +1,9 @@
 import React, { Component, useState } from 'react';
 import {addPerson, addAirplane, purchaseTicketAndSeat, addAirport, addUpdateLeg, startRoute, 
   extendRoute, flightLanding, flightTakeoff, passengersBoard, passengersDisembark, assignPilot, 
-  retireFlight, recycleCrew, removePassengerRole, removePilotRole, offerFlight, getFlightInTheAir, grantPilotLicense } from './connector';
+  retireFlight, recycleCrew, removePassengerRole, removePilotRole, offerFlight, getFlightInTheAir,
+  getRouteSummary, grantPilotLicense, getAlternativeAirports, getPeopleInTheAir, getPeopleOnTheGround
+} from './connector';
 import './Menu.css';
 
 
@@ -146,13 +148,11 @@ export default class AddAirplane1 extends Component {
 
     addAirplane(airplaneData)
       .then(data => {
-        console.log('Airplane added successfully:', data);
+        window.alert('Airplane added successfully!');
       })
       .catch(error => {
-        console.error('Failed to add airplane:', error);
+        window.alert('Failed to add airplane: ' + error.message);
       });
-
-
   }
 
   render() {
@@ -357,10 +357,10 @@ export class AddPerson extends Component {
     alert(JSON.stringify(personData));
     addPerson(personData)
           .then(data => {
-            console.log('Person added successfully:', data);
+            window.alert('Person added successfully!');
           })
           .catch(error => {
-            console.error('Failed to add person:', error);
+            window.alert('Failed to add person: ' + error.message);
           });
   }
 
@@ -1497,7 +1497,7 @@ export class PassengersDisembark extends Component {
 
 
 export function ViewsandSimulationCycle() {
-  const [activeTab, setActiveTab] = useState('FlightsInTheAir','FlightsOnTheGround', 'PeopleInTheAir', 'PeopleInTheGround', 'RouteSummary', 'AlternativeAirports', 'SimulationCycle');
+  const [activeTab, setActiveTab] = useState('FlightsInTheAir','FlightsOnTheGround', 'PeopleInTheAir', 'PeopleOnTheGround', 'RouteSummary', 'AlternativeAirports', 'SimulationCycle');
   const openTab = (url) => {
       window.open(url, "_blank");
     };
@@ -1532,10 +1532,10 @@ export function ViewsandSimulationCycle() {
         </div>
         <br />
         <div
-                  className={activeTab === 'PeopleInTheGround' ? 'active' : ''}
-                  onClick={() => openTab("/PeopleInTheGround")}
+                  className={activeTab === 'PeopleOnTheGround' ? 'active' : ''}
+                  onClick={() => openTab("/PeopleOnTheGround")}
                 >
-                  <button><a href="/PeopleInTheGround">PeopleInTheGround</a></button>
+                  <button><a href="/PeopleOnTheGround">PeopleOnTheGround</a></button>
         </div>
         <br />
         <div
@@ -2074,27 +2074,26 @@ export class FlightsInTheAir extends Component {
 }
 
 
-//Q20
-export class FlightsOnTheGround extends Component {
+//Q21
+export class PeopleInTheAir extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      flightData: [],
+      peopleData: [],
       isLoading: true,
       error: null,
-      sortBy: '', // new state variable to keep track of selected sort option
     };
   }
 
   componentDidMount() {
-    this.fetchFlightData();
+    this.fetchPeopleData();
   }
 
-  fetchFlightData() {
-    getFlightInTheAir()
+  fetchPeopleData() {
+    getPeopleInTheAir()
       .then(data => {
         this.setState({
-          flightData: data,
+          peopleData: data,
           isLoading: false,
         });
       })
@@ -2106,36 +2105,8 @@ export class FlightsOnTheGround extends Component {
       });
   }
 
-  sortFlightData = (sortOption) => {
-    let sortedData = [];
-
-    if (sortOption === 'departingFrom') {
-      sortedData = this.state.flightData.sort((a, b) =>
-        a.departingFrom.localeCompare(b.departingFrom)
-      );
-    } else if (sortOption === 'numFlights') {
-      sortedData = this.state.flightData.sort((a, b) =>
-        a.numFlights.localeCompare(b.numFlights)
-      );
-    } else if (sortOption === 'earliestArrival') {
-      sortedData = this.state.flightData.sort((a, b) =>
-        a.earliestArrival.localeCompare(b.earliestArrival)
-      );
-    } else if (sortOption === 'latestArrival') {
-      sortedData = this.state.flightData.sort((a, b) =>
-        a.latestArrival.localeCompare(b.latestArrival)
-      );
-    } else {
-      sortedData = this.state.flightData;
-    }
-    this.setState({
-      sortBy: sortOption,
-      flightData: sortedData,
-    });
-  };
-
   render() {
-    const { flightData, isLoading, error, sortBy } = this.state;
+    const { peopleData, isLoading, error } = this.state;
 
     if (isLoading) {
       return <div>Loading...</div>;
@@ -2147,41 +2118,330 @@ export class FlightsOnTheGround extends Component {
 
     return (
       <div>
-        <h1>Flight Data</h1>
+        <h1>People Data</h1>
+        <table className='tableView'>
+          <thead className='theadView'>
+            <tr className='trView'>
+              <th className='thView'>Departing From</th>
+              <th className='thView'>Arriving At</th>
+              <th className='thView'>Number of Airplanes</th>
+              <th className='thView'>Airplane List</th>
+              <th className='thView'>Flight List</th>
+              <th className='thView'>Earliest Arrival</th>
+              <th className='thView'>Latest Arrival</th>
+              <th className='thView'>Number of Pilots</th>
+              <th className='thView'>Number of Passengers</th>
+              <th className='thView'>Joint Pilots and Passengers</th>
+              <th className='thView'>Person List</th>
+            </tr>
+          </thead>
+          <tbody>
+            {peopleData.map((person, index) => (
+              <tr key={index}>
+                <td className='tdView'>{person.departingFrom}</td>
+                <td className='tdView'>{person.arrivingAt}</td>
+                <td className='tdView'>{person.numAirplanes}</td>
+                <td className='tdView'>{person.airplaneList}</td>
+                <td className='tdView'>{person.flightList}</td>
+                <td className='tdView'>{person.earliestArrival}</td>
+                <td className='tdView'>{person.latestArrival}</td>
+                <td className='tdView'>{person.numPilots}</td>
+                <td className='tdView'>{person.numPassengers}</td>
+                <td className='tdView'>{person.jointPilotsPassengers}</td>
+                <td className='tdView'>{person.personList}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    );
+  }
+}
+
+//Q22
+export class PeopleOnTheGround extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      peopleData: [],
+      isLoading: true,
+      error: null,
+    };
+  }
+
+  componentDidMount() {
+    this.fetchPeopleData();
+  }
+
+  fetchPeopleData() {
+    getPeopleOnTheGround()
+      .then(data => {
+        this.setState({
+          peopleData: data,
+          isLoading: false,
+        });
+      })
+      .catch(error => {
+        this.setState({
+          error,
+          isLoading: false,
+        });
+      });
+  }
+
+  render() {
+    const { peopleData, isLoading, error } = this.state;
+
+    if (isLoading) {
+      return <div>Loading...</div>;
+    }
+
+    if (error) {
+      return <div>Error: {error.message}</div>;
+    }
+
+    return (
+      <div>
+        <h1>People Data</h1>
+        <table className='tableView'>
+          <thead className='theadView'>
+            <tr className='trView'>
+              <th className='thView'>Departing From</th>
+              <th className='thView'>Airport</th>
+              <th className='thView'>City</th>
+              <th className='thView'>State</th>
+              <th className='thView'>Airport Name</th>
+              <th className='thView'>Number of Pilots</th>
+              <th className='thView'>Number of Passengers</th>
+              <th className='thView'>Person List</th>
+              <th className='thView'>Joint Pilots/Passengers</th>
+            </tr>
+          </thead>
+          <tbody>
+            {peopleData.map((person, index) => (
+              <tr key={index}>
+                <td className='tdView'>{person.departingFrom}</td>
+                <td className='tdView'>{person.airport}</td>
+                <td className='tdView'>{person.city}</td>
+                <td className='tdView'>{person.state}</td>
+                <td className='tdView'>{person.airportName}</td>
+                <td className='tdView'>{person.numPilots}</td>
+                <td className='tdView'>{person.numPassengers}</td>
+                <td className='tdView'>{person.personList}</td>
+                <td className='tdView'>{person.jointPilotsPassengers}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    );
+  }
+}
+
+//Q23
+export class RouteSummary extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      routeData: [],
+      isLoading: true,
+      error: null,
+      sortBy: '',
+    };
+  }
+
+  componentDidMount() {
+    this.fetchRouteData();
+  }
+
+  fetchRouteData() {
+    getRouteSummary()
+      .then(data => {
+        this.setState({
+          routeData: data,
+          isLoading: false,
+        });
+      })
+      .catch(error => {
+        this.setState({
+          error,
+          isLoading: false,
+        });
+      });
+  }
+
+  sortRouteData = (sortOption) => {
+    let sortedData = [];
+
+    if (sortOption === 'route') {
+      sortedData = this.state.routeData.sort((a, b) =>
+        a.route.localeCompare(b.route)
+      );
+    } else if (sortOption === 'routeLength') {
+      sortedData = this.state.routeData.sort((a, b) =>
+        a.routeLength - b.routeLength
+      );
+    } else {
+      sortedData = this.state.routeData;
+    }
+    this.setState({
+      sortBy: sortOption,
+      routeData: sortedData,
+    });
+  };
+
+  render() {
+    const { routeData, isLoading, error } = this.state;
+
+    if (isLoading) {
+      return <div>Loading...</div>;
+    }
+
+    if (error) {
+      return <div>Error: {error.message}</div>;
+    }
+
+    return (
+      <div>
+        <h1>Route Summary</h1>
         <div className="sort-container">
           <label htmlFor="sort-select">Sort by:</label>
           <select
             id="sort-select"
-            onChange={e => this.sortFlightData(e.target.value)}
-
+            onChange={e => this.sortRouteData(e.target.value)}
           >
             <option value="default">Default</option>
-            <option value="departingFrom">Departing From (A-Z)</option>
-            <option value="numFlights">Number Flights</option>
-            <option value="earliestArrival">Earliest Arrival</option>
-            <option value="latestArrival">Latest Arrival</option>
+            <option value="route">Route (A-Z)</option>
+            <option value="routeLength">Route Length (Low to High)</option>
           </select>
         </div>
         <table className='tableView'>
           <thead className='theadView'>
             <tr className='trView'>
-              <th className='thView'>Departing From</th>
+              <th className='thView'>Route</th>
+              <th className='thView'>Route Length</th>
+              <th className='thView'>Number of Legs</th>
+              <th className='thView'>Leg Sequence</th>
+              <th className='thView'>Airport Sequence</th>
               <th className='thView'>Number of Flights</th>
               <th className='thView'>Flight List</th>
-              <th className='thView'>Earliest Arrival</th>
-              <th className='thView'>Latest Arrival</th>
-              <th className='thView'>Airplane List</th>
             </tr>
           </thead>
           <tbody>
-            {flightData.map((flight, index) => (
+            {routeData.map((route, index) => (
               <tr key={index}>
-                <td className='tdView'>{flight.departingFrom}</td>
-                <td className='tdView'>{flight.numFlights}</td>
-                <td className='tdView'>{flight.flightList}</td>
-                <td className='tdView'>{flight.earliestArrival}</td>
-                <td className='tdView'>{flight.latestArrival}</td>
-                <td className='tdView'>{flight.airplaneList}</td>
+                <td className='tdView'>{route.route}</td>
+                <td className='tdView'>{route.routeLength}</td>
+                <td className='tdView'>{route.numLegs}</td>
+                <td className='tdView'>{route.legSequence}</td>
+                <td className='tdView'>{route.airportSequence}</td>
+                <td className='tdView'>{route.numFlights}</td>
+                <td className='tdView'>{route.flightList}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    );
+  }
+}
+
+
+//Q24
+export class AlternativeAirports extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      airportData: [],
+      isLoading: true,
+      error: null,
+      sortBy: '', // new state variable to keep track of selected sort option
+    };
+  }
+
+  componentDidMount() {
+    this.fetchAirportData();
+  }
+
+  fetchAirportData() {
+    getAlternativeAirports()
+      .then(data => {
+        this.setState({
+          airportData: data,
+          isLoading: false,
+        });
+      })
+      .catch(error => {
+        this.setState({
+          error,
+          isLoading: false,
+        });
+      });
+  }
+
+  sortAirportData = (sortOption) => {
+    let sortedData = [];
+
+    if (sortOption === 'city') {
+      sortedData = this.state.airportData.sort((a, b) =>
+        a.city.localeCompare(b.city)
+      );
+    } else if (sortOption === 'state') {
+      sortedData = this.state.airportData.sort((a, b) =>
+        a.state.localeCompare(b.state)
+      );
+    } else {
+      sortedData = this.state.airportData;
+    }
+    this.setState({
+      sortBy: sortOption,
+      airportData: sortedData,
+    });
+  };
+
+  render() {
+    const { airportData, isLoading, error } = this.state;
+
+    if (isLoading) {
+      return <div>Loading...</div>;
+    }
+
+    if (error) {
+      return <div>Error: {error.message}</div>;
+    }
+
+    return (
+      <div>
+        <h1>Alternative Airports</h1>
+        <div className="sort-container">
+          <label htmlFor="sort-select">Sort by:</label>
+          <select
+            id="sort-select"
+            onChange={e => this.sortAirportData(e.target.value)}
+          >
+            <option value="default">Default</option>
+            <option value="city">City (A-Z)</option>
+            <option value="state">State (A-Z)</option>
+          </select>
+        </div>
+        <table className='tableView'>
+          <thead className='theadView'>
+            <tr className='trView'>
+              <th className='thView'>City</th>
+              <th className='thView'>State</th>
+              <th className='thView'>Airport Names</th>
+              <th className='thView'>Airport Codes</th>
+              <th className='thView'>Number of Airports</th>
+            </tr>
+          </thead>
+          <tbody>
+            {airportData.map((airport, index) => (
+              <tr key={index}>
+                <td className='tdView'>{airport.city}</td>
+                <td className='tdView'>{airport.state}</td>
+                <td className='tdView'>{airport.airportNameList}</td>
+                <td className='tdView'>{airport.airportCodeList}</td>
+                <td className='tdView'>{airport.numAirports}</td>
               </tr>
             ))}
           </tbody>

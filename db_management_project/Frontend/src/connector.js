@@ -255,9 +255,54 @@ export async function getFlightInTheAir() {
 }
 //Q20
 //Q21
+export async function getPeopleInTheAir() {
+  try {
+    const response = await client.get(`${host}${apiPath}/getPeopleInTheAir`, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Failed to get people in the air');
+  }
+}
 //Q22
+export async function getPeopleOnTheGround() {
+  try {
+    const response = await client.get(`${host}${apiPath}/getPeopleOnTheGround`, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Failed to get people on the ground');
+  }
+}
 //Q23
+export async function getRouteSummary() {
+  try {
+    const response = await client.get(`${host}${apiPath}/getRouteSummary`, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Failed to get route summary');
+  }
+}
 //Q24
+export async function getAlternativeAirports() {
+  try {
+    const response = await client.get(`${host}${apiPath}/getAlternativeAirports`, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Failed to get alternative airports');
+  }
+}
+//Q25
 
 
 
