@@ -242,6 +242,17 @@ export async function removePilotRole(person) {
   }
 }
 //Q19
+export async function getFlightInTheAir() {
+  try {
+    const response = await client.get(`${host}${apiPath}/getFlightInTheAir`, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Failed to get flight in the air');
+  }
+}
 //Q20
 //Q21
 //Q22

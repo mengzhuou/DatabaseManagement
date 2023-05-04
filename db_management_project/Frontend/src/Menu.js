@@ -1,6 +1,9 @@
 import React, { Component, useState } from 'react';
-import {addPerson, addAirplane, purchaseTicketAndSeat, addAirport, addUpdateLeg, startRoute, extendRoute, flightLanding, flightTakeoff, passengersBoard, passengersDisembark, assignPilot, retireFlight, recycleCrew, removePassengerRole, removePilotRole, offerFlight } from './connector';
-import './App.css';
+import {addPerson, addAirplane, purchaseTicketAndSeat, addAirport, addUpdateLeg, startRoute, 
+  extendRoute, flightLanding, flightTakeoff, passengersBoard, passengersDisembark, assignPilot, 
+  retireFlight, recycleCrew, removePassengerRole, removePilotRole, offerFlight, getFlightInTheAir } from './connector';
+import './Menu.css';
+
 
 export function Menu() {
   const [activeTab, setActiveTab] = useState('AddAirplane1','AddPerson', 'GrantPilotLicense', 'Flights', 'Routes_sub_menu', 'Tickets', 'Airports', 'ViewsandSimulationCycle');
@@ -1560,32 +1563,6 @@ export function ViewsandSimulationCycle() {
   );
 }
 
-
-//Q19 View
-export class FlightsInTheAir extends Component {
-  // Fetch the data and manage the state here
-
-  render() {
-    return (
-      <table>
-        <thead>
-          <tr>
-            <th>Departure Airport</th>
-            <th>Arrival Airport</th>
-            <th>Number Flights</th>
-            <th>Flight List</th>
-            <th>Earliest Arrival</th>
-            <th>Latest Arrival</th>
-            <th>Airplane List</th>
-          </tr>
-        </thead>
-        <tbody>
-          {/* Render the data rows here */}
-        </tbody>
-      </table>
-    );
-  }
-}
 /*Q2
 export class AddAirport extends Component {
   constructor(props) {
@@ -1973,4 +1950,83 @@ export class ExtendRoute extends Component {
         <button type="button" onClick={this.handleCancel}>Cancel</button>
       </form>
   )}
+}
+
+
+
+
+//Q19 View
+export class FlightsInTheAir extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      flightData: [],
+      isLoading: true,
+      error: null,
+    };
+  }
+
+  componentDidMount() {
+    this.fetchFlightData();
+  }
+
+  fetchFlightData() {
+    getFlightInTheAir()
+      .then(data => {
+        this.setState({
+          flightData: data,
+          isLoading: false,
+        });
+      })
+      .catch(error => {
+        this.setState({
+          error,
+          isLoading: false,
+        });
+      });
+  }
+
+  render() {
+    const { flightData, isLoading, error } = this.state;
+
+    if (isLoading) {
+      return <div>Loading...</div>;
+    }
+
+    if (error) {
+      return <div>Error: {error.message}</div>;
+    }
+
+    return (
+      <div>
+        <h1>Flight Data</h1>
+        <table className='tableView'>
+          <thead className='theadView'>
+            <tr className='trView'>
+              <th className='thView'>Departing From</th>
+              <th className='thView'>Arriving At</th>
+              <th className='thView'>Number of Flights</th>
+              <th className='thView'>Flight List</th>
+              <th className='thView'>Earliest Arrival</th>
+              <th className='thView'>Latest Arrival</th>
+              <th className='thView'>Airplane List</th>
+            </tr>
+          </thead>
+          <tbody>
+            {flightData.map((flight, index) => (
+              <tr key={index}>
+                <td className='tdView'>{flight.departingFrom}</td>
+                <td className='tdView'>{flight.arrivingAt}</td>
+                <td className='tdView'>{flight.numFlights}</td>
+                <td className='tdView'>{flight.flightList}</td>
+                <td className='tdView'>{flight.earliestArrival}</td>
+                <td className='tdView'>{flight.latestArrival}</td>
+                <td className='tdView'>{flight.airplaneList}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    );
+  }
 }
