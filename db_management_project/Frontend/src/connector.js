@@ -257,7 +257,19 @@ export async function getFlightInTheAir() {
 //Q21
 //Q22
 //Q23
+export async function getRouteSummary() {
+  try {
+    const response = await client.get(`${host}${apiPath}/getRouteSummary`, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Failed to get route summary');
+  }
+}
 //Q24
+//Q25
 
 
 
