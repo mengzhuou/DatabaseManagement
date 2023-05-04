@@ -1693,7 +1693,7 @@ export class AddTicket extends Component {
       cost: this.state.cost,
       carrier: this.state.carrier,
       customer: this.state.customer,
-      deplane: this.state.deplane,
+      deplane: this.state.deplane_at,
       seat_num: this.state.seat_num,
     }
     alert(JSON.stringify(ticketData));
@@ -2490,9 +2490,8 @@ export class FlightsOnTheGround extends Component {
         a.departingFrom.localeCompare(b.departingFrom)
       );
     } else if (sortOption === 'numFlights') {
-      sortedData = this.state.flightData.sort((a, b) =>
-        a.numFlights.localeCompare(b.numFlights)
-      );
+      // Use numeric comparison instead of localeCompare
+      sortedData = this.state.flightData.sort((a, b) => a.numFlights - b.numFlights);
     } else if (sortOption === 'earliestArrival') {
       sortedData = this.state.flightData.sort((a, b) =>
         a.earliestArrival.localeCompare(b.earliestArrival)
