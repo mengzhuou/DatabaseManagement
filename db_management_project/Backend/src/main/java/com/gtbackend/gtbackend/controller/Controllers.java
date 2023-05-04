@@ -49,6 +49,14 @@ public class Controllers {
     private TicketService ticketService;
     @Autowired
     private TicketSeatsService ticketSeatsService;
+    @Autowired
+    private PeopleInTheAirService peopleInTheAirService;
+    @Autowired
+    private PeopleOnTheGroundService peopleOnTheGroundService;
+    @Autowired
+    private RouteSummaryService routeSummaryService;
+    @Autowired
+    private AlternativeAirportsService alternativeAirportsService;
 
 
     @Autowired
@@ -67,7 +75,11 @@ public class Controllers {
                        TicketService ticketService,
                        TicketSeatsService ticketSeatsService,
                        FlightInTheAirService flightInTheAirService,
-                       FlightOnTheGroundService flightOnTheGroundService
+                       FlightOnTheGroundService flightOnTheGroundService,
+                       PeopleInTheAirService peopleInTheAirService,
+                       PeopleOnTheGroundService peopleOnTheGroundService,
+                       RouteSummaryService routeSummaryService,
+                       AlternativeAirportsService alternativeAirportsService
     ) {
         this.airlineService = airlineService;
         this.airplaneService = airplaneService;
@@ -82,9 +94,18 @@ public class Controllers {
         this.routeService = routeService;
         this.flightInTheAirService = flightInTheAirService;
         this.flightOnTheGroundService = flightOnTheGroundService;
+        this.peopleInTheAirService = peopleInTheAirService;
+        this.peopleOnTheGroundService = peopleOnTheGroundService;
+        this.routeSummaryService = routeSummaryService;
+        this.alternativeAirportsService = alternativeAirportsService;
 
     }
 
+    @GetMapping("/getAlternativeAirports")
+    public List<AlternativeAirports> getAlternativeAirports(){
+        List<AlternativeAirports> getInfo = alternativeAirportsService.getAlternativeAirports();
+        return getInfo;
+    }
     @GetMapping("/getFlightInTheAir")
     public List<FlightInTheAir> getFlightInTheAir(){
         List<FlightInTheAir> getInfo = flightInTheAirService.getFlightInTheAir();
@@ -95,6 +116,24 @@ public class Controllers {
     public List<FlightOnTheGround> getFlightsOnTheGround() {
         List<FlightOnTheGround> flightOnGroundList = flightOnTheGroundService.getFlightsOnTheGround();
         return flightOnGroundList;
+    }
+
+    @GetMapping("/getPeopleInTheAir")
+    public List<PeopleInTheAir> getPeopleInTheAir() {
+        List<PeopleInTheAir> getInfo = peopleInTheAirService.getPeopleInTheAir();
+        return getInfo;
+    }
+
+    @GetMapping("/getPeopleOnTheGround")
+    public List<PeopleOnTheGround> getPeopleOnTheGround(){
+        List<PeopleOnTheGround> getInfo = peopleOnTheGroundService.getPeopleOnTheGround();
+        return getInfo;
+    }
+
+    @GetMapping("/getRouteSummary")
+    public List<RouteSummary> getRouteSummary(){
+        List<RouteSummary> getInfo = routeSummaryService.getRouteSummary();
+        return getInfo;
     }
 
     @GetMapping("/getAirlineAll")
@@ -333,6 +372,17 @@ public class Controllers {
                 miles = passenger.getMiles();
             }
 
+            System.out.println("personID: " + personID);
+            System.out.println("first_name: " + first_name);
+            System.out.println("last_name: " + last_name);
+            System.out.println("locationID: " + locationID);
+            System.out.println("taxID: " + taxID);
+            System.out.println("experience: " + experience);
+            System.out.println("flying_airline: " + flying_airline);
+            System.out.println("flying_tail: " + flying_tail);
+            System.out.println("miles: " + miles);
+
+
             boolean isAdded = personService.addPerson(
                     personID,
                     first_name,
@@ -556,5 +606,74 @@ public class Controllers {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Controller failed to assign pilot: " + e.getMessage());
         }
     }
+
+    @PostMapping("/recycleCrew")
+    public ResponseEntity<String> recycleCrew(@RequestBody Flight flight) {
+        try {
+            String flightID = flight.getFlightID();
+            boolean isRecycled = flightService.recycleCrew(flightID);
+            if (isRecycled) {
+                return ResponseEntity.ok("Crew recycled successfully");
+            } else {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Crew failed to recycle");
+            }
+        } catch (DataAccessException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Controller failed to recycle crew: " + e.getMessage());
+        } catch (ConstraintViolationException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Controller failed to recycle crew: " + e.getMessage());
+        }
+    }
+
+    @PostMapping("/retireFlight")
+    public ResponseEntity<String> retireFlight(@RequestBody Flight flight) {
+        try {
+            String flightID = flight.getFlightID();
+            boolean isRetired = flightService.retireFlight(flightID);
+            if (isRetired) {
+                return ResponseEntity.ok("Flight retired successfully");
+            } else {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to retire flight");
+            }
+        } catch (DataAccessException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Controller failed to retire flight: " + e.getMessage());
+        } catch (ConstraintViolationException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Controller failed to retire flight: " + e.getMessage());
+        }
+    }
+
+    @PostMapping("/removePassengerRole")
+    public ResponseEntity<String> removePassengerRole(@RequestBody Person person) {
+        try {
+            String personID = person.getPersonID();
+            boolean isRemoved = flightService.removePassengerRole(personID);
+            if (isRemoved) {
+                return ResponseEntity.ok("Passenger role removed successfully");
+            } else {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to remove passenger role");
+            }
+        } catch (DataAccessException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Controller failed to remove passenger role: " + e.getMessage());
+        } catch (ConstraintViolationException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Controller failed to remove passenger role: " + e.getMessage());
+        }
+    }
+
+    @PostMapping("/removePilotRole")
+    public ResponseEntity<String> removePilotRole(@RequestBody Person person) {
+        try {
+            String personID = person.getPersonID();
+            boolean success = flightService.removePilotRole(personID);
+            if (success) {
+                return ResponseEntity.ok("Pilot role removed successfully");
+            } else {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to remove pilot role");
+            }
+        } catch (DataAccessException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Controller failed to remove pilot role: " + e.getMessage());
+        } catch (ConstraintViolationException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Controller failed to remove pilot role: " + e.getMessage());
+        }
+    }
+
 
 }

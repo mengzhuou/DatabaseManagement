@@ -1,0 +1,25 @@
+.tableView {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #f2f2f2;
+  }
+  
+.thView,
+.tdView {
+    text-align: left;
+    padding: 8px;
+  }
+  
+.thView {
+    background-color: #4CAF50;
+    color: white;
+  }
+  
+.trView:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  
+.trView:hover {
+    background-color: #ddd;
+  }
+  
